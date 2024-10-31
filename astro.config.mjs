@@ -58,7 +58,7 @@ export default defineConfig({
     sitemap(),
   ],
 
-  output: "hybrid",
+  output: "server",
   adapter: cloudflare({
     imageService: "cloudflare",
     platformProxy: {
