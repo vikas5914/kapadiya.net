@@ -13,6 +13,10 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   site: "https://kapadiya.net",
+  image: {
+    // Example: Allow remote image optimization from a single domain
+    domains: ["kapadiya.net"],
+  },
   integrations: [
     mdx({
       image: {
@@ -56,12 +60,8 @@ export default defineConfig({
     }),
     sitemap(),
   ],
-
   output: "hybrid",
   adapter: cloudflare({
     imageService: "cloudflare",
-    platformProxy: {
-      enabled: true,
-    },
   }),
 });
