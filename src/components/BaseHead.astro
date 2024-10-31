@@ -8,17 +8,9 @@ interface Props {
 import { metaData } from "../config";
 import { SEO } from "astro-seo";
 
-import { getImagePath } from "astro-opengraph-images";
-
 const { title, description = metaData.description, image } = Astro.props;
 
 const { url, site } = Astro;
-const openGraphImageUrl = getImagePath({ url, site });
-
-// If the image is not provided, use the default image
-const openGraphImage = image
-  ? new URL(image, url.href).href
-  : openGraphImageUrl;
 ---
 
 <SEO
@@ -31,7 +23,7 @@ const openGraphImage = image
     basic: {
       title: title || metaData.title,
       type: "website",
-      image: openGraphImageUrl,
+      image: url.href,
       url: url,
     },
     optional: {
@@ -44,7 +36,7 @@ const openGraphImage = image
     card: "summary_large_image",
     title: title || metaData.title,
     description,
-    image: openGraphImage,
+    image: url.href,
     creator: "@jonasmerlins1",
   }}
   extend={{

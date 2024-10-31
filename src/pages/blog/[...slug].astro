@@ -14,10 +14,8 @@ export async function getStaticPaths() {
 }
 type Props = CollectionEntry<"blog">;
 
-import { getImagePath } from "astro-opengraph-images";
 const post = Astro.props;
 const { url, site } = Astro;
-const openGraphImageUrl = getImagePath({ url, site });
 
 const { Content } = await post.render();
 ---
@@ -33,7 +31,7 @@ const { Content } = await post.render();
         datePublished: post.data.publishedAt,
         dateModified: post.data.publishedAt,
         description: post.data.summary,
-        image: openGraphImageUrl,
+        image: url.href,
         url: url,
         author: {
           "@type": "Person",

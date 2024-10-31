@@ -26,12 +26,16 @@ const socialIcons = [
     class="flex text-lg gap-3.5 float-right transition-opacity duration-300 hover:opacity-90">
     {
       socialIcons.map((link) => (
-        <a href={link.href} target="_blank" rel="noopener noreferrer">
+        <a
+          href={link.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={link.icon.split(":")[1]}>
           <Icon name={link.icon} />
         </a>
       ))
     }
-    <a href="/rss.xml" target="_self">
+    <a href="/rss.xml" target="_self" aria-label="RSS">
       <Icon name="fa6-solid:rss" />
     </a>
   </div>

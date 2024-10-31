@@ -6,17 +6,17 @@
     "dev": "bunx --bun astro dev",
     "start": "bunx --bun astro dev",
     "build": "bunx --bun astro build",
-    "preview": "bunx --bun astro preview",
+    "preview": "npx wrangler pages dev ./dist",
     "astro": "astro"
   },
   "dependencies": {
     "@astro-community/astro-embed-youtube": "^0.5.5",
+    "@astrojs/cloudflare": "^11.2.0",
     "@astrojs/mdx": "^3.1.8",
     "@astrojs/react": "^3.6.2",
     "@astrojs/rss": "^4.0.9",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^5.1.2",
-    "@astrojs/vercel": "^7.8.2",
     "@fontsource/geist-mono": "^5.1.0",
     "@fontsource/geist-sans": "^5.1.0",
     "@fontsource/roboto": "^5.1.0",
@@ -24,7 +24,6 @@
     "@types/react-dom": "^18.3.1",
     "astro": "^4.16.7",
     "astro-icon": "^1.1.1",
-    "astro-opengraph-images": "^1.11.6",
     "astro-seo": "^0.8.4",
     "astro-themes": "^0.2.5",
     "astro-tweet": "^0.0.4",
@@ -38,7 +37,8 @@
     "rehype-katex": "^7.0.1",
     "rehype-slug": "^6.0.0",
     "remark-math": "^6.0.0",
-    "tw-to-css": "^0.0.12"
+    "tw-to-css": "^0.0.12",
+    "wrangler": "^3.84.1"
   },
   "devDependencies": {
     "@iconify-json/fa6-brands": "^1.2.1",
