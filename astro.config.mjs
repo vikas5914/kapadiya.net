@@ -25,9 +25,6 @@ export default defineConfig({
   },
   integrations: [
     mdx({
-      image: {
-        domains: ["unsplash.com"],
-      },
       optimize: true,
       shikiConfig: {
         themes: {
