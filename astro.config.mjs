@@ -16,7 +16,12 @@ export default defineConfig({
   image: {
     // Example: Allow remote image optimization from a single domain
     domains: ["kapadiya.net"],
-    remotePatterns: ["https://kapadiya.net/**"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.kapadiya.net",
+      },
+    ],
   },
   integrations: [
     mdx({
