@@ -12,8 +12,7 @@ import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://astrofolio-astro.vercel.app",
-
+  site: "https://kapadiya.net",
   integrations: [
     mdx({
       image: {
