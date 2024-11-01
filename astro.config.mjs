@@ -13,16 +13,6 @@ import cloudflare from "@astrojs/cloudflare";
 // https://astro.build/config
 export default defineConfig({
   site: "https://kapadiya.net",
-  image: {
-    // Example: Allow remote image optimization from a single domain
-    domains: ["kapadiya.net"],
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.kapadiya.net",
-      },
-    ],
-  },
   integrations: [
     mdx({
       optimize: true,

@@ -2,13 +2,14 @@
 import Base from "../layouts/Base.astro";
 import { socialLinks } from "../config";
 import { Image } from "astro:assets";
+import profile from "@images/profile.jpg";
 ---
 
 <Base>
   <section>
     <a href={socialLinks.twitter} target="_blank">
       <Image
-        src="/profile.jpg"
+        src={profile}
         alt="Profile"
         class="rounded-full bg-gray-100 block lg:mt-5 mt-0 lg:mb-5 mb-10 mx-auto sm:float-right sm:ml-5 sm:mb-5 grayscale hover:grayscale-0"
         width={160}
