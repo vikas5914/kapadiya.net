@@ -15,8 +15,6 @@ const { url, site } = Astro;
 const imageUrl = image
   ? new URL(image, url)
   : new URL(`/og/?title=${title}`, url);
-
-console.log(imageUrl, "image");
 ---
 
 <SEO
