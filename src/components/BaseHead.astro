@@ -11,6 +11,12 @@ import { SEO } from "astro-seo";
 const { title, description = metaData.description, image } = Astro.props;
 
 const { url, site } = Astro;
+
+const imageUrl = image
+  ? new URL(image, url)
+  : new URL(`/og/?title=${title}`, url);
+
+console.log(imageUrl, "image");
 ---
 
 <SEO
@@ -23,7 +29,7 @@ const { url, site } = Astro;
     basic: {
       title: title || metaData.title,
       type: "website",
-      image: url.href,
+      image: imageUrl.href,
       url: url,
     },
     optional: {
@@ -36,7 +42,7 @@ const { url, site } = Astro;
     card: "summary_large_image",
     title: title || metaData.title,
     description,
-    image: url.href,
+    image: imageUrl.href,
     creator: "@jonasmerlins1",
   }}
   extend={{

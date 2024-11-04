@@ -2,9 +2,8 @@ export const metaData = {
   baseUrl: "https://astrofolio-astro.vercel.app/",
   title: "My Useless Blog",
   name: "Vikas",
-  ogImage: "/opengraph-image.png",
   description:
-    "A clean, fast, and lightweight portfolio template built with Next.js, Vercel, and Tailwind CSS for optimal performance.",
+    "Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves PHP almost as much as I love coffee (almost!).",
 };
 
 export const socialLinks = {
