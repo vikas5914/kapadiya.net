@@ -1,86 +1,34 @@
 export const prerender = false;
 
-import { ImageResponse } from "@vercel/og";
-import React from "react";
+import { ImageResponse } from "@cloudflare/pages-plugin-vercel-og/api";
 import { metaData } from "src/config";
+import React from "react";
 
 export async function GET({ request }) {
   const url = new URL(request.url);
+  console.log("Request URL: ", url, request.url);
   const title = url.searchParams.get("title") || metaData.title;
 
-  const html = {
-    type: "div",
-    props: {
+  const element = React.createElement(
+    "div",
+    {
       style: {
-        display: "flex",
-        height: "100%",
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-        letterSpacing: "-.02em",
-        fontWeight: 700,
+        fontSize: 40,
+        color: "black",
         background: "white",
+        width: "100%",
+        height: "100%",
+        padding: "50px 200px",
+        textAlign: "center",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
       },
-      children: [
-        {
-          type: "div",
-          props: {
-            style: {
-              left: 42,
-              top: 42,
-              position: "absolute",
-              display: "flex",
-              alignItems: "center",
-            },
-            children: [
-              {
-                type: "span",
-                props: {
-                  style: {
-                    width: 24,
-                    height: 24,
-                    background: "black",
-                  },
-                },
-              },
-              {
-                type: "span",
-                props: {
-                  style: {
-                    marginLeft: 8,
-                    fontSize: 20,
-                  },
-                  children: "kapadiya.net",
-                },
-              },
-            ],
-          },
-        },
-        {
-          type: "div",
-          props: {
-            style: {
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-              padding: "20px 50px",
-              margin: "0 42px",
-              fontSize: 40,
-              width: "auto",
-              maxWidth: 550,
-              textAlign: "center",
-              backgroundColor: "black",
-              color: "white",
-              lineHeight: 1.4,
-            },
-            children: title,
-          },
-        },
-      ],
     },
-  };
+    title
+  );
 
-  return new ImageResponse(html, {
+  return new ImageResponse(element, {
     width: 1200,
     height: 600,
   });
