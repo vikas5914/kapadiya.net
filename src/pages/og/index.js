@@ -6,7 +6,6 @@ import React from "react";
 
 export async function GET({ request }) {
   const url = new URL(request.url);
-  console.log("Request URL: ", url, request.url);
   const title = url.searchParams.get("title") || metaData.title;
 
   const element = React.createElement(

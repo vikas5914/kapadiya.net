@@ -53,8 +53,12 @@ export default defineConfig({
     }),
     sitemap(),
   ],
-  output: "hybrid",
+  output: "static",
   adapter: cloudflare({
     imageService: "cloudflare",
+    platformProxy: {
+      enabled: true,
+    },
   }),
+  prefetch: true,
 });
