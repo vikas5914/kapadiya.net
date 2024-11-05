@@ -1,36 +1,31 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+export const prerender = false;
+
+import { getPost } from "../../lib/client";
 import Base from "../../layouts/Base.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import "katex/dist/katex.min.css";
 import { metaData } from "../../config";
 
-export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: post,
-  }));
-}
-type Props = CollectionEntry<"blog">;
-
-const post = Astro.props;
 const { url, site } = Astro;
 
-const { Content } = await post.render();
+const { slug } = Astro.params;
+if (!slug) return Astro.redirect("/404");
+
+const post = await getPost(slug);
 ---
 
-<Base title={post.data.title} description={post.data.summary}>
+<Base title={post.title} description={post.brief}>
   <section>
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: post.data.title,
-        datePublished: post.data.publishedAt,
-        dateModified: post.data.publishedAt,
-        description: post.data.summary,
+        headline: post.title,
+        datePublished: post.publishedAt,
+        dateModified: post.publishedAt,
+        description: post.brief,
         image: url.href,
         url: url,
         author: {
@@ -40,15 +35,15 @@ const { Content } = await post.render();
       })}
     />
     <h1 class="title mb-3 font-medium text-2xl tracking-tight">
-      {post.data.title}
+      {post.title}
     </h1>
     <div class="flex justify-between items-center mt-2 mb-8 text-medium">
       <p class="text-sm text-neutral-600 dark:text-neutral-400">
-        <FormattedDate date={post.data.publishedAt} includeRelative={false} />
+        <FormattedDate date={post.publishedAt} includeRelative={false} />
       </p>
     </div>
     <article class="prose prose-quoteless prose-neutral dark:prose-invert">
-      <Content />
+      <Fragment set:html={post.content.html} />
     </article>
   </section>
 </Base>
