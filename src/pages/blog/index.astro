@@ -11,6 +11,13 @@ const allPosts = data.publication.posts.edges;
 
 const title = "Blog";
 const description = "Blog";
+
+const currentTime = new Date().toLocaleTimeString();
+
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=60, stale-while-revalidate=30"
+);
 ---
 
 <Base title={title} description={description}>
@@ -27,10 +34,7 @@ const description = "Blog";
                 {post.node.title}
               </p>
               <p class="text-neutral-600 dark:text-neutral-400 tabular-nums text-sm">
-                <FormattedDate
-                  date={post.node.publishedAt}
-                  includeRelative={false}
-                />
+                <time datetime={currentTime}>{currentTime}</time>
               </p>
             </div>
           </a>
