@@ -6,7 +6,7 @@ interface Props {
 }
 
 import Themes from "astro-themes";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 import BaseHead from "../components/BaseHead.astro";
 import Navbar from "../components/Nav.astro";
@@ -19,11 +19,16 @@ import "@fontsource/geist-mono/600.css";
 import "@styles/global.css";
 
 const { title, description, image } = Astro.props;
+
+// Astro.response.headers.set(
+//   "Cache-Control",
+//   "public, s-maxage=60, stale-while-revalidate=30"
+// );
 ---
 
 <html lang="en" class="scrollbar-hide lenis lenis-smooth">
   <head>
-    <ViewTransitions />
+    <ClientRouter />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="googlebot"

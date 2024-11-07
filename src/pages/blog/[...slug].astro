@@ -4,7 +4,6 @@ export const prerender = false;
 import { getPost } from "../../lib/client";
 import Base from "../../layouts/Base.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
-import "katex/dist/katex.min.css";
 import { metaData } from "../../config";
 
 const { url, site } = Astro;
@@ -42,7 +41,7 @@ const post = await getPost(slug);
         <FormattedDate date={post.publishedAt} includeRelative={false} />
       </p>
     </div>
-    <article class="prose prose-quoteless prose-neutral dark:prose-invert">
+    <article class="prose prose-quoteless dark:prose-invert not-prose:code">
       <Fragment set:html={post.content.html} />
     </article>
   </section>

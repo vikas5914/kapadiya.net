@@ -13,6 +13,7 @@ export const PostSchema = z.object({
     readTimeInMinutes: z.number(),
     content: z.object({
         html: z.string(),
+        markdown: z.string(),
     }),
     tags: z.array(z.object({
         name: z.string(),

@@ -59,6 +59,7 @@ export const getPost = async (slug: string) => {
       query postDetails($slug: String!) {
         publication(host: "${myHashnodeURL}") {
           post(slug: $slug) {
+            id
             author{
               name
               profilePicture
@@ -70,6 +71,7 @@ export const getPost = async (slug: string) => {
             readTimeInMinutes
             content{
               html
+              markdown
             }
             tags {
               name
@@ -84,6 +86,8 @@ export const getPost = async (slug: string) => {
     `,
     { slug: slug }
   );
+
+  console.log(data.publication.post)
 
   return data.publication.post;
 };
