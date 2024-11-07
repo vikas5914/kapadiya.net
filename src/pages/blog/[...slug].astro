@@ -1,10 +1,12 @@
 ---
 export const prerender = false;
 
-import { getPost } from "../../lib/client";
+import { getPost } from "@lib/client";
 import Base from "../../layouts/Base.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { metaData } from "../../config";
+
+import { markdownToHtml } from "@lib/util/markdownToHtml";
 
 const { url, site } = Astro;
 
@@ -12,6 +14,8 @@ const { slug } = Astro.params;
 if (!slug) return Astro.redirect("/404");
 
 const post = await getPost(slug);
+
+const result = markdownToHtml(post.content.markdown);
 ---
 
 <Base title={post.title} description={post.brief}>
@@ -42,7 +46,7 @@ const post = await getPost(slug);
       </p>
     </div>
     <article class="prose prose-quoteless dark:prose-invert not-prose:code">
-      <Fragment set:html={post.content.html} />
+      <Fragment set:html={result} />
     </article>
   </section>
 </Base>

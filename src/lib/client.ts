@@ -87,7 +87,5 @@ export const getPost = async (slug: string) => {
     { slug: slug }
   );
 
-  console.log(data.publication.post)
-
   return data.publication.post;
 };
