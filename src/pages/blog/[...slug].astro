@@ -1,34 +1,45 @@
 ---
 export const prerender = false;
 
-import { getPost } from "@lib/client";
+import { getEntry, render } from "astro:content";
+
 import Base from "../../layouts/Base.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
 import { metaData } from "../../config";
-
-import { markdownToHtml } from "@lib/util/markdownToHtml";
+import { excerpt } from "@lib/util/excerpt";
 
 const { url, site } = Astro;
 
 const { slug } = Astro.params;
-if (!slug) return Astro.redirect("/404");
+if (slug === undefined) {
+  return Astro.redirect("/404");
+}
 
-const post = await getPost(slug);
+// 2. Query for the entry directly using the request slug
+const post = await getEntry("posts", slug);
+// 3. Redirect if the entry does not exist
+if (post === undefined) {
+  return Astro.redirect("/404");
+}
 
-const result = markdownToHtml(post.content.markdown);
+const { Content } = await render(post);
+console.log(post);
 ---
 
-<Base title={post.title} description={post.brief}>
+<Base
+  title={post.data.title}
+  description={post.data.slug}
+  image={post.data.cover.url}>
   <section>
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: post.title,
-        datePublished: post.publishedAt,
-        dateModified: post.publishedAt,
-        description: post.brief,
+        headline: post.data.title,
+        datePublished: post.data.publishedAt,
+        dateModified: post.data.publishedAt,
+        description: excerpt(post.data.content),
         image: url.href,
         url: url,
         author: {
@@ -38,15 +49,29 @@ const result = markdownToHtml(post.content.markdown);
       })}
     />
     <h1 class="title mb-3 font-medium text-2xl tracking-tight">
-      {post.title}
+      {post.data.title}
     </h1>
     <div class="flex justify-between items-center mt-2 mb-8 text-medium">
       <p class="text-sm text-neutral-600 dark:text-neutral-400">
-        <FormattedDate date={post.publishedAt} includeRelative={false} />
+        <FormattedDate date={post.data.publishedAt} includeRelative={false} />
       </p>
     </div>
-    <article class="prose prose-quoteless dark:prose-invert not-prose:code">
-      <Fragment set:html={result} />
+    <article class="prose prose-quoteless dark:prose-invert">
+      <Content />
     </article>
   </section>
+
+  <script>
+    // Import npm modules.
+    import { highlight } from "sugar-high";
+
+    document.addEventListener("astro:page-load", () => {
+      const pre = document.querySelectorAll("pre");
+      pre.forEach((block) => {
+        const text = block.innerText;
+        const result = highlight(text);
+        block.innerHTML = result;
+      });
+    });
+  </script>
 </Base>

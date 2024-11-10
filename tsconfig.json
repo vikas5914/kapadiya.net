@@ -3,8 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "strictNullChecks": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "react",
+    "allowJs": true,
     "paths": {
       "@scripts/*": ["src/assets/scripts/*"],
       "@styles/*": ["src/assets/styles/*"],

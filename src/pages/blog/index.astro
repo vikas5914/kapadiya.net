@@ -1,13 +1,12 @@
 ---
 export const prerender = false;
 
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+
 import Base from "../../layouts/Base.astro";
-import { getAllPosts } from "../../lib/client";
 import FormattedDate from "../../components/FormattedDate.astro";
-
-const data = await getAllPosts();
-
-const allPosts = data.publication.posts.edges;
 
 const title = "Blog";
 const description = "Blog";
@@ -23,10 +22,10 @@ const currentTime = new Date().toLocaleTimeString();
         allPosts.map((post) => (
           <a
             class="flex flex-col space-y-1 mb-4 transition-opacity duration-200 hover:opacity-80"
-            href={`/blog/${post.node.slug}/`}>
+            href={`/blog/${post.data.slug}/`}>
             <div class="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
               <p class="text-black dark:text-white tracking-tight">
-                {post.node.title}
+                {post.data.title}
               </p>
               <p class="text-neutral-600 dark:text-neutral-400 tabular-nums text-sm">
                 <time datetime={currentTime}>{currentTime}</time>
