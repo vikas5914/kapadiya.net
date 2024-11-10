@@ -4,9 +4,11 @@ export const prerender = false;
 import { getEntry, render } from "astro:content";
 
 import Base from "../../layouts/Base.astro";
-import FormattedDate from "../../components/FormattedDate.astro";
 import { metaData } from "../../config";
 import { excerpt } from "@lib/util/excerpt";
+
+import FormattedDate from "@components/FormattedDate.astro";
+import CustomMdx from "@components/Mdx.astro";
 
 const { url, site } = Astro;
 
@@ -22,8 +24,7 @@ if (post === undefined) {
   return Astro.redirect("/404");
 }
 
-const { Content } = await render(post);
-console.log(post);
+console.log(post.data.content);
 ---
 
 <Base
@@ -56,22 +57,8 @@ console.log(post);
         <FormattedDate date={post.data.publishedAt} includeRelative={false} />
       </p>
     </div>
-    <article class="prose prose-quoteless dark:prose-invert">
-      <Content />
+    <article class="prose prose-quoteless dark:prose-invert not-prose:code">
+      <CustomMdx content={post.data.content} />
     </article>
   </section>
-
-  <script>
-    // Import npm modules.
-    import { highlight } from "sugar-high";
-
-    document.addEventListener("astro:page-load", () => {
-      const pre = document.querySelectorAll("pre");
-      pre.forEach((block) => {
-        const text = block.innerText;
-        const result = highlight(text);
-        block.innerHTML = result;
-      });
-    });
-  </script>
 </Base>

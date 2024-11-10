@@ -1,0 +1,24 @@
+---
+interface Props {
+  content: string;
+}
+
+import { Markdown } from "astro-remote";
+import StaticTweet from "@components/mdx/Tweet.astro";
+import CodeBlock from "@components/mdx/CodeBlock.astro";
+import Image from "@components/mdx/Image.astro";
+
+const { content } = Astro.props;
+---
+
+<article class="prose prose-quoteless dark:prose-invert">
+  <Markdown
+    sanitize={{ allowComponents: true }}
+    content={content}
+    components={{
+      CodeBlock,
+      StaticTweet,
+      Image,
+    }}
+  />
+</article>

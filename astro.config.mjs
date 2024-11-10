@@ -23,4 +23,12 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "cloudflare",
   }),
+  image: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**.graphassets.com",
+      },
+    ],
+  },
 });

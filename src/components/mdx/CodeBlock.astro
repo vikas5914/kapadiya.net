@@ -1,0 +1,7 @@
+---
+const { lang, code, ...props } = Astro.props;
+import { highlight } from "sugar-high";
+const highlighted = await highlight(code);
+---
+
+<pre class={`language-${lang}`}><code set:html={highlighted} /></pre>
