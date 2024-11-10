@@ -4,9 +4,16 @@ import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import cloudflare from "@astrojs/cloudflare";
 
+import react from "@astrojs/react";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://kapadiya.net",
+  vite: {
+    ssr: {
+      noExternal: ["react-tweet"],
+    },
+  },
   integrations: [
     sitemap(),
     tailwind(),
@@ -18,6 +25,9 @@ export default defineConfig({
       },
     }),
     sitemap(),
+    react({
+      experimentalReactChildren: true,
+    }),
   ],
   output: "static",
   adapter: cloudflare({

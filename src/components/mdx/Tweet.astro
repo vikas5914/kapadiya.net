@@ -1,15 +1,11 @@
 ---
-import TweetProvider from "astro-tweet";
-
 interface Props {
   id: string;
 }
 
 const { id } = Astro.props;
+
+import { Tweet as TweetCo } from "react-tweet";
 ---
 
-<div class="tweet my-6">
-  <div class="flex justify-center">
-    <TweetProvider id={id} />
-  </div>
-</div>
+<TweetCo id={id} client:load />
