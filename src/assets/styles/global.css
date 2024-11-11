@@ -131,13 +131,6 @@ input[type="email"] {
   font-weight: 500;
 }
 
-table {
-  display: block;
-  max-width: fit-content;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
 .prose .callout > p {
   margin: 0 !important;
 }

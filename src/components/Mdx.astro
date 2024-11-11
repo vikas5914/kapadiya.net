@@ -4,9 +4,18 @@ interface Props {
 }
 
 import { Markdown } from "astro-remote";
+
 import CodeBlock from "@components/mdx/CodeBlock.astro";
 import Image from "@components/mdx/Image.astro";
-import TweetComponent from "@components/mdx/TweetTwo.astro";
+import ImageGrid from "./mdx/ImageGrid.astro";
+import Tweet from "@components/mdx/Tweet.astro";
+import Caption from "@components/mdx/Caption.astro";
+import Callout from "@components/mdx/Callout.astro";
+import YouTube from "@components/mdx/YouTube.astro";
+import CustomLink from "@components/mdx/CustomLink.astro";
+import Heading from "@components/mdx/Heading.astro";
+import Table from "@components/mdx/Table.astro";
+
 const { content } = Astro.props;
 ---
 
@@ -15,9 +24,15 @@ const { content } = Astro.props;
     sanitize={{ allowComponents: true }}
     content={content}
     components={{
-      CodeBlock,
-      StaticTweet: TweetComponent,
+      Heading,
       Image,
+      ImageGrid,
+      CodeBlock,
+      Tweet,
+      YouTube,
+      Caption,
+      Callout,
+      a: CustomLink,
     }}
   />
 </article>

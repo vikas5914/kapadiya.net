@@ -1,0 +1,21 @@
+---
+const { as: Component, text } = Astro.props;
+
+function slugify(str) {
+  return str
+    .toString()
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/&/g, "-and-")
+    .replace(/[^\w\-]+/g, "")
+    .replace(/\-\-+/g, "-");
+}
+
+const id = slugify(text);
+---
+
+<Component id={id}>
+  <a href=`#${id}` class="anchor"></a>
+  <slot />
+</Component>
