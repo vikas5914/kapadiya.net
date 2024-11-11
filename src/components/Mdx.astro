@@ -6,7 +6,7 @@ interface Props {
 import { Markdown } from "astro-remote";
 import CodeBlock from "@components/mdx/CodeBlock.astro";
 import Image from "@components/mdx/Image.astro";
-import StaticTweet from "@components/mdx/Tweet.astro";
+import TweetComponent from "@components/mdx/TweetTwo.astro";
 const { content } = Astro.props;
 ---
 
@@ -16,7 +16,7 @@ const { content } = Astro.props;
     content={content}
     components={{
       CodeBlock,
-      StaticTweet,
+      StaticTweet: TweetComponent,
       Image,
     }}
   />

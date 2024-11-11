@@ -1,14 +1,11 @@
 ---
 import { Image as AstroImage } from "astro:assets";
 
-console.log({ "Astro.props": Astro.props });
-
-const { src, alt, title } = Astro.props;
+const { src, alt } = Astro.props;
 
 function transformUrl(originalUrl) {
   // Match the first dynamic segment and the last dynamic segment of the URL
-  const urlPattern =
-    /^(https:\/\/ap-south-1\.graphassets\.com\/)([^/]+)\/([^/]+)$/;
+  const urlPattern = /^(https:\/\/ap-south-1\.graphassets\.com\/)([^/]+)\/([^/]+)$/;
 
   // Check if URL matches the pattern
   const match = originalUrl.match(urlPattern);
@@ -26,4 +23,4 @@ function transformUrl(originalUrl) {
 }
 ---
 
-<AstroImage src={transformUrl(src)} alt={alt} title={title} inferSize={true} />
+<AstroImage src={transformUrl(src)} alt={alt} inferSize={true} />

@@ -1,0 +1,43 @@
+---
+import { EmbeddedTweet, TweetNotFound, type TweetProps } from "react-tweet";
+
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+
+let error;
+let tweet;
+
+if (id) {
+  try {
+    tweet = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}adsad`);
+    tweet = await tweet.json();
+    if (tweet.error) {
+      throw new Error(tweet.error);
+    }
+    tweet = tweet.data;
+  } catch (err) {
+    tweet = null;
+  }
+}
+---
+
+<div class="tweet my-6">
+  <div class="flex justify-center">
+    {!tweet ? <TweetNotFound error={error} client:load /> : <EmbeddedTweet tweet={tweet} client:load />}
+  </div>
+</div>
+
+<style>
+  .tweet {
+    margin: 1.5rem 0;
+  }
+  .flex {
+    display: flex;
+  }
+  .justify-center {
+    justify-content: center;
+  }
+</style>

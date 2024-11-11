@@ -1,0 +1,17 @@
+diff --git a/lib/utils.ts b/lib/utils.ts
+index 20ff43f8c095be5a14732c74c2bf354de8b5bdf3..271459f615d20bb1d3676d443e1a6389483b44e6 100644
+--- a/lib/utils.ts
++++ b/lib/utils.ts
+@@ -108,6 +108,12 @@ export async function markdown(
+ 				return `<CodeSpan code=${value}>${code}</CodeSpan>`;
+ 			};
+ 		}
++
++		if("Image" in opts.components) {
++			renderer.image = (href: string, text: string) => {
++				return `<Image src=${JSON.stringify(href)} alt=${JSON.stringify(text)}  />`;
++			};
++		}
+ 	}
+ 	marked.use(markedSmartypants(), markedFootnote(), ...markedExtenstion, {
+ 		gfm: true,
