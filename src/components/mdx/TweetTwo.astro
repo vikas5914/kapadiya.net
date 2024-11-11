@@ -12,7 +12,7 @@ let tweet;
 
 if (id) {
   try {
-    tweet = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}adsad`);
+    tweet = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}`);
     tweet = await tweet.json();
     if (tweet.error) {
       throw new Error(tweet.error);
@@ -26,7 +26,7 @@ if (id) {
 
 <div class="tweet my-6">
   <div class="flex justify-center">
-    {!tweet ? <TweetNotFound error={error} client:load /> : <EmbeddedTweet tweet={tweet} client:load />}
+    {!tweet ? <TweetNotFound error={error} /> : <EmbeddedTweet tweet={tweet} />}
   </div>
 </div>
 
