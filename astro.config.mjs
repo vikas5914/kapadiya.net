@@ -24,7 +24,6 @@ export default defineConfig({
         "fa6-brands": ["x-twitter", "github", "instagram", "linkedin-in"],
       },
     }),
-    sitemap(),
     react({
       experimentalReactChildren: true,
     }),
@@ -33,12 +32,4 @@ export default defineConfig({
   adapter: cloudflare({
     imageService: "cloudflare",
   }),
-  image: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.graphassets.com",
-      },
-    ],
-  },
 });
