@@ -1,9 +1,8 @@
 export const metaData = {
-  baseUrl: "https://astrofolio-astro.vercel.app/",
+  baseUrl: "https://kapadiya.net",
   title: "My Useless Blog",
   name: "Vikas",
-  description:
-    "Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves PHP almost as much as I love coffee (almost!).",
+  description: "Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves PHP almost as much as I love coffee (almost!).",
 };
 
 export const socialLinks = {
@@ -12,4 +11,5 @@ export const socialLinks = {
   instagram: "https://www.instagram.com/kapadiyavikas",
   linkedin: "https://www.linkedin.com/in/vikaskapadiya/",
   email: "mailto:vikas@kapadiya.net",
+  bluesky: "https://bsky.app/profile/kapadiya.net",
 };

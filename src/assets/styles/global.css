@@ -207,3 +207,20 @@ input[type="email"] {
 .tweet div[class*="mediaWrapper"] {
   max-height: 250px;
 }
+
+/* CSS rules for the page scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media screen and (max-width: 480px) {
+  article {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+}

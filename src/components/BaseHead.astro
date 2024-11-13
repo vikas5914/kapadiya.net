@@ -8,18 +8,19 @@ interface Props {
 import { metaData } from "../config";
 import { SEO } from "astro-seo";
 
-const { title, description = metaData.description, image } = Astro.props;
+let { title, description = metaData.description, image } = Astro.props;
 
 const { url, site } = Astro;
 
-const imageUrl = image
-  ? new URL(image, url)
-  : new URL(`/og/?title=${title}`, url);
+const imageUrl = image ? new URL(image, url) : new URL(`/og/?title=${title}`, url);
+
+if (title !== metaData.title) {
+  title = `${title} | ${metaData.title}`;
+}
 ---
 
 <SEO
   title={title}
-  titleTemplate=`%s | ${metaData.title}`
   titleDefault={metaData.title}
   description={description}
   charset="UTF-8"
@@ -32,7 +33,7 @@ const imageUrl = image
     },
     optional: {
       description,
-      siteName: "AstroFolio",
+      siteName: "Vikas's Blog",
       locale: "en_US",
     },
   }}
@@ -41,7 +42,7 @@ const imageUrl = image
     title: title || metaData.title,
     description,
     image: imageUrl.href,
-    creator: "@jonasmerlins1",
+    creator: "@kapadiyavikas",
   }}
   extend={{
     // extending the default link tags

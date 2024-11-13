@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import cloudflare from "@astrojs/cloudflare";
@@ -15,13 +14,12 @@ export default defineConfig({
     },
   },
   integrations: [
-    sitemap(),
     tailwind(),
     icon({
       include: {
         "fa6-solid": ["rss", "circle-half-stroke"],
         tabler: ["mail-filled"],
-        "fa6-brands": ["x-twitter", "github", "instagram", "linkedin-in"],
+        "fa6-brands": ["x-twitter", "github", "instagram", "linkedin-in", "bluesky"],
       },
     }),
     react({

@@ -6,6 +6,7 @@ const YEAR = new Date().getFullYear();
 
 const socialIcons = [
   { href: socialLinks.twitter, icon: "fa6-brands:x-twitter" },
+  { href: socialLinks.bluesky, icon: "fa6-brands:bluesky" },
   { href: socialLinks.github, icon: "fa6-brands:github" },
   { href: socialLinks.instagram, icon: "fa6-brands:instagram" },
   { href: socialLinks.linkedin, icon: "fa6-brands:linkedin-in" },
@@ -15,22 +16,15 @@ const socialIcons = [
 
 <small class="block lg:mt-24 mt-16 text-[#1C1C1C] dark:text-[#D4D4D4]">
   <time>© {YEAR}</time>{" "}
-  <a
-    class="no-underline"
-    href={socialLinks.twitter}
-    target="_blank"
-    rel="noopener noreferrer">
+  <a class="no-underline" href={socialLinks.twitter} target="_blank" rel="noopener noreferrer">
     {metaData.title}
   </a>
-  <div
-    class="flex text-lg gap-3.5 float-right transition-opacity duration-300 hover:opacity-90">
+  <span> | </span>
+  <a href="https://astro.build/" target="_blank" rel="noopener noreferrer">Build with Astro</a>
+  <div class="flex text-lg gap-3.5 float-right transition-opacity duration-300 hover:opacity-90">
     {
       socialIcons.map((link) => (
-        <a
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={link.icon.split(":")[1]}>
+        <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.icon.split(":")[1]}>
           <Icon name={link.icon} />
         </a>
       ))
@@ -40,12 +34,3 @@ const socialIcons = [
     </a>
   </div>
 </small>
-
-<style>
-  @media screen and (max-width: 480px) {
-    article {
-      padding-top: 2rem;
-      padding-bottom: 4rem;
-    }
-  }
-</style>
