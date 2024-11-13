@@ -31,7 +31,7 @@ const { title, description, image } = Astro.props;
     <ClientRouter />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="googlebot" content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
     <Themes />
     <BaseHead title={title} description={description} image={image} />
     <link rel="alternate" type="application/rss+xml" title="Your Site's Title" href={new URL("rss.xml", Astro.site)} />
