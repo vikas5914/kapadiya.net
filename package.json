@@ -23,14 +23,14 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "astro": "5.0.0-beta.10",
-    "astro-icon": "^1.1.2",
+    "astro-icon": "^1.1.4",
     "astro-remote": "^0.3.3",
     "astro-seo": "^0.8.4",
     "astro-themes": "^0.2.5",
     "astro-tweet": "^0.0.4",
     "gql-query-builder": "^3.8.0",
     "graphql-request": "^7.1.2",
-    "lenis": "^1.1.15",
+    "lenis": "^1.1.16",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-tweet": "^3.2.1",
@@ -38,14 +38,14 @@
     "sugar-high": "^0.7.5"
   },
   "devDependencies": {
-    "@iconify-json/fa6-brands": "^1.2.1",
-    "@iconify-json/fa6-solid": "^1.2.1",
-    "@iconify-json/tabler": "^1.2.7",
+    "@iconify-json/fa6-brands": "^1.2.3",
+    "@iconify-json/fa6-solid": "^1.2.2",
+    "@iconify-json/tabler": "^1.2.8",
     "@tailwindcss/typography": "^0.5.15",
     "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.14",
-    "wrangler": "^3.84.1"
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.15",
+    "wrangler": "^3.90.0"
   },
   "patchedDependencies": {
     "astro-remote@0.3.3": "patches/astro-remote@0.3.3.patch"
