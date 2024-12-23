@@ -25,7 +25,10 @@ if (post === undefined) {
 }
 ---
 
-<Base title={post.data.title} description={post.data.slug} image={post.data.cover.url}>
+<Base
+  title={post.data.title}
+  description={post.data.slug}
+  image={post.data.cover.url}>
   <section>
     <script
       type="application/ld+json"
@@ -47,7 +50,7 @@ if (post === undefined) {
     <h1 class="title mb-3 font-medium text-2xl tracking-tight">
       {post.data.title}
     </h1>
-    <div class="flex justify-between items-center mt-2 mb-8 text-medium">
+    <div class="flex justify-between items-center mt-2 text-medium">
       <p class="text-sm text-neutral-600 dark:text-neutral-400">
         <FormattedDate date={post.data.publishedAt} includeRelative={false} />
       </p>

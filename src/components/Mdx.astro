@@ -19,20 +19,18 @@ import Table from "@components/mdx/Table.astro";
 const { content } = Astro.props;
 ---
 
-<article class="prose prose-quoteless dark:prose-invert">
-  <Markdown
-    sanitize={{ allowComponents: true }}
-    content={content}
-    components={{
-      Heading,
-      Image,
-      ImageGrid,
-      CodeBlock,
-      Tweet,
-      YouTube,
-      Caption,
-      Callout,
-      a: CustomLink,
-    }}
-  />
-</article>
+<Markdown
+  sanitize={{ allowComponents: true }}
+  content={content}
+  components={{
+    Heading,
+    Image,
+    ImageGrid,
+    CodeBlock,
+    Tweet,
+    YouTube,
+    Caption,
+    Callout,
+    a: CustomLink,
+  }}
+/>
