@@ -1,6 +1,4 @@
 ---
-export const prerender = false;
-
 import { getCollection } from "astro:content";
 
 const allPosts = await getCollection("posts");
@@ -17,9 +15,13 @@ const title = "Blog";
     <div>
       {
         allPosts.map((post) => (
-          <a class="flex flex-col space-y-1 mb-4 transition-opacity duration-200 hover:opacity-80" href={`/blog/${post.data.slug}/`}>
+          <a
+            class="flex flex-col space-y-1 mb-4 transition-opacity duration-200 hover:opacity-80"
+            href={`/blog/${post.id}/`}>
             <div class="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-1 sm:space-y-0 sm:space-x-2">
-              <p class="text-black dark:text-white tracking-tight">{post.data.title}</p>
+              <p class="text-black dark:text-white tracking-tight">
+                {post.data.title}
+              </p>
               <p class="text-neutral-600 dark:text-neutral-400 tabular-nums text-sm">
                 <FormattedDate date={post.data.publishedAt} />
               </p>

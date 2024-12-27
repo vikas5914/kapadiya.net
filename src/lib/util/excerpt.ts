@@ -6,7 +6,7 @@
  * @returns {string} The generated excerpt
  */
 export function excerpt(
-    text: string,
+    text: string = '',
     maxLength: number = 150,
     suffix: string = '...'
 ): string {

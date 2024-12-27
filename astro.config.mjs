@@ -2,8 +2,9 @@ import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import cloudflare from "@astrojs/cloudflare";
-
 import react from "@astrojs/react";
+
+import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,6 +13,13 @@ export default defineConfig({
     ssr: {
       noExternal: ["react-tweet"],
     },
+    resolve: {
+      // Use react-dom/server.edge instead of react-dom/server.browser for React 19.
+      // Without this, MessageChannel from node:worker_threads needs to be polyfilled.
+      alias: import.meta.env.PROD && {
+        "react-dom/server": "react-dom/server.edge",
+      },
+    },
   },
   integrations: [
     tailwind(),
@@ -19,12 +27,19 @@ export default defineConfig({
       include: {
         "fa6-solid": ["rss", "circle-half-stroke"],
         tabler: ["mail-filled"],
-        "fa6-brands": ["x-twitter", "github", "instagram", "linkedin-in", "bluesky"],
+        "fa6-brands": [
+          "x-twitter",
+          "github",
+          "instagram",
+          "linkedin-in",
+          "bluesky",
+        ],
       },
     }),
     react({
       experimentalReactChildren: true,
     }),
+    mdx(),
   ],
   output: "static",
   adapter: cloudflare({

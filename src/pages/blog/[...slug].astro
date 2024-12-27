@@ -1,7 +1,6 @@
 ---
-export const prerender = false;
-
 import { getEntry, render } from "astro:content";
+import { type CollectionEntry, getCollection } from "astro:content";
 
 import Base from "../../layouts/Base.astro";
 import { metaData } from "../../config";
@@ -13,22 +12,29 @@ import CustomMdx from "@components/Mdx.astro";
 const { url, site } = Astro;
 
 const { slug } = Astro.params;
+
 if (slug === undefined) {
   return Astro.redirect("/404");
 }
 
-// 2. Query for the entry directly using the request slug
-const post = await getEntry("posts", slug);
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+type Props = CollectionEntry<"posts">;
+
+const post = Astro.props;
 // 3. Redirect if the entry does not exist
 if (post === undefined) {
   return Astro.redirect("/404");
 }
 ---
 
-<Base
-  title={post.data.title}
-  description={post.data.slug}
-  image={post.data.cover.url}>
+<Base title={post.data.title} description={post.id} image={post.data?.cover}>
   <section>
     <script
       type="application/ld+json"
@@ -38,7 +44,7 @@ if (post === undefined) {
         headline: post.data.title,
         datePublished: post.data.publishedAt,
         dateModified: post.data.publishedAt,
-        description: excerpt(post.data.content),
+        description: excerpt(post.body),
         image: url.href,
         url: url,
         author: {
@@ -56,7 +62,7 @@ if (post === undefined) {
       </p>
     </div>
     <article class="prose prose-quoteless dark:prose-invert prose-table">
-      <CustomMdx content={post.data.content} />
+      <CustomMdx content={post.body} />
     </article>
   </section>
 </Base>

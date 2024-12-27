@@ -1,6 +1,6 @@
 ---
 interface Props {
-  content: string;
+  content: string | undefined;
 }
 
 import { Markdown } from "astro-remote";
@@ -14,7 +14,6 @@ import Callout from "@components/mdx/Callout.astro";
 import YouTube from "@components/mdx/YouTube.astro";
 import CustomLink from "@components/mdx/CustomLink.astro";
 import Heading from "@components/mdx/Heading.astro";
-import Table from "@components/mdx/Table.astro";
 
 const { content } = Astro.props;
 ---

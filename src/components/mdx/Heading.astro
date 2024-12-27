@@ -15,7 +15,7 @@ function slugify(str) {
 const id = slugify(text);
 ---
 
-<Component id={id}>
-  <a href=`#${id}` class="anchor"></a>
+<Component id={id} aria-label={text}>
+  <a href=`#${id}` class="anchor" aria-label={id}></a>
   <slot />
 </Component>
