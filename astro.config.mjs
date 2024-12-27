@@ -6,6 +6,8 @@ import react from "@astrojs/react";
 
 import mdx from "@astrojs/mdx";
 
+console.log("import.meta.env.PROD", import.meta.env.PROD);
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://kapadiya.net",
