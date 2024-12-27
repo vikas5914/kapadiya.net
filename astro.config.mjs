@@ -6,7 +6,7 @@ import react from "@astrojs/react";
 
 import mdx from "@astrojs/mdx";
 
-console.log("import.meta.env.PROD", import.meta.env.PROD, CF_PAGES);
+console.log("import.meta.env.PROD", import.meta.env);
 
 // https://astro.build/config
 export default defineConfig({
