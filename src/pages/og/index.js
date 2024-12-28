@@ -4,7 +4,7 @@ import { ImageResponse } from "@cloudflare/pages-plugin-vercel-og/api";
 import { metaData } from "src/config";
 import React from "react";
 
-export async function GET({ request }) {
+export default async function GET({ request }) {
   const url = new URL(request.url);
   const title = url.searchParams.get("title") || metaData.title;
 

@@ -3,8 +3,9 @@ import tailwind from "@astrojs/tailwind";
 import icon from "astro-icon";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
-
 import mdx from "@astrojs/mdx";
+
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,26 +22,21 @@ export default defineConfig({
       },
     },
   },
-  integrations: [
-    tailwind(),
-    icon({
-      include: {
-        "fa6-solid": ["rss", "circle-half-stroke"],
-        tabler: ["mail-filled"],
-        "fa6-brands": [
-          "x-twitter",
-          "github",
-          "instagram",
-          "linkedin-in",
-          "bluesky",
-        ],
-      },
-    }),
-    react({
-      experimentalReactChildren: true,
-    }),
-    mdx(),
-  ],
+  integrations: [tailwind(), icon({
+    include: {
+      "fa6-solid": ["rss", "circle-half-stroke"],
+      tabler: ["mail-filled"],
+      "fa6-brands": [
+        "x-twitter",
+        "github",
+        "instagram",
+        "linkedin-in",
+        "bluesky",
+      ],
+    },
+  }), react({
+    experimentalReactChildren: true,
+  }), mdx(), sitemap()],
   output: "static",
   adapter: cloudflare({
     imageService: "cloudflare",
