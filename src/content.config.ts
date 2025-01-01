@@ -12,6 +12,7 @@ const posts = defineCollection({
         message: "Title is required to be at least 1 character",
       }),
     cover: z.string().optional(),
+    content: z.string().optional(),
     publishedAt: z.date(),
   }),
 });
