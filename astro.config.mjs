@@ -1,5 +1,5 @@
 import { defineConfig } from "astro/config";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
@@ -11,6 +11,7 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://kapadiya.net",
   vite: {
+    plugins: [tailwindcss()],
     ssr: {
       noExternal: ["react-tweet"],
     },
@@ -22,21 +23,26 @@ export default defineConfig({
       },
     },
   },
-  integrations: [tailwind(), icon({
-    include: {
-      "fa6-solid": ["rss", "circle-half-stroke"],
-      tabler: ["mail-filled"],
-      "fa6-brands": [
-        "x-twitter",
-        "github",
-        "instagram",
-        "linkedin-in",
-        "bluesky",
-      ],
-    },
-  }), react({
-    experimentalReactChildren: true,
-  }), mdx(), sitemap()],
+  integrations: [
+    icon({
+      include: {
+        "fa6-solid": ["rss", "circle-half-stroke"],
+        tabler: ["mail-filled"],
+        "fa6-brands": [
+          "x-twitter",
+          "github",
+          "instagram",
+          "linkedin-in",
+          "bluesky",
+        ],
+      },
+    }),
+    react({
+      experimentalReactChildren: true,
+    }),
+    mdx(),
+    sitemap(),
+  ],
   output: "static",
   adapter: cloudflare({
     imageService: "cloudflare",
