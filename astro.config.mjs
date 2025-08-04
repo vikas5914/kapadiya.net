@@ -20,11 +20,6 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
     },
-    resolve: {
-      alias: import.meta.env.CF_PAGES && {
-        "react-dom/server": "react-dom/server.edge",
-      },
-    },
   },
   integrations: [
     react({
