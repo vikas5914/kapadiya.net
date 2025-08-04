@@ -11,9 +11,21 @@ const posts = defineCollection({
       .min(1, {
         message: "Title is required to be at least 1 character",
       }),
+    description: z
+      .string({
+        required_error: "Description is required",
+      })
+      .min(1, {
+        message: "Description is required to be at least 1 character",
+      }),
+    author: z.string().optional().default("Vikas Kapadiya"),
+    date: z.string().or(z.date()),
+    readTime: z.string(),
+    category: z.string(),
+    featured: z.boolean().optional().default(false),
+    slug: z.string(),
     cover: z.string().optional(),
-    content: z.string().optional(),
-    publishedAt: z.date(),
+    excerpt: z.string().optional(),
   }),
 });
 

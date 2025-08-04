@@ -1,12 +1,8 @@
 ---
-import { getEntry, render } from "astro:content";
 import { type CollectionEntry, getCollection } from "astro:content";
-
-import Base from "../../layouts/Base.astro";
+import BlogLayout from "../../layouts/BlogLayout.astro";
 import { metaData } from "../../config";
-import { excerpt } from "@lib/util/excerpt";
 
-import FormattedDate from "@components/FormattedDate.astro";
 import CustomMdx from "@components/Mdx.astro";
 
 const { url, site } = Astro;
@@ -34,17 +30,27 @@ if (post === undefined) {
 }
 ---
 
-<Base title={post.data.title} description={post.id} image={post.data?.cover}>
-  <section>
+<BlogLayout
+  title={post.data.title}
+  description={post.data.description}
+  author={post.data.author}
+  date={post.data.date}
+  readTime={post.data.readTime}
+  category={post.data.category}
+  featured={post.data.featured}
+  slug={post.data.slug}
+  cover={post.data.cover}
+  excerpt={post.data.excerpt}
+  ><section>
     <script
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         headline: post.data.title,
-        datePublished: post.data.publishedAt,
-        dateModified: post.data.publishedAt,
-        description: excerpt(post.body),
+        datePublished: post.data.date,
+        dateModified: post.data.date,
+        description: post.data.excerpt,
         image: url.href,
         url: url,
         author: {
@@ -53,16 +59,6 @@ if (post === undefined) {
         },
       })}
     />
-    <h1 class="title mb-3 font-medium text-2xl tracking-tight">
-      {post.data.title}
-    </h1>
-    <div class="flex justify-between items-center mt-2 text-medium">
-      <p class="text-sm text-neutral-600 dark:text-neutral-400">
-        <FormattedDate date={post.data.publishedAt} includeRelative={false} />
-      </p>
-    </div>
-    <article class="prose prose-quoteless dark:prose-invert prose-table">
-      <CustomMdx content={post.body} />
-    </article>
+    <CustomMdx content={post.body} />
   </section>
-</Base>
+</BlogLayout>

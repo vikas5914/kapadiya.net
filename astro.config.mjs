@@ -1,11 +1,12 @@
+// @ts-check
 import { defineConfig } from "astro/config";
-import tailwindcss from "@tailwindcss/vite";
-import icon from "astro-icon";
-import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
+import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
-
 import sitemap from "@astrojs/sitemap";
+
+import opengraphImages, { presets } from "astro-opengraph-images";
+import * as fs from "fs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,46 +14,39 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: ["react-tweet"],
+      noExternal: [],
+      external: ["@resvg/resvg-js"],
+    },
+    optimizeDeps: {
+      exclude: ["@resvg/resvg-js"],
     },
     resolve: {
-      // Use react-dom/server.edge instead of react-dom/server.browser for React 19.
-      // Without this, MessageChannel from node:worker_threads needs to be polyfilled.
       alias: import.meta.env.CF_PAGES && {
         "react-dom/server": "react-dom/server.edge",
       },
     },
   },
   integrations: [
-    icon({
-      include: {
-        "fa6-solid": ["rss", "circle-half-stroke"],
-        tabler: ["mail-filled"],
-        "fa6-brands": [
-          "x-twitter",
-          "github",
-          "instagram",
-          "linkedin-in",
-          "bluesky",
-        ],
-      },
-    }),
     react({
       experimentalReactChildren: true,
     }),
     mdx(),
     sitemap(),
+    opengraphImages({
+      options: {
+        fonts: [
+          {
+            name: "Roboto",
+            weight: 400,
+            style: "normal",
+            data: fs.readFileSync(
+              "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff"
+            ),
+          },
+        ],
+      },
+      render: presets.waveSvg,
+    }),
   ],
   output: "static",
-  adapter: cloudflare({
-    imageService: "cloudflare",
-  }),
-  image: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**.graphassets.com",
-      },
-    ],
-  },
 });

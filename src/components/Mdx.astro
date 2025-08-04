@@ -7,13 +7,11 @@ import { Markdown } from "astro-remote";
 
 import CodeBlock from "@components/mdx/CodeBlock.astro";
 import Image from "@components/mdx/Image.astro";
-import ImageGrid from "./mdx/ImageGrid.astro";
-import Tweet from "@components/mdx/Tweet.astro";
-import Caption from "@components/mdx/Caption.astro";
-import Callout from "@components/mdx/Callout.astro";
-import YouTube from "@components/mdx/YouTube.astro";
 import CustomLink from "@components/mdx/CustomLink.astro";
 import Heading from "@components/mdx/Heading.astro";
+import ProTip from "@components/mdx/ProTip.astro";
+import FeaturedImage from "@components/mdx/FeaturedImage.astro";
+import Paragraph from "@components/mdx/Paragraph.astro";
 
 const { content } = Astro.props;
 ---
@@ -24,12 +22,10 @@ const { content } = Astro.props;
   components={{
     Heading,
     Image,
-    ImageGrid,
     CodeBlock,
-    Tweet,
-    YouTube,
-    Caption,
-    Callout,
+    ProTip,
+    FeaturedImage,
     a: CustomLink,
+    p: Paragraph,
   }}
 />

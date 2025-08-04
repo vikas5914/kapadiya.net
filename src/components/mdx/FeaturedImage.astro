@@ -1,0 +1,24 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  height?: number;
+  width?: number;
+}
+
+import { Image as AstroImage } from "astro:assets";
+
+const { src, alt, height = 400, width = 800 } = Astro.props;
+---
+
+<div class="mb-12">
+  <AstroImage
+    src={src}
+    alt={alt}
+    height={height}
+    width={width}
+    inferSize={true}
+    loading="eager"
+    class="w-full h-64 lg:h-96 object-cover border border-gray-200"
+  />
+</div>

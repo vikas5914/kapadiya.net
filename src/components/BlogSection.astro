@@ -1,0 +1,181 @@
+---
+import { getCollection } from "astro:content";
+import Button from "./ui/Button.astro";
+import { ArrowRight } from "lucide-react";
+
+// Get all blog posts from content collections
+const allPosts = await getCollection("posts");
+
+// Sort posts by date (newest first)
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = new Date(a.data.date);
+  const dateB = new Date(b.data.date);
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Filter featured and regular posts
+const featuredPosts = sortedPosts.filter((post) => post.data.featured);
+const regularPosts = sortedPosts.filter((post) => !post.data.featured);
+---
+
+<section id="blog" class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <h2 class="text-4xl font-bold text-gray-900 mb-4">Latest Blog Posts</h2>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        Sharing insights, tutorials, and stories from the world of full-stack
+        development
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 mb-12">
+      <!-- Featured Post -->
+      {
+        featuredPosts.map((post) => (
+          <div class="lg:col-span-2">
+            <article class="bg-linear-to-r from-theme-orange to-theme-orange-dark p-8 text-white relative overflow-hidden">
+              <div class="absolute inset-0 grid-pattern opacity-10" />
+              <div class="relative z-10">
+                <div class="flex items-center space-x-4 mb-4">
+                  <span class="bg-white/20 px-3 py-1 text-sm font-medium">
+                    Featured
+                  </span>
+                  <span class="bg-white/20 px-3 py-1 text-sm font-medium">
+                    {post.data.category}
+                  </span>
+                </div>
+
+                <h3 class="text-3xl font-bold mb-4">{post.data.title}</h3>
+                <p class="text-white/90 text-lg mb-6 leading-relaxed">
+                  {post.data.excerpt}
+                </p>
+
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center space-x-6 text-white/80">
+                    <div class="flex items-center space-x-2">
+                      <svg
+                        class="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <span class="text-sm">
+                        {new Date(post.data.date).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <svg
+                        class="h-4 w-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span class="text-sm">{post.data.readTime}</span>
+                    </div>
+                  </div>
+
+                  <Button
+                    href={`/blog/${post.data.slug}`}
+                    variant="secondary"
+                    size="sm"
+                    class="bg-white text-theme-orange hover:bg-white/90"
+                  >
+                    Read More <ArrowRight className="h-4 w-4 ml-2" />
+                  </Button>
+                </div>
+              </div>
+            </article>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Regular Posts -->
+    <div class="grid md:grid-cols-2 gap-8 mb-12">
+      {
+        regularPosts.map((post) => (
+          <article class="bg-white border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-300">
+            <div class="flex items-center space-x-2 mb-3">
+              <span class="bg-theme-orange/10 text-theme-orange px-3 py-1 text-sm font-medium">
+                {post.data.category}
+              </span>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-theme-orange transition-colors duration-200">
+              {post.data.title}
+            </h3>
+            <p class="text-gray-600 mb-4 leading-relaxed">
+              {post.data.excerpt}
+            </p>
+
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-4 text-gray-500 text-sm">
+                <div class="flex items-center space-x-1">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span>{new Date(post.data.date).toLocaleDateString()}</span>
+                </div>
+                <div class="flex items-center space-x-1">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>{post.data.readTime}</span>
+                </div>
+              </div>
+
+              <Button
+                href={`/blog/${post.data.slug}`}
+                variant="ghost"
+                size="sm"
+                class="text-theme-orange hover:text-theme-orange-dark"
+              >
+                Read More <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="text-center">
+      <Button href="/blog" variant="orange" size="lg">
+        View All Posts <ArrowRight className="h-4 w-4 ml-2" />
+      </Button>
+    </div>
+  </div>
+</section>

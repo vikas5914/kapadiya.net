@@ -12,7 +12,9 @@ let { title, description = metaData.description, image } = Astro.props;
 
 const { url, site } = Astro;
 
-const imageUrl = image ? new URL(image, url) : new URL(`/og/?title=${title}`, url);
+import { getImagePath } from "astro-opengraph-images";
+
+const openGraphImageUrl = getImagePath({ url, site });
 
 if (title !== metaData.title) {
   title = `${title} | ${metaData.title}`;
@@ -28,7 +30,7 @@ if (title !== metaData.title) {
     basic: {
       title: title || metaData.title,
       type: "website",
-      image: imageUrl.href,
+      image: openGraphImageUrl,
       url: url,
     },
     optional: {
@@ -41,7 +43,7 @@ if (title !== metaData.title) {
     card: "summary_large_image",
     title: title || metaData.title,
     description,
-    image: imageUrl.href,
+    image: openGraphImageUrl,
     creator: "@kapadiyavikas",
   }}
   extend={{

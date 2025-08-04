@@ -1,7 +1,7 @@
 ---
 const { as: Component, text } = Astro.props;
 
-function slugify(str) {
+function slugify(str: string) {
   return str
     .toString()
     .toLowerCase()
@@ -15,7 +15,11 @@ function slugify(str) {
 const id = slugify(text);
 ---
 
-<Component id={id} aria-label={text}>
+<Component
+  id={id}
+  aria-label={text}
+  class="text-2xl font-bold text-gray-900 mt-12 mb-6"
+>
   <a href=`#${id}` class="anchor" aria-label={id}></a>
   <slot />
 </Component>

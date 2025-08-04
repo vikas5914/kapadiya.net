@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://kapadiya.net/sitemap-index.xml

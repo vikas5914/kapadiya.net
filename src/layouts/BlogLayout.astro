@@ -1,0 +1,176 @@
+---
+import "@styles/global.css";
+import Header from "@components/Header";
+import Footer from "@components/Footer.astro";
+import Button from "@components/ui/Button.astro";
+import BaseHead from "../components/BaseHead.astro";
+import { metaData } from "../config";
+import { ArrowLeft } from "lucide-react";
+
+export interface Props {
+  title: string;
+  description: string;
+  author?: string;
+  date: string | Date;
+  readTime: string;
+  category: string;
+  featured?: boolean;
+  slug: string;
+  cover?: string;
+  excerpt?: string;
+}
+
+const {
+  title,
+  description,
+  author = metaData.name,
+  date,
+  readTime,
+  category,
+  featured = false,
+  cover,
+} = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="googlebot"
+      content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
+    />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <BaseHead title={title} description={description} image={cover} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={metaData.title}
+      href={new URL("rss.xml", Astro.site)}
+    />
+  </head>
+  <body>
+    <div class="min-h-screen">
+      <Header client:load />
+      <main class="pt-20">
+        <article class="py-20 bg-white">
+          <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Back to Blog -->
+            <div class="mb-8">
+              <Button
+                variant="ghost"
+                size="sm"
+                class="text-theme-orange hover:text-theme-orange-dark"
+                href="/blog"
+              >
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Blog
+              </Button>
+            </div>
+
+            <!-- Article Header -->
+            <header class="mb-12">
+              <div class="flex items-center space-x-4 mb-6">
+                <span
+                  class="bg-theme-orange/10 text-theme-orange px-3 py-1 text-sm font-medium"
+                >
+                  {category}
+                </span>
+                {
+                  featured && (
+                    <span class="bg-gray-100 text-gray-600 px-3 py-1 text-sm font-medium">
+                      Featured
+                    </span>
+                  )
+                }
+              </div>
+
+              <h1
+                class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight"
+              >
+                {title}
+              </h1>
+
+              <div class="flex items-center space-x-6 text-gray-600 mb-8">
+                <div class="flex items-center space-x-2">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    ></path>
+                  </svg>
+                  <span class="text-sm">{author}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                  <span class="text-sm"
+                    >{new Date(date).toLocaleDateString()}</span
+                  >
+                </div>
+                <div class="flex items-center space-x-2">
+                  <svg
+                    class="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span class="text-sm">{readTime}</span>
+                </div>
+              </div>
+
+              <p class="text-xl text-gray-600 leading-relaxed">
+                {description}
+              </p>
+            </header>
+
+            <!-- Article Content -->
+            <div class="prose prose-lg max-w-none">
+              <slot />
+            </div>
+
+            <!-- Call to Action -->
+            <div class="bg-gray-50 p-6 mt-12 border border-gray-200">
+              <h3 class="font-bold text-gray-900 mb-3">What's Next?</h3>
+              <p class="text-gray-700 mb-4">
+                Want to dive deeper into web development? Check out my other
+                posts on building scalable applications and modern development
+                practices.
+              </p>
+              <Button
+                class="bg-theme-orange hover:bg-theme-orange-dark text-white"
+                href="/blog"
+              >
+                View All Posts
+              </Button>
+            </div>
+          </div>
+        </article>
+      </main>
+      <Footer />
+    </div>
+  </body>
+</html>
