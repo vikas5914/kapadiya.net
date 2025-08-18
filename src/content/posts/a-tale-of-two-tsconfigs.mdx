@@ -1,0 +1,116 @@
+---
+title: "A Tale of Two tsconfigs: Taming a Monorepo-Style Vercel Project"
+description: "How I wrangled a project with conflicting TypeScript configurations for the client and server by creating a multi-tsconfig setup."
+date: "2025-08-18"
+readTime: "6 min"
+category: "Web Development"
+featured: true
+slug: "a-tale-of-two-tsconfigs"
+excerpt: "When a single tsconfig isn't enough for your client-side React code and your serverless API functions, it's time to bring in reinforcements. Here's how I solved it."
+---
+
+It all started when I was pulled into another project within the company. The app started as a Lovable build, which basically meant React with Vite instead of the Next.js setups we were used to with tools like v0.app.
+
+An intern had shipped most of the app using Kiro (Amazon's new IDE). They pushed everything to Vercel, so the project followed Vercel’s standard pattern, with an /api folder for serverless functions. The catch? Every time they wanted to test something, they kicked off a fresh deployment.
+
+Here’s what I inherited:
+
+```
+├── api        # Server code
+├── public
+├── src        # React client code
+└── supabase
+```
+
+First goal: fix the workflow. Deploying on every single change was painful. Since we were already on Vercel, the obvious move was vercel dev. That way I could run everything locally, including the API functions.
+
+The good news? It worked. The bad news? My editor and vercel dev exploded with TypeScript errors coming from /api.
+
+The root problem was the `tsconfig.json`. It was built for a React client. I kept tweaking compiler options like `moduleResolution`, `module`, and `target`, trying to find a combo that worked for both client and server. No luck. It was clear that one tsconfig was never going to handle both.
+
+After banging my head on this for a while, the fix was obvious: split it into two tsconfigs, one for the client and one for the server, both inheriting from a base file.
+
+I started with a tsconfig.base.json at the root to hold shared settings:
+
+```json
+{
+  "compilerOptions": {
+    "incremental": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
+  }
+}
+```
+
+Then for the frontend React code, I created `src/tsconfig.json`:
+
+```json
+{
+  "extends": "../tsconfig.base.json",
+  "rootDir": ".",
+  "compilerOptions": {
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.app.json",
+    "composite": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "target": "ES2020",
+    "outDir": "../dist/src",
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./*"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "../dist"]
+}
+```
+
+For the serverless functions, I added `api/tsconfig.json`:
+
+```json
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.api.json",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2020",
+    "outDir": "../dist/api",
+    "esModuleInterop": true
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "../dist"]
+}
+```
+
+Finally, I wired everything up in the root tsconfig.json using TypeScript’s references:
+
+```json
+{
+  "files": [],
+  "references": [
+    { "path": "./src/tsconfig.json" },
+    { "path": "./api/tsconfig.json" }
+  ]
+}
+```
+
+With this new setup, our project structure looked clean and organized:
+
+```
+project-root/
+├── tsconfig.base.json        # Shared base config
+├── tsconfig.json             # Root config referencing the sub-projects
+├── src/
+│   ├── tsconfig.json         # Local override for frontend code
+├── api/
+│   ├── tsconfig.json         # Local override for server code
+└── package.json
+```
+
+And that was it. TypeScript errors disappeared. `vercel dev` ran smoothly. My editor finally understood both the client and the server.
+
+Turns out, the trick to taming Vercel-style monorepos is simple: stop forcing one tsconfig to do two jobs.
