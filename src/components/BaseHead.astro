@@ -12,7 +12,7 @@ let { title, description = metaData.description, image } = Astro.props;
 
 const { url, site } = Astro;
 
-import { getImagePath } from "astro-opengraph-images";
+import { getImagePath } from "astro-takumi";
 
 const openGraphImageUrl = getImagePath({ url, site });
 

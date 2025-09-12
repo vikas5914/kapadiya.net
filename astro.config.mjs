@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
 import sitemap from "@astrojs/sitemap";
 
-import opengraphImages, { presets } from "astro-opengraph-images";
+import astroTakumi, { presets } from "astro-takumi";
 import * as fs from "fs";
 
 // https://astro.build/config
@@ -27,17 +27,12 @@ export default defineConfig({
     }),
     mdx(),
     sitemap(),
-    opengraphImages({
+    astroTakumi({
       options: {
         fonts: [
-          {
-            name: "Roboto",
-            weight: 400,
-            style: "normal",
-            data: fs.readFileSync(
-              "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff"
-            ),
-          },
+          fs.readFileSync(
+            "node_modules/@fontsource/roboto/files/roboto-latin-400-normal.woff"
+          ),
         ],
       },
       render: presets.waveSvg,
