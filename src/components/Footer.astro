@@ -1,62 +1,132 @@
 ---
-import { metaData, socialLinks } from "../config";
+import { socialLinks } from "../config";
 const YEAR = new Date().getFullYear();
+
+const cols = [
+  {
+    title: "Navigate",
+    links: [
+      { name: "Home", href: "#home" },
+      { name: "About", href: "#about" },
+      { name: "Skills", href: "#skills" },
+      { name: "Blog", href: "/blog" },
+    ],
+  },
+  {
+    title: "Connect",
+    links: [
+      { name: "GitHub", href: socialLinks.github },
+      { name: "LinkedIn", href: socialLinks.linkedin },
+      { name: "Twitter / X", href: socialLinks.twitter },
+      { name: "Bluesky", href: socialLinks.bluesky },
+    ],
+  },
+  {
+    title: "Contact",
+    links: [
+      { name: "vikas@kapadiya.net", href: socialLinks.email },
+      { name: "Instagram", href: socialLinks.instagram },
+      { name: "Laravel Artisan", href: "https://telegram.me/LaravelArtisans" },
+    ],
+  },
+];
 ---
 
-<footer id="contact" class="bg-gray-900 text-white py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid md:grid-cols-3 gap-8">
+<footer style="padding-top: 48px; padding-bottom: 48px; border-top: 1px solid var(--border-medium);">
+  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+    <!-- Top Grid -->
+    <div
+      class="footer-grid"
+      style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border-soft);"
+    >
+      <!-- Brand Column -->
       <div>
-        <h3 class="text-xl font-bold mb-4">{metaData.name}</h3>
-        <p class="text-gray-400">
-          Full-stack developer passionate about creating amazing web
-          experiences.
-        </p>
-      </div>
-
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-        <ul class="space-y-2">
-          <li>
-            <a
-              href="#home"
-              class="text-gray-400 hover:text-theme-orange transition-colors"
-              >Home</a
-            >
-          </li>
-          <li>
-            <a
-              href="#about"
-              class="text-gray-400 hover:text-theme-orange transition-colors"
-              >About</a
-            >
-          </li>
-          <li>
-            <a
-              href="/blog"
-              class="text-gray-400 hover:text-theme-orange transition-colors"
-              >Blog</a
-            >
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="text-lg font-semibold mb-4">Contact</h4>
-        <p class="text-gray-400 mb-2">Ready to work together?</p>
-        <a
-          href={socialLinks.email}
-          class="text-theme-orange hover:text-theme-orange-light transition-colors"
+        <div
+          class="flex items-center gap-2.5"
+          style="font-family: 'MonoLisa', monospace; font-size: 18px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 16px;"
         >
-          vikas@kapadiya.net
-        </a>
+          <div
+            class="flex items-center justify-center"
+            style="width: 24px; height: 24px; background: var(--ind-accent); color: #fff; font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 600;"
+          >
+            VK
+          </div>
+          Vikas Kapadiya
+        </div>
+        <div
+          style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; letter-spacing: -0.02em; color: var(--text-muted); max-width: 320px;"
+        >
+          Full-stack developer passionate about creating amazing web experiences.
+          Clean code, reliable systems, scalable architecture.
+        </div>
       </div>
+
+      <!-- Link Columns -->
+      {cols.map((col) => (
+        <div>
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;"
+          >
+            {col.title}
+          </div>
+          {col.links.map((link) => (
+            <a
+              href={link.href}
+              target={link.href.startsWith("#") || link.href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              class="footer-link block no-underline"
+              style="font-family: 'MonoLisa', monospace; font-size: 13px; color: var(--text-secondary); letter-spacing: -0.02em; padding: 4px 0; transition: color 240ms ease;"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+      ))}
     </div>
 
-    <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-      <p class="text-gray-400">
-        © {YEAR} Vikas Kapadiya. All rights reserved.
-      </p>
+    <!-- Bottom Row -->
+    <div class="flex justify-between items-center" style="padding-top: 24px;">
+      <span
+        style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;"
+      >
+        © {YEAR} Vikas Kapadiya — All rights reserved
+      </span>
+      <div class="flex gap-6">
+        <span
+          class="footer-bottom-link"
+          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease;"
+        >
+          Privacy
+        </span>
+        <span
+          class="footer-bottom-link"
+          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease;"
+        >
+          Built with care
+        </span>
+      </div>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-link:hover {
+    color: var(--ind-accent) !important;
+  }
+  .footer-bottom-link:hover {
+    color: var(--ind-accent) !important;
+  }
+  @media (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr !important;
+    }
+  }
+  @media (max-width: 640px) {
+    footer > div {
+      padding: 0 24px !important;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
