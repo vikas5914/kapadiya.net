@@ -1,183 +1,186 @@
 ---
-// AboutSection component - static data
-import { metaData, socialLinks, skills } from "../config";
+import { socialLinks } from "../config";
+
+const socials = [
+  { label: "GitHub", value: "@vikas5914", href: socialLinks.github },
+  { label: "LinkedIn", value: "vikaskapadiya", href: socialLinks.linkedin },
+  { label: "Twitter / X", value: "@kapadiyavikas", href: socialLinks.twitter },
+  { label: "Bluesky", value: "kapadiya.net", href: socialLinks.bluesky },
+  { label: "Instagram", value: "@kapadiyavikas", href: socialLinks.instagram },
+  { label: "Email", value: "vikas@kapadiya.net", href: socialLinks.email },
+];
 ---
 
-<section id="about" class="py-20 bg-theme-beige-light">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid lg:grid-cols-2 gap-16 items-center">
-      <!-- Left Content -->
+<section
+  id="about"
+  style="padding-top: 72px; padding-bottom: 72px; border-top: 1px solid var(--border-medium);"
+>
+  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+    <!-- Section Header -->
+    <div
+      class="flex justify-between items-end"
+      style="margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border-soft);"
+    >
       <div>
-        <h2 class="text-4xl font-bold text-gray-900 mb-6">About Me</h2>
-        <div class="space-y-4 text-gray-700 mb-8">
-          <p class="text-lg leading-relaxed">
-            I'm a passionate full-stack developer with over 8 years of
-            experience crafting digital solutions. My journey started with PHP,
-            and I've been riding the Laravel wave since version 5.
-          </p>
-          <p class="text-lg leading-relaxed">
-            When I'm not debugging code or exploring new frameworks, you'll find
-            me contributing to open-source projects or helping fellow developers
-            on Laravel Artisan community. I believe in writing clean,
-            maintainable code and sharing knowledge with the developer
-            community.
-          </p>
-          <p class="text-lg leading-relaxed">
-            Currently, I'm exploring the intersection of AI and web development,
-            experimenting with tools that can enhance developer productivity
-            while maintaining code quality.
-          </p>
+        <div
+          style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 12px;"
+        >
+          Background
         </div>
+        <h2
+          style="font-family: 'MonoLisa', monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); line-height: 0.95;"
+        >
+          About Me
+        </h2>
+      </div>
+      <div
+        class="hidden md:block"
+        style="font-family: 'MonoLisa', monospace; font-size: 13px; color: var(--text-muted); letter-spacing: -0.02em; max-width: 380px; line-height: 1.6; text-align: right;"
+      >
+        Passionate full-stack developer with over 8 years of experience crafting digital solutions.
+      </div>
+    </div>
 
-        <!-- Social Links -->
-        <div class="flex space-x-4 mb-8">
-          <a
-            href={socialLinks.github}
-            class="inline-flex items-center justify-center h-9 px-3 text-sm font-medium border border-input bg-background hover:bg-theme-orange hover:text-white hover:border-theme-orange transition-colors"
-          >
-            <svg
-              class="h-4 w-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
-              ></path>
-            </svg>
-            GitHub
-          </a>
-          <a
-            href={socialLinks.linkedin}
-            class="inline-flex items-center justify-center h-9 px-3 text-sm font-medium border border-input bg-background hover:bg-theme-orange hover:text-white hover:border-theme-orange transition-colors"
-          >
-            <svg
-              class="h-4 w-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
-              ></path>
-              <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-            LinkedIn
-          </a>
-          <a
-            href={socialLinks.twitter}
-            class="inline-flex items-center justify-center h-9 px-3 text-sm font-medium border border-input bg-background hover:bg-theme-orange hover:text-white hover:border-theme-orange transition-colors"
-          >
-            <svg
-              class="h-4 w-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
-              ></path>
-            </svg>
-            Twitter
-          </a>
-        </div>
+    <!-- Two Column Grid -->
+    <div class="about-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+      <!-- Left Column — About Text -->
+      <div class="flex flex-col gap-6">
+        <p
+          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary);"
+        >
+          I'm a passionate full-stack developer with over 8 years of experience crafting
+          digital solutions. My journey started with PHP, and I've been riding the Laravel
+          wave since version 5.
+        </p>
+        <p
+          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary);"
+        >
+          When I'm not debugging code or exploring new frameworks, you'll find me contributing
+          to open-source projects or helping fellow developers on Laravel Artisan community.
+          I believe in writing clean, maintainable code and sharing knowledge with the
+          developer community.
+        </p>
+        <p
+          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary);"
+        >
+          Currently, I'm exploring the intersection of AI and web development, experimenting
+          with tools that can enhance developer productivity while maintaining code quality.
+        </p>
 
-        <div class="bg-white p-6 shadow-xs">
-          <p class="text-theme-orange font-medium mb-2">
+        <!-- CTA Block -->
+        <div
+          style="background: var(--surface); padding: 28px; margin-top: 8px; box-shadow: var(--shadow-sm);"
+        >
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 8px;"
+          >
             Available for freelance work
-          </p>
-          <p class="text-gray-600 mb-4">
-            Let's build something amazing together!
-          </p>
-          <a
-            href={socialLinks.email}
-            class="inline-flex items-center justify-center h-10 px-4 py-2 text-sm font-medium bg-theme-orange hover:bg-theme-orange-dark text-white transition-colors"
+          </div>
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; letter-spacing: -0.02em; color: var(--text-secondary); margin-bottom: 20px;"
           >
-            <svg
-              class="h-4 w-4 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              ></path>
-            </svg>
-            Email
+            Let's build something amazing together!
+          </div>
+          <a
+            href="mailto:vikas@kapadiya.net"
+            class="inline-flex items-center gap-2 no-underline"
+            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; border: none; padding: 12px 24px; transition: opacity 240ms ease;"
+          >
+            Get in touch →
           </a>
         </div>
       </div>
 
-      <!-- Right Content - Skills -->
-      <div>
-        <div class="bg-white p-8 shadow-lg">
-          <h3 class="text-2xl font-bold text-gray-900 mb-8">
-            Technical Skills
-          </h3>
-
-          <div class="space-y-6">
-            {
-              skills.map((skill, index) => (
-                <div
-                  class="animate-fade-in"
-                  style={`animation-delay: ${index * 0.1}s`}
-                >
-                  <div class="flex justify-between items-center mb-2">
-                    <span class="font-medium text-gray-900">{skill.name}</span>
-                    <span class="text-theme-orange font-bold">
-                      {skill.level}%
-                    </span>
-                  </div>
-                  <div class="w-full bg-gray-200 h-2">
-                    <div
-                      class="bg-linear-to-r from-theme-orange to-theme-orange-dark h-2 transition-all duration-1000 ease-out"
-                      style={`width: ${skill.level}%`}
-                    />
-                  </div>
-                </div>
-              ))
-            }
-          </div>
-
-          <div class="mt-8 pt-6 border-t border-gray-200">
-            <p class="text-gray-600 text-sm mb-4">
-              On my free time, I also help people with their coding problems on
-              Laravel Artisan.
-            </p>
+      <!-- Right Column — Social Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border-strong);">
+        {socials.map((s, i) => {
+          const isRight = i % 2 === 1;
+          const isLastRow = i >= socials.length - 2;
+          return (
             <a
-              href="https://telegram.me/LaravelArtisans"
-              class="inline-flex items-center justify-center h-9 px-3 text-sm font-medium w-full border border-input bg-background hover:bg-theme-orange hover:text-white hover:border-theme-orange transition-colors"
+              href={s.href}
+              target={s.href.startsWith("mailto") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+              class="social-item block no-underline"
+              style={`padding: 20px; transition: background 240ms ease;${!isRight ? ' border-right: 1px solid var(--border-strong);' : ''}${!isLastRow ? ' border-bottom: 1px solid var(--border-strong);' : ''}`}
+            >
+              <div
+                style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;"
+              >
+                {s.label}
+              </div>
+              <div
+                style="font-family: 'MonoLisa', monospace; font-size: 14px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary);"
+              >
+                {s.value}
+              </div>
+              <div
+                style="font-family: 'MonoLisa', monospace; font-size: 14px; color: var(--ind-accent); margin-top: 8px;"
+              >
+                →
+              </div>
+            </a>
+          );
+        })}
+
+        <!-- Community Block -->
+        <div
+          class="flex justify-between items-center"
+          style="grid-column: 1 / -1; padding: 24px; border-top: 1px solid var(--border-strong);"
+        >
+          <div>
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;"
+            >
+              Community
+            </div>
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 16px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary);"
             >
               Laravel Artisan
-              <svg
-                class="h-4 w-4 ml-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                ></path>
-              </svg>
-            </a>
+            </div>
           </div>
+          <a
+            href="https://telegram.me/LaravelArtisans"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="community-link no-underline"
+            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ind-accent); border: 1px solid var(--ind-accent); padding: 10px 20px; background: transparent; transition: all 240ms ease;"
+          >
+            Join →
+          </a>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .social-item:hover {
+    background: var(--surface) !important;
+  }
+  .community-link:hover {
+    background: var(--ind-accent) !important;
+    color: #fff !important;
+  }
+  @media (max-width: 768px) {
+    .about-grid {
+      grid-template-columns: 1fr !important;
+    }
+    section > div > div:first-child {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    section > div > div:first-child > div:last-child {
+      text-align: left !important;
+    }
+  }
+  @media (max-width: 640px) {
+    section > div {
+      padding: 0 24px !important;
+    }
+    .about-grid > div:last-child {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
