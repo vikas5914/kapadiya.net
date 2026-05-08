@@ -14,7 +14,7 @@ import "@styles/global.css";
 const { title, description, image } = Astro.props;
 ---
 
-<html lang="en" class="">
+<html lang="en">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
@@ -30,9 +30,9 @@ const { title, description, image } = Astro.props;
       href={new URL("/rss.xml", Astro.site)}
     /> -->
   </head>
-  <body class="antialiased min-h-screen flex flex-col">
+  <body class="antialiased min-h-screen flex flex-col" style="background: var(--bg-main); color: var(--text-primary);">
     <Header client:load />
-    <main class="flex-1">
+    <main class="flex-1" style="padding-top: 64px;">
       <slot />
     </main>
     <Footer />

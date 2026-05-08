@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { metaData } from "../config";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
