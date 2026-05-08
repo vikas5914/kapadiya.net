@@ -1,0 +1,185 @@
+---
+import { skills } from "../config";
+---
+
+<section id="skills" style="background: var(--ind-accent); color: var(--text-on-accent);">
+  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+    <div class="skills-grid" style="display: grid; grid-template-columns: 1fr 1fr; border: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);">
+      <!-- Left Pane -->
+      <div
+        class="flex flex-col justify-between"
+        style="border-right: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent); padding: 72px 48px; min-height: 600px;"
+      >
+        <div>
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent); margin-bottom: 16px;"
+          >
+            Technical Data
+          </div>
+          <h2
+            style="font-family: 'MonoLisa', monospace; font-size: 44px; font-weight: 700; letter-spacing: -0.04em; word-spacing: -0.15em; text-transform: uppercase; color: var(--text-on-accent); line-height: 0.95; margin-bottom: 24px;"
+          >
+            Technical Skills
+          </h2>
+          <p
+            style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; color: color-mix(in srgb, var(--text-on-accent) 80%, transparent); max-width: 400px;"
+          >
+            Here, you'll find my musings, tips, and stories from the trenches
+            of full-stack development. If you're a fellow code warrior or just
+            curious about the web dev life, stick around.
+          </p>
+        </div>
+        <div class="flex justify-between items-end">
+          <div class="flex flex-col gap-1">
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1;"
+            >
+              8+
+            </div>
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent);"
+            >
+              Years Experience
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1;"
+            >
+              6
+            </div>
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent);"
+            >
+              Core Modules
+            </div>
+          </div>
+          <div class="flex flex-col gap-1">
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1;"
+            >
+              v5+
+            </div>
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent);"
+            >
+              Laravel Since
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Pane — Skill Rows -->
+      <div class="flex flex-col">
+        {skills.map((skill, i) => (
+          <div
+            class="skill-row"
+            style={`display: grid; grid-template-columns: 60px 1fr;${i < skills.length - 1 ? ' border-bottom: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);' : ''}`}
+          >
+            <div
+              style="font-family: 'MonoLisa', monospace; font-size: 13px; font-style: italic; color: color-mix(in srgb, var(--text-on-accent) 50%, transparent); padding: 20px 16px; border-right: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent); display: flex; align-items: center;"
+            >
+              0{i + 1}
+            </div>
+            <div style="padding: 20px 24px;">
+              <div class="flex justify-between items-center" style="margin-bottom: 10px;">
+                <span
+                  style="font-family: 'MonoLisa', monospace; font-size: 14px; font-weight: 600; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text-on-accent);"
+                >
+                  {skill.name}
+                </span>
+                <span
+                  style="font-family: 'MonoLisa', monospace; font-size: 13px; font-weight: 500; color: color-mix(in srgb, var(--text-on-accent) 80%, transparent);"
+                >
+                  {skill.level}%
+                </span>
+              </div>
+              <div style="width: 100%; height: 4px; background: color-mix(in srgb, var(--text-on-accent) 15%, transparent);">
+                <div
+                  class="skill-bar-fill"
+                  style={`height: 4px; background: var(--text-on-accent); width: 0%; --skill-level: ${skill.level}%; transition: width 1200ms ease; transition-delay: ${i * 120}ms;`}
+                ></div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        <!-- Tagline Row -->
+        <div
+          class="flex items-end"
+          style="flex: 1; border-top: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent); padding: 24px;"
+        >
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 24px; font-weight: 700; letter-spacing: -0.03em; word-spacing: -0.15em; text-transform: uppercase; color: var(--text-on-accent); line-height: 1.1;"
+          >
+            Clean code. Reliable systems. Scalable architecture.
+          </div>
+        </div>
+
+        <!-- Footer Row -->
+        <div
+          class="flex justify-between items-center"
+          style="padding: 16px 24px; border-top: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);"
+        >
+          <span
+            style="font-family: 'MonoLisa', monospace; font-size: 12px; letter-spacing: -0.02em; color: color-mix(in srgb, var(--text-on-accent) 50%, transparent);"
+          >
+            Vikas Kapadiya
+          </span>
+          <span
+            style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-on-accent); font-weight: 500;"
+          >
+            2026
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.skill-bar-fill').forEach((bar) => {
+            const el = bar as HTMLElement;
+            el.style.width = el.style.getPropertyValue('--skill-level');
+          });
+          observer.disconnect();
+        }
+      });
+    },
+    { threshold: 0.2 }
+  );
+
+  const skillsSection = document.getElementById('skills');
+  if (skillsSection) observer.observe(skillsSection);
+</script>
+
+<style>
+  @media (max-width: 768px) {
+    .skills-grid {
+      grid-template-columns: 1fr !important;
+    }
+    .skills-grid > div:first-child {
+      border-right: none !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);
+      min-height: auto !important;
+      padding: 48px 24px !important;
+    }
+    .skills-grid > div:first-child > div:last-child {
+      margin-top: 40px;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+  }
+  @media (max-width: 640px) {
+    section > div {
+      padding: 0 24px !important;
+    }
+    .skills-grid > div:first-child h2 {
+      font-size: 32px !important;
+    }
+  }
+</style>
