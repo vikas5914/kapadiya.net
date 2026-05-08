@@ -1,11 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @import "tailwindcss";
 
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
-
-/* --- Google Fonts Import (Display only) --- */
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 /* --- MonoLisa @font-face (Brand Mono) --- */
 @font-face { font-family: 'MonoLisa'; src: url('/fonts/MonoLisa-Thin.ttf') format('truetype'); font-weight: 100; font-style: normal; font-display: swap; }
