@@ -2,10 +2,8 @@
 import "@styles/global.css";
 import Header from "@components/Header";
 import Footer from "@components/Footer.astro";
-import Button from "@components/ui/Button.astro";
 import BaseHead from "../components/BaseHead.astro";
 import { metaData } from "../config";
-import { ArrowLeft } from "lucide-react";
 
 export interface Props {
   title: string;
@@ -48,124 +46,85 @@ const {
       href={new URL("rss.xml", Astro.site)}
     />
   </head>
-  <body>
+  <body class="antialiased" style="background: var(--bg-main); color: var(--text-primary);">
     <div class="min-h-screen">
       <Header client:load />
-      <main class="pt-20">
-        <article class="py-20 bg-white">
-          <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main style="padding-top: 64px;">
+        <article style="padding: 72px 0;">
+          <div class="mx-auto" style="max-width: 800px; padding: 0 48px;">
             <!-- Back to Blog -->
-            <div class="mb-8">
-              <Button
-                variant="ghost"
-                size="sm"
-                class="text-theme-orange hover:text-theme-orange-dark"
+            <div style="margin-bottom: 32px;">
+              <a
                 href="/blog"
+                class="inline-flex items-center gap-2 no-underline"
+                style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ind-accent); border: 1px solid var(--ind-accent); padding: 8px 16px; transition: all 240ms ease;"
               >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Blog
-              </Button>
+                ← Back to Blog
+              </a>
             </div>
 
             <!-- Article Header -->
-            <header class="mb-12">
-              <div class="flex items-center space-x-4 mb-6">
+            <header style="margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border-soft);">
+              <div class="flex items-center gap-3" style="margin-bottom: 20px;">
                 <span
-                  class="bg-theme-orange/10 text-theme-orange px-3 py-1 text-sm font-medium"
+                  style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); background: var(--ind-accent-muted); padding: 4px 10px;"
                 >
                   {category}
                 </span>
-                {
-                  featured && (
-                    <span class="bg-gray-100 text-gray-600 px-3 py-1 text-sm font-medium">
-                      Featured
-                    </span>
-                  )
-                }
+                {featured && (
+                  <span
+                    style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); background: var(--surface-elevated); padding: 4px 10px;"
+                  >
+                    Featured
+                  </span>
+                )}
               </div>
 
               <h1
-                class="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight"
+                style="font-family: 'MonoLisa', monospace; font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.04em; color: var(--text-primary); line-height: 1.1; margin-bottom: 20px;"
               >
                 {title}
               </h1>
 
-              <div class="flex items-center space-x-6 text-gray-600 mb-8">
-                <div class="flex items-center space-x-2">
-                  <svg
-                    class="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                    ></path>
-                  </svg>
-                  <span class="text-sm">{author}</span>
-                </div>
-                <div class="flex items-center space-x-2">
-                  <svg
-                    class="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                    ></path>
-                  </svg>
-                  <span class="text-sm"
-                    >{new Date(date).toLocaleDateString()}</span
-                  >
-                </div>
-                <div class="flex items-center space-x-2">
-                  <svg
-                    class="h-4 w-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                  </svg>
-                  <span class="text-sm">{readTime}</span>
-                </div>
+              <div class="flex flex-wrap items-center gap-6" style="margin-bottom: 20px;">
+                <span style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;">
+                  {author}
+                </span>
+                <span style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;">
+                  {new Date(date).toLocaleDateString()}
+                </span>
+                <span style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;">
+                  {readTime}
+                </span>
               </div>
 
-              <p class="text-xl text-gray-600 leading-relaxed">
+              <p style="font-family: 'MonoLisa', monospace; font-size: 15px; line-height: 1.7; color: var(--text-secondary); max-width: 640px;">
                 {description}
               </p>
             </header>
 
             <!-- Article Content -->
-            <div class="prose prose-lg max-w-none">
+            <div class="prose prose-lg max-w-none blog-prose">
               <slot />
             </div>
 
-            <!-- Call to Action -->
-            <div class="bg-gray-50 p-6 mt-12 border border-gray-200">
-              <h3 class="font-bold text-gray-900 mb-3">What's Next?</h3>
-              <p class="text-gray-700 mb-4">
+            <!-- CTA -->
+            <div style="background: var(--surface); padding: 28px; margin-top: 48px; border: 1px solid var(--border-soft);">
+              <div style="font-family: 'MonoLisa', monospace; font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
+                What's Next?
+              </div>
+              <p style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; color: var(--text-secondary); margin-bottom: 16px;">
                 Want to dive deeper into web development? Check out my other
                 posts on building scalable applications and modern development
                 practices.
               </p>
-              <Button
-                class="bg-theme-orange hover:bg-theme-orange-dark text-white"
+              <a
                 href="/blog"
+                class="inline-block no-underline"
+                style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; padding: 12px 24px; transition: opacity 240ms ease;"
               >
-                View All Posts
-              </Button>
+                View All Posts →
+              </a>
             </div>
           </div>
         </article>
@@ -174,3 +133,104 @@ const {
     </div>
   </body>
 </html>
+
+<style>
+  .blog-prose {
+    color: var(--text-secondary);
+    font-family: 'MonoLisa', monospace;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .blog-prose :global(h1),
+  .blog-prose :global(h2),
+  .blog-prose :global(h3),
+  .blog-prose :global(h4) {
+    color: var(--text-primary);
+    font-family: 'MonoLisa', monospace;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+  .blog-prose :global(h2) {
+    font-size: 24px;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .blog-prose :global(h3) {
+    font-size: 18px;
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+  .blog-prose :global(p) {
+    margin-bottom: 20px;
+  }
+  .blog-prose :global(a) {
+    color: var(--ind-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .blog-prose :global(a:hover) {
+    color: var(--ind-accent-hover);
+  }
+  .blog-prose :global(pre) {
+    background: var(--surface) !important;
+    border: 1px solid var(--border-medium);
+    padding: 20px;
+    margin: 24px 0;
+    overflow-x: auto;
+    font-family: 'MonoLisa', monospace;
+    font-size: 13px;
+  }
+  .blog-prose :global(blockquote) {
+    border-left: 3px solid var(--ind-accent);
+    padding-left: 20px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin: 24px 0;
+  }
+  .blog-prose :global(ul),
+  .blog-prose :global(ol) {
+    padding-left: 20px;
+    margin-bottom: 20px;
+  }
+  .blog-prose :global(li) {
+    margin-bottom: 8px;
+  }
+  .blog-prose :global(img) {
+    max-width: 100%;
+    margin: 24px 0;
+  }
+  .blog-prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--border-medium);
+    margin: 32px 0;
+  }
+  .blog-prose :global(table) {
+    width: 100%;
+    border: 1px solid var(--border-strong);
+    border-collapse: collapse;
+    margin: 24px 0;
+  }
+  .blog-prose :global(th),
+  .blog-prose :global(td) {
+    border: 1px solid var(--border-strong);
+    padding: 10px 14px;
+    font-family: 'MonoLisa', monospace;
+    font-size: 13px;
+  }
+  .blog-prose :global(th) {
+    background: var(--surface);
+    color: var(--text-primary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 11px;
+  }
+  @media (max-width: 640px) {
+    article > div {
+      padding: 0 24px !important;
+    }
+  }
+</style>

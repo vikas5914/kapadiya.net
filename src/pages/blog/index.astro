@@ -1,12 +1,9 @@
 ---
 import Base from "../../layouts/Base.astro";
-import { Calendar, ArrowRight, Clock } from "lucide-react";
-import Button from "@components/ui/Button.astro";
 import { getCollection } from "astro:content";
 
 const allPosts = await getCollection("posts");
 
-// Sort posts by date (newest first)
 const blogPosts = allPosts
   .map((post: any) => ({
     ...post.data,
@@ -22,143 +19,125 @@ const blogPosts = allPosts
   title="Blog - Vikas Kapadiya"
   description="Blog posts about full-stack development, Laravel, Node.js, and modern web technologies."
 >
-  <main class="pt-20">
-    <section class="py-20 bg-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-          <h1 class="text-4xl font-bold text-gray-900 mb-4">Blog Posts</h1>
-          <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-            Sharing insights, tutorials, and stories from the world of
-            full-stack development
-          </p>
+  <section style="padding: 72px 0; border-top: 1px solid var(--border-medium);">
+    <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+      <!-- Header -->
+      <div style="margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border-soft);">
+        <div
+          style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 12px;"
+        >
+          Writing
         </div>
-
-        {blogPosts.length > 0 ? (
-          <>
-            <div class="grid lg:grid-cols-2 gap-8 mb-12">
-              <!-- Featured Post -->
-              {
-                blogPosts
-                  .filter((post: any) => post.featured)
-                  .map((post: any) => (
-                    <div class="lg:col-span-2">
-                      <article class="bg-linear-to-r from-theme-orange to-theme-orange-dark p-8 text-white relative overflow-hidden">
-                        <div class="absolute inset-0 grid-pattern opacity-10" />
-                        <div class="relative z-10">
-                          <div class="flex items-center space-x-4 mb-4">
-                            <span class="bg-white/20 px-3 py-1 text-sm font-medium">
-                              Featured
-                            </span>
-                            <span class="bg-white/20 px-3 py-1 text-sm font-medium">
-                              {post.category}
-                            </span>
-                          </div>
-
-                          <h3 class="text-3xl font-bold mb-4">{post.title}</h3>
-                          <p class="text-white/90 text-lg mb-6 leading-relaxed">
-                            {post.excerpt}
-                          </p>
-
-                          <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-6 text-white/80">
-                              <div class="flex items-center space-x-2">
-                                <Calendar className="h-4 w-4" />
-                                <span class="text-sm">
-                                  {new Date(post.date).toLocaleDateString()}
-                                </span>
-                              </div>
-                              <div class="flex items-center space-x-2">
-                                <Clock className="h-4 w-4" />
-                                <span class="text-sm">{post.readTime}</span>
-                              </div>
-                            </div>
-
-                            <Button
-                              variant="secondary"
-                              size="sm"
-                              class="bg-white text-theme-orange hover:bg-white/90"
-                              href={`/blog/${post.slug}`}
-                            >
-                              Read More <ArrowRight className="h-4 w-4 ml-2" />
-                            </Button>
-                          </div>
-                        </div>
-                      </article>
-                    </div>
-                  ))
-              }
-            </div>
-
-            <!-- Regular Posts -->
-            <div class="grid md:grid-cols-2 gap-8">
-              {
-                blogPosts
-                  .filter((post: any) => !post.featured)
-                  .map((post: any) => (
-                    <article class="bg-white border border-gray-200 p-6 hover:shadow-lg transition-shadow duration-300">
-                      <div class="flex items-center space-x-2 mb-3">
-                        <span class="bg-theme-orange/10 text-theme-orange px-3 py-1 text-sm font-medium">
-                          {post.category}
-                        </span>
-                      </div>
-
-                      <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-theme-orange transition-colors duration-200">
-                        {post.title}
-                      </h3>
-                      <p class="text-gray-600 mb-4 leading-relaxed">
-                        {post.excerpt}
-                      </p>
-
-                      <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-4 text-gray-500 text-sm">
-                          <div class="flex items-center space-x-1">
-                            <Calendar className="h-4 w-4" />
-                            <span>{new Date(post.date).toLocaleDateString()}</span>
-                          </div>
-                          <div class="flex items-center space-x-1">
-                            <Clock className="h-4 w-4" />
-                            <span>{post.readTime}</span>
-                          </div>
-                        </div>
-
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          href={`/blog/${post.slug}`}
-                          class="text-theme-orange hover:text-theme-orange-dark"
-                        >
-                          Read More <ArrowRight className="h-4 w-4 ml-1" />
-                        </Button>
-                      </div>
-                    </article>
-                  ))
-              }
-            </div>
-          </>
-        ) : (
-          <!-- Empty State -->
-          <div class="text-center py-16">
-            <div class="max-w-md mx-auto">
-              <div class="mb-6">
-                <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </div>
-              <h3 class="text-xl font-semibold text-gray-900 mb-2">No blog posts yet</h3>
-              <p class="text-gray-600 mb-6">
-                I'm working on some exciting content! Check back soon for insights, tutorials, and stories from the world of full-stack development.
-              </p>
-              <Button
-                variant="orange"
-                size="lg"
-                href="/"
-              >
-                Back to Home
-              </Button>
-            </div>
-          </div>
-        )}
+        <h1
+          style="font-family: 'MonoLisa', monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); line-height: 0.95;"
+        >
+          Blog Posts
+        </h1>
       </div>
-    </section>
-  </main>
+
+      {blogPosts.length > 0 ? (
+        <div class="flex flex-col" style="border: 1px solid var(--border-strong);">
+          {blogPosts.map((post: any, i: number) => (
+            <a
+              href={`/blog/${post.slug}`}
+              class="blog-post-link block no-underline"
+              style={`display: grid; grid-template-columns: 60px 1fr auto; transition: background 240ms ease;${i < blogPosts.length - 1 ? ' border-bottom: 1px solid var(--border-strong);' : ''}`}
+            >
+              <div
+                style="font-family: 'MonoLisa', monospace; font-size: 13px; font-style: italic; color: var(--text-muted); padding: 24px 16px; border-right: 1px solid var(--border-strong); display: flex; align-items: center;"
+              >
+                0{i + 1}
+              </div>
+              <div style="padding: 24px;">
+                <div class="flex items-center gap-3" style="margin-bottom: 8px;">
+                  <span
+                    style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); background: var(--ind-accent-muted); padding: 4px 8px;"
+                  >
+                    {post.category}
+                  </span>
+                  {post.featured && (
+                    <span
+                      style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); background: var(--surface-elevated); padding: 4px 8px;"
+                    >
+                      Featured
+                    </span>
+                  )}
+                </div>
+                <div
+                  style="font-family: 'MonoLisa', monospace; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 6px;"
+                >
+                  {post.title}
+                </div>
+                <div
+                  style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.6; color: var(--text-muted); max-width: 600px;"
+                >
+                  {post.excerpt}
+                </div>
+              </div>
+              <div
+                class="flex flex-col items-end justify-center gap-2"
+                style="padding: 24px; border-left: 1px solid var(--border-strong);"
+              >
+                <span
+                  style="font-family: 'MonoLisa', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: -0.02em;"
+                >
+                  {new Date(post.date).toLocaleDateString()}
+                </span>
+                <span
+                  style="font-family: 'MonoLisa', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: -0.02em;"
+                >
+                  {post.readTime}
+                </span>
+                <span style="font-family: 'MonoLisa', monospace; font-size: 14px; color: var(--ind-accent);">→</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div style="text-align: center; padding: 72px 0;">
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;"
+          >
+            No blog posts yet
+          </div>
+          <div
+            style="font-family: 'MonoLisa', monospace; font-size: 13px; color: var(--text-muted); margin-bottom: 24px; max-width: 400px; margin-inline: auto; line-height: 1.6;"
+          >
+            I'm working on some exciting content! Check back soon for insights
+            and tutorials.
+          </div>
+          <a
+            href="/"
+            class="inline-block no-underline"
+            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; padding: 12px 24px;"
+          >
+            ← Back to Home
+          </a>
+        </div>
+      )}
+    </div>
+  </section>
 </Base>
+
+<style>
+  .blog-post-link:hover {
+    background: var(--surface) !important;
+  }
+  @media (max-width: 640px) {
+    section > div {
+      padding: 0 24px !important;
+    }
+    .blog-post-link {
+      grid-template-columns: 1fr !important;
+    }
+    .blog-post-link > div:first-child {
+      display: none !important;
+    }
+    .blog-post-link > div:last-child {
+      border-left: none !important;
+      flex-direction: row;
+      padding: 12px 24px !important;
+      border-top: 1px solid var(--border-soft);
+    }
+  }
+</style>
