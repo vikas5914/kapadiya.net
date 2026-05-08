@@ -1,116 +1,246 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-
-// Define the variant and size objects first
-const variantClasses = {
-  outline:
-    "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-};
-
-const sizeClasses = {
-  sm: "h-9 px-3",
-};
-
-// Now define the type using keyof typeof
-type ButtonProps = {
-  variant?: keyof typeof variantClasses;
-  size?: keyof typeof sizeClasses;
-  className?: string;
-  onClick?: () => void;
-  children: React.ReactNode;
-};
-
-const Button = ({
-  variant = "outline",
-  size = "sm",
-  className = "",
-  onClick,
-  children,
-}: ButtonProps) => {
-  const baseClasses =
-    "inline-flex items-center justify-center whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
-
-  const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
-
-  return (
-    <button className={classes} onClick={onClick}>
-      {children}
-    </button>
-  );
-};
 import { metaData } from "../config";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
-  const navigation = [
-    { name: "Home", href: "/" },
+  const navItems = [
+    { name: "Home", id: "home" },
+    { name: "About", id: "about" },
+    { name: "Skills", id: "skills" },
     { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "mailto:vikas@kapadiya.net" },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ["skills", "about", "home"];
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120) {
+            setActiveSection(id);
+            break;
+          }
+        }
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleNavigate = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: y, behavior: "smooth" });
+    }
+    setIsMenuOpen(false);
+  };
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <div className="flex items-center">
-            <h1 className="text-xl font-bold text-gray-900">
-              <a href="/">{metaData.title}</a>
-            </h1>
-          </div>
-
-          <div className="flex items-center space-x-8">
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-theme-orange transition-colors duration-200 font-medium"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="md:hidden"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <X className="h-4 w-4" />
-              ) : (
-                <Menu className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation - Fixed positioning to prevent layout shift */}
-        <div
-          className={`md:hidden absolute left-0 right-0 top-full bg-white/95 backdrop-blur-md border-b border-gray-200 transition-all duration-300 ease-in-out ${
-            isMenuOpen
-              ? "opacity-100 translate-y-0 pointer-events-auto"
-              : "opacity-0 -translate-y-2 pointer-events-none"
-          }`}
+    <header
+      className="fixed top-0 left-0 right-0 z-50 border-b"
+      style={{
+        background: "var(--bg-main)",
+        borderColor: "var(--border-medium)",
+      }}
+    >
+      <div
+        className="mx-auto flex items-center justify-between"
+        style={{
+          maxWidth: "var(--container-max)",
+          padding: "0 48px",
+          height: "64px",
+        }}
+      >
+        {/* Brand */}
+        <a
+          href="/"
+          className="flex items-center gap-2.5 no-underline"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "14px",
+            fontWeight: 700,
+            letterSpacing: "0.08em",
+            textTransform: "uppercase",
+            color: "var(--ind-accent)",
+          }}
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <nav className="flex flex-col space-y-2">
-              {navigation.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-700 hover:text-theme-orange transition-colors duration-200 font-medium py-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-            </nav>
+          <div
+            className="flex items-center justify-center"
+            style={{
+              width: "28px",
+              height: "28px",
+              background: "var(--ind-accent)",
+              color: "#fff",
+              fontFamily: "'MonoLisa', monospace",
+              fontSize: "11px",
+              fontWeight: 700,
+            }}
+          >
+            VK
           </div>
+          <span className="hidden sm:inline">Vikas Kapadiya</span>
+        </a>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navItems.map((item) =>
+            item.href ? (
+              <a
+                key={item.name}
+                href={item.href}
+                className="transition-colors duration-200"
+                style={{
+                  fontFamily: "'MonoLisa', monospace",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                  textDecoration: "none",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.color = "var(--ind-accent)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.color = "var(--text-secondary)")
+                }
+              >
+                {item.name}
+              </a>
+            ) : (
+              <button
+                key={item.name}
+                onClick={() => handleNavigate(item.id!)}
+                className="transition-colors duration-200 bg-transparent border-none cursor-pointer p-0"
+                style={{
+                  fontFamily: "'MonoLisa', monospace",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color:
+                    activeSection === item.id
+                      ? "var(--ind-accent)"
+                      : "var(--text-secondary)",
+                }}
+                onMouseEnter={(e) => {
+                  if (activeSection !== item.id)
+                    e.currentTarget.style.color = "var(--ind-accent)";
+                }}
+                onMouseLeave={(e) => {
+                  if (activeSection !== item.id)
+                    e.currentTarget.style.color = "var(--text-secondary)";
+                }}
+              >
+                {item.name}
+              </button>
+            )
+          )}
+          <a
+            href="mailto:vikas@kapadiya.net"
+            style={{
+              fontFamily: "'MonoLisa', monospace",
+              fontSize: "11px",
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              background: "var(--ind-accent)",
+              color: "#fff",
+              border: "none",
+              padding: "10px 20px",
+              textDecoration: "none",
+              transition: "opacity 240ms ease",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+          >
+            Contact →
+          </a>
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden bg-transparent border-none cursor-pointer p-2"
+          style={{ color: "var(--text-primary)" }}
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Mobile Navigation */}
+      <div
+        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+          isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        }`}
+        style={{
+          background: "var(--bg-main)",
+          borderTop: "1px solid var(--border-medium)",
+        }}
+      >
+        <div className="px-12 py-6 flex flex-col gap-4">
+          {navItems.map((item) =>
+            item.href ? (
+              <a
+                key={item.name}
+                href={item.href}
+                style={{
+                  fontFamily: "'MonoLisa', monospace",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "var(--text-secondary)",
+                  textDecoration: "none",
+                  padding: "8px 0",
+                }}
+              >
+                {item.name}
+              </a>
+            ) : (
+              <button
+                key={item.name}
+                onClick={() => handleNavigate(item.id!)}
+                className="bg-transparent border-none cursor-pointer text-left"
+                style={{
+                  fontFamily: "'MonoLisa', monospace",
+                  fontSize: "12px",
+                  fontWeight: 400,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color:
+                    activeSection === item.id
+                      ? "var(--ind-accent)"
+                      : "var(--text-secondary)",
+                  padding: "8px 0",
+                }}
+              >
+                {item.name}
+              </button>
+            )
+          )}
+          <a
+            href="mailto:vikas@kapadiya.net"
+            className="inline-block text-center mt-2"
+            style={{
+              fontFamily: "'MonoLisa', monospace",
+              fontSize: "11px",
+              fontWeight: 500,
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              background: "var(--ind-accent)",
+              color: "#fff",
+              padding: "10px 20px",
+              textDecoration: "none",
+            }}
+          >
+            Contact →
+          </a>
         </div>
       </div>
     </header>
