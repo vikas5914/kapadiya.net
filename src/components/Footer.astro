@@ -92,18 +92,20 @@ const cols = [
         © {YEAR} Vikas Kapadiya — All rights reserved
       </span>
       <div class="flex gap-6">
-        <span
+        <button
+          type="button"
           class="footer-bottom-link"
-          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease;"
+          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease; background: none; border: none; padding: 0;"
         >
           Privacy
-        </span>
-        <span
+        </button>
+        <button
+          type="button"
           class="footer-bottom-link"
-          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease;"
+          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease; background: none; border: none; padding: 0;"
         >
           Built with care
-        </span>
+        </button>
       </div>
     </div>
   </div>
@@ -113,8 +115,16 @@ const cols = [
   .footer-link:hover {
     color: var(--ind-accent) !important;
   }
+  .footer-link:focus-visible {
+    outline: 2px solid var(--ind-accent);
+    outline-offset: 2px;
+  }
   .footer-bottom-link:hover {
     color: var(--ind-accent) !important;
+  }
+  .footer-bottom-link:focus-visible {
+    outline: 2px solid var(--ind-accent);
+    outline-offset: 2px;
   }
   @media (max-width: 768px) {
     .footer-grid {

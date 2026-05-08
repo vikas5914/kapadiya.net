@@ -32,7 +32,7 @@ import { skills } from "../config";
         <div class="flex justify-between items-end">
           <div class="flex flex-col gap-1">
             <div
-              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1;"
+              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1; font-variant-numeric: tabular-nums;"
             >
               8+
             </div>
@@ -44,7 +44,7 @@ import { skills } from "../config";
           </div>
           <div class="flex flex-col gap-1">
             <div
-              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1;"
+              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1; font-variant-numeric: tabular-nums;"
             >
               6
             </div>
@@ -56,7 +56,7 @@ import { skills } from "../config";
           </div>
           <div class="flex flex-col gap-1">
             <div
-              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1;"
+              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1; font-variant-numeric: tabular-nums;"
             >
               v5+
             </div>
@@ -158,6 +158,11 @@ import { skills } from "../config";
 </script>
 
 <style>
+  @media (prefers-reduced-motion: reduce) {
+    .skill-bar-fill {
+      transition: none !important;
+    }
+  }
   @media (max-width: 768px) {
     .skills-grid {
       grid-template-columns: 1fr !important;

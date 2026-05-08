@@ -83,7 +83,7 @@ const socials = [
           </div>
           <a
             href="mailto:vikas@kapadiya.net"
-            class="inline-flex items-center gap-2 no-underline"
+            class="inline-flex items-center gap-2 no-underline cta-link"
             style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; border: none; padding: 12px 24px; transition: opacity 240ms ease;"
           >
             Get in touch →
@@ -145,7 +145,7 @@ const socials = [
             target="_blank"
             rel="noopener noreferrer"
             class="community-link no-underline"
-            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ind-accent); border: 1px solid var(--ind-accent); padding: 10px 20px; background: transparent; transition: all 240ms ease;"
+            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ind-accent); border: 1px solid var(--ind-accent); padding: 10px 20px; background: transparent; transition: background 240ms ease, color 240ms ease;"
           >
             Join →
           </a>
@@ -159,9 +159,21 @@ const socials = [
   .social-item:hover {
     background: var(--surface) !important;
   }
+  .social-item:focus-visible {
+    outline: 2px solid var(--ind-accent);
+    outline-offset: -2px;
+  }
   .community-link:hover {
     background: var(--ind-accent) !important;
     color: #fff !important;
+  }
+  .community-link:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+  .cta-link:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
   }
   @media (max-width: 768px) {
     .about-grid {

@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
+const focusVisibleClass =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ind-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-main)]";
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -92,7 +95,7 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="transition-colors duration-200"
+                className={`transition-colors duration-200 ${focusVisibleClass}`}
                 style={{
                   fontFamily: "'MonoLisa', monospace",
                   fontSize: "12px",
@@ -115,7 +118,7 @@ const Header = () => {
               <button
                 key={item.name}
                 onClick={() => handleNavigate(item.id!)}
-                className="transition-colors duration-200 bg-transparent border-none cursor-pointer p-0"
+                className={`transition-colors duration-200 bg-transparent border-none cursor-pointer p-0 ${focusVisibleClass}`}
                 style={{
                   fontFamily: "'MonoLisa', monospace",
                   fontSize: "12px",
@@ -142,6 +145,7 @@ const Header = () => {
           )}
           <a
             href="mailto:vikas@kapadiya.net"
+            className={focusVisibleClass}
             style={{
               fontFamily: "'MonoLisa', monospace",
               fontSize: "11px",
@@ -164,17 +168,18 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden bg-transparent border-none cursor-pointer p-2"
+          className={`md:hidden bg-transparent border-none cursor-pointer p-2 ${focusVisibleClass}`}
           style={{ color: "var(--text-primary)" }}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Close menu" : "Toggle menu"}
         >
-          {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          {isMenuOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
         </button>
       </div>
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${
+        className={`md:hidden transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden ${
           isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{
