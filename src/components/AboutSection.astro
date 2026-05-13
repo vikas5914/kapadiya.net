@@ -11,80 +11,54 @@ const socials = [
 ];
 ---
 
-<section
-  id="about"
-  style="padding-top: 72px; padding-bottom: 72px; border-top: 1px solid var(--border-medium);"
->
-  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+<section id="about" class="py-18 border-t border-border-medium">
+  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
     <!-- Section Header -->
-    <div
-      class="flex justify-between items-end"
-      style="margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border-soft);"
-    >
+    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-12 pb-6 border-b border-border-soft">
       <div>
-        <div
-          style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 12px;"
-        >
+        <div class="text-[11px] font-medium tracking-[0.12em] uppercase text-ind-accent mb-3">
           Background
         </div>
-        <h2
-          style="font-family: 'MonoLisa', monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); line-height: 0.95;"
-        >
+        <h2 class="text-[40px] font-bold tracking-[-0.04em] uppercase text-text-primary leading-[0.95]">
           About Me
         </h2>
       </div>
-      <div
-        class="hidden md:block"
-        style="font-family: 'MonoLisa', monospace; font-size: 13px; color: var(--text-muted); letter-spacing: -0.02em; max-width: 380px; line-height: 1.6; text-align: right;"
-      >
+      <div class="hidden md:block text-[13px] text-text-muted tracking-[-0.02em] max-w-[380px] leading-[1.6] text-right">
         Passionate full-stack developer with over 8 years of experience crafting digital solutions.
       </div>
     </div>
 
     <!-- Two Column Grid -->
-    <div class="about-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px;">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
       <!-- Left Column — About Text -->
       <div class="flex flex-col gap-6">
-        <p
-          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary);"
-        >
+        <p class="text-[14px] leading-[1.7] tracking-[-0.02em] [word-spacing:-0.08em] text-text-secondary">
           I'm a passionate full-stack developer with over 8 years of experience crafting
           digital solutions. My journey started with PHP, and I've been riding the Laravel
           wave since version 5.
         </p>
-        <p
-          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary);"
-        >
+        <p class="text-[14px] leading-[1.7] tracking-[-0.02em] [word-spacing:-0.08em] text-text-secondary">
           When I'm not debugging code or exploring new frameworks, you'll find me contributing
           to open-source projects or helping fellow developers on Laravel Artisan community.
           I believe in writing clean, maintainable code and sharing knowledge with the
           developer community.
         </p>
-        <p
-          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary);"
-        >
+        <p class="text-[14px] leading-[1.7] tracking-[-0.02em] [word-spacing:-0.08em] text-text-secondary">
           Currently, I'm exploring the intersection of AI and web development, experimenting
           with tools that can enhance developer productivity while maintaining code quality.
         </p>
 
         <!-- CTA Block -->
-        <div
-          style="background: var(--surface); padding: 28px; margin-top: 8px; box-shadow: var(--shadow-sm);"
-        >
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 8px;"
-          >
+        <div class="bg-surface p-7 mt-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+          <div class="text-[12px] font-medium tracking-[0.06em] uppercase text-ind-accent mb-2">
             Available for freelance work
           </div>
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; letter-spacing: -0.02em; color: var(--text-secondary); margin-bottom: 20px;"
-          >
+          <div class="text-[13px] leading-[1.65] tracking-[-0.02em] text-text-secondary mb-5">
             Let's build something amazing together!
           </div>
           <a
             href="mailto:vikas@kapadiya.net"
-            class="inline-flex items-center gap-2 no-underline cta-link"
-            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; border: none; padding: 12px 24px; transition: opacity 240ms ease;"
+            class="inline-flex items-center gap-2 no-underline text-[12px] font-semibold tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent border-none px-6 py-3 transition-opacity duration-[240ms] hover:opacity-90 focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2"
           >
             Get in touch →
           </a>
@@ -92,7 +66,7 @@ const socials = [
       </div>
 
       <!-- Right Column — Social Grid -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--border-strong);">
+      <div class="grid grid-cols-1 sm:grid-cols-2 border border-border-strong">
         {socials.map((s, i) => {
           const isRight = i % 2 === 1;
           const isLastRow = i >= socials.length - 2;
@@ -101,22 +75,20 @@ const socials = [
               href={s.href}
               target={s.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              class="social-item block no-underline"
-              style={`padding: 20px; transition: background 240ms ease;${!isRight ? ' border-right: 1px solid var(--border-strong);' : ''}${!isLastRow ? ' border-bottom: 1px solid var(--border-strong);' : ''}`}
+              class:list={[
+                "block no-underline p-5 transition-colors duration-[240ms]",
+                "hover:bg-surface focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:-outline-offset-2",
+                !isRight && "sm:border-r border-border-strong",
+                !isLastRow && "border-b border-border-strong",
+              ]}
             >
-              <div
-                style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px;"
-              >
+              <div class="text-[10px] font-medium tracking-[0.12em] uppercase text-text-muted mb-2">
                 {s.label}
               </div>
-              <div
-                style="font-family: 'MonoLisa', monospace; font-size: 14px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary);"
-              >
+              <div class="text-[14px] font-semibold tracking-[-0.02em] text-text-primary">
                 {s.value}
               </div>
-              <div
-                style="font-family: 'MonoLisa', monospace; font-size: 14px; color: var(--ind-accent); margin-top: 8px;"
-              >
+              <div class="text-[14px] text-ind-accent mt-2">
                 →
               </div>
             </a>
@@ -124,19 +96,12 @@ const socials = [
         })}
 
         <!-- Community Block -->
-        <div
-          class="flex justify-between items-center"
-          style="grid-column: 1 / -1; padding: 24px; border-top: 1px solid var(--border-strong);"
-        >
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 col-span-full p-6 border-t border-border-strong">
           <div>
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px;"
-            >
+            <div class="text-[10px] font-medium tracking-[0.12em] uppercase text-text-muted mb-1.5">
               Community
             </div>
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 16px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary);"
-            >
+            <div class="text-[16px] font-bold tracking-[-0.04em] uppercase text-text-primary">
               Laravel Artisan
             </div>
           </div>
@@ -144,8 +109,7 @@ const socials = [
             href="https://telegram.me/LaravelArtisans"
             target="_blank"
             rel="noopener noreferrer"
-            class="community-link no-underline"
-            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ind-accent); border: 1px solid var(--ind-accent); padding: 10px 20px; background: transparent; transition: background 240ms ease, color 240ms ease;"
+            class="no-underline text-[11px] font-medium tracking-[0.1em] uppercase text-ind-accent border border-ind-accent px-5 py-2.5 bg-transparent transition-colors duration-[240ms] hover:bg-ind-accent hover:text-text-on-accent focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 shrink-0"
           >
             Join →
           </a>
@@ -154,45 +118,3 @@ const socials = [
     </div>
   </div>
 </section>
-
-<style>
-  .social-item:hover {
-    background: var(--surface) !important;
-  }
-  .social-item:focus-visible {
-    outline: 2px solid var(--ind-accent);
-    outline-offset: -2px;
-  }
-  .community-link:hover {
-    background: var(--ind-accent) !important;
-    color: #fff !important;
-  }
-  .community-link:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
-  .cta-link:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 2px;
-  }
-  @media (max-width: 768px) {
-    .about-grid {
-      grid-template-columns: 1fr !important;
-    }
-    section > div > div:first-child {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-    section > div > div:first-child > div:last-child {
-      text-align: left !important;
-    }
-  }
-  @media (max-width: 640px) {
-    section > div {
-      padding: 0 24px !important;
-    }
-    .about-grid > div:last-child {
-      grid-template-columns: 1fr !important;
-    }
-  }
-</style>
