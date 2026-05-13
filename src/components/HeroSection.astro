@@ -1,46 +1,43 @@
 ---
 import { Image } from "astro:assets";
 import profile from "@images/profile.jpg";
+
+const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
 ---
 
-<section id="home" class="relative" style="padding-top: 128px; padding-bottom: 72px;">
-  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+<section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
+  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
     <!-- Top Label -->
-    <div
-      class="flex items-center gap-3"
-      style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 24px;"
-    >
-      <div style="width: 32px; height: 1px; background: var(--ind-accent);"></div>
+    <div class="flex items-center gap-3 text-[11px] font-medium tracking-[0.12em] uppercase text-ind-accent mb-6">
+      <div class="w-8 h-px bg-ind-accent"></div>
       Portfolio&nbsp;—&nbsp;2026
     </div>
 
     <!-- Main Layout -->
-    <div class="grid gap-12 items-start" style="grid-template-columns: 1fr 400px;">
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-start">
       <!-- Left Content -->
       <div>
-        <h1
-          style="font-family: 'MonoLisa', monospace; font-size: clamp(48px, 5.5vw, 80px); font-weight: 700; line-height: 0.95; letter-spacing: -0.04em; word-spacing: -0.15em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 32px;"
-        >
+        <h1 class="text-[36px] sm:text-[clamp(48px,5.5vw,80px)] font-bold leading-[0.95] tracking-[-0.04em] [word-spacing:-0.15em] uppercase text-text-primary mb-8">
           I work with
-          <span class="block" style="color: var(--ind-accent);">Noobs.</span>
+          <span class="block text-ind-accent">Noobs.</span>
         </h1>
 
-        <p
-          style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; word-spacing: -0.08em; color: var(--text-secondary); max-width: 560px; margin-bottom: 48px;"
-        >
+        <p class="text-[14px] leading-[1.7] tracking-[-0.02em] [word-spacing:-0.08em] text-text-secondary max-w-[560px] mb-12">
           Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves
           PHP almost as much as I love coffee (almost!). In my world, function
           declarations rule, and PHP 8's latest features are my playground.
         </p>
 
         <!-- Role Tags -->
-        <div class="flex" style="border: 1px solid var(--border-strong); flex-wrap: wrap;">
-          {["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"].map((tag, i, arr) => (
+        <div class="flex flex-col sm:flex-row flex-wrap border border-border-strong">
+          {tags.map((tag, i, arr) => (
             <div
-              class="flex items-center gap-2.5"
-              style={`padding: 14px 20px; font-family: 'MonoLisa', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-primary); font-weight: 500;${i < arr.length - 1 ? ' border-right: 1px solid var(--border-strong);' : ''}`}
+              class:list={[
+                "flex items-center gap-2.5 px-5 py-3.5 text-[12px] font-medium tracking-[0.06em] uppercase text-text-primary",
+                i < arr.length - 1 && "sm:border-r border-b sm:border-b-0 border-border-strong",
+              ]}
             >
-              <div style="width: 8px; height: 8px; background: var(--ind-accent); flex-shrink: 0;"></div>
+              <div class="w-2 h-2 bg-ind-accent shrink-0"></div>
               {tag}
             </div>
           ))}
@@ -48,12 +45,9 @@ import profile from "@images/profile.jpg";
       </div>
 
       <!-- Right Content — Profile Card -->
-      <div style="background: var(--surface); box-shadow: var(--shadow-industrial); overflow: hidden;">
+      <div class="bg-surface shadow-[0_30px_60px_rgba(0,0,0,0.12)] overflow-hidden order-first md:order-none">
         <!-- Profile Image -->
-        <div
-          class="relative flex items-center justify-center overflow-hidden"
-          style="width: 100%; height: 360px; background: var(--ind-accent);"
-        >
+        <div class="relative flex items-center justify-center overflow-hidden w-full h-[360px] bg-ind-accent">
           <Image
             src={profile}
             alt="Vikas Kapadiya"
@@ -63,43 +57,37 @@ import profile from "@images/profile.jpg";
             loading="eager"
           />
           <!-- Overlay -->
-          <div
-            class="absolute bottom-0 left-0 right-0 flex justify-between items-center"
-            style="padding: 16px 20px; background: rgba(0,0,0,0.6);"
-          >
-            <span style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7);">
+          <div class="absolute bottom-0 left-0 right-0 flex justify-between items-center px-5 py-4 bg-black/60">
+            <span class="text-[11px] tracking-[0.1em] uppercase text-white/70">
               Status
             </span>
-            <span style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fff; font-weight: 600;">
+            <span class="text-[11px] tracking-[0.08em] uppercase text-white font-semibold">
               Available
             </span>
           </div>
         </div>
 
         <!-- Profile Info -->
-        <div style="padding: 24px;">
-          <div style="font-family: 'MonoLisa', monospace; font-size: 18px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 8px;">
+        <div class="p-6">
+          <div class="text-[18px] font-bold tracking-[-0.04em] uppercase text-text-primary mb-2">
             Vikas Kapadiya
           </div>
-          <div style="font-family: 'MonoLisa', monospace; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 16px;">
+          <div class="text-[12px] tracking-[0.06em] uppercase text-ind-accent mb-4">
             Full-Stack Developer
           </div>
-          <div style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; letter-spacing: -0.02em; color: var(--text-muted);">
+          <div class="text-[13px] leading-[1.65] tracking-[-0.02em] text-text-muted">
             By day, I juggle Laravel, Node.js, MySQL, and Tailwind to create web magic,
             and by night… well, I'm probably debugging.
           </div>
         </div>
 
         <!-- Status Row -->
-        <div
-          class="flex justify-between items-center"
-          style="border-top: 1px solid var(--border-soft); padding: 14px 24px;"
-        >
-          <span style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-success-raw); font-weight: 500; display: flex; align-items: center;">
-            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--color-success-raw); display: inline-block; margin-right: 8px;"></span>
+        <div class="flex justify-between items-center border-t border-border-soft px-6 py-3.5">
+          <span class="flex items-center text-[11px] tracking-[0.08em] uppercase text-success font-medium">
+            <span class="w-2 h-2 rounded-full bg-success inline-block mr-2"></span>
             Available for freelance
           </span>
-          <span style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: -0.02em; color: var(--text-muted);">
+          <span class="text-[11px] tracking-[-0.02em] text-text-muted">
             REV 2026.05
           </span>
         </div>
@@ -107,35 +95,3 @@ import profile from "@images/profile.jpg";
     </div>
   </div>
 </section>
-
-<style>
-  @media (max-width: 768px) {
-    section > div > div:last-child {
-      grid-template-columns: 1fr !important;
-    }
-    section > div > div:last-child > div:last-child {
-      order: -1;
-    }
-    section > div > div:nth-child(3) {
-      grid-template-columns: 1fr !important;
-    }
-    section > div > div:nth-child(3) > div:last-child > div:last-child {
-      max-width: 100% !important;
-    }
-  }
-  @media (max-width: 640px) {
-    section {
-      padding-top: 96px !important;
-      padding-bottom: 48px !important;
-    }
-    section > div {
-      padding: 0 24px !important;
-    }
-    h1 {
-      font-size: 36px !important;
-    }
-    section > div > div:nth-child(3) > div:first-child > div:last-child {
-      flex-direction: column;
-    }
-  }
-</style>

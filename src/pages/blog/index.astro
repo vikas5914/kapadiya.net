@@ -4,12 +4,19 @@ import { getCollection } from "astro:content";
 
 const allPosts = await getCollection("posts");
 
+const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
+
 const blogPosts = allPosts
-  .map((post: any) => ({
-    ...post.data,
-    id: post.id,
-    slug: post.data.slug || post.slug,
-  }))
+  .map((post: any) => {
+    const dateObj = new Date(post.data.date);
+    return {
+      ...post.data,
+      id: post.id,
+      slug: post.data.slug || post.slug,
+      formattedDate: dateFormatter.format(dateObj),
+      isoDate: dateObj.toISOString().slice(0, 10),
+    };
+  })
   .sort(
     (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -19,97 +26,76 @@ const blogPosts = allPosts
   title="Blog - Vikas Kapadiya"
   description="Blog posts about full-stack development, Laravel, Node.js, and modern web technologies."
 >
-  <section style="padding: 72px 0; border-top: 1px solid var(--border-medium);">
-    <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+  <section class="py-18 border-t border-border-medium">
+    <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
       <!-- Header -->
-      <div style="margin-bottom: 48px; padding-bottom: 24px; border-bottom: 1px solid var(--border-soft);">
-        <div
-          style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); margin-bottom: 12px;"
-        >
+      <div class="mb-12 pb-6 border-b border-border-soft">
+        <div class="text-[11px] font-medium tracking-[0.12em] uppercase text-ind-accent mb-3">
           Writing
         </div>
-        <h1
-          style="font-family: 'MonoLisa', monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); line-height: 0.95;"
-        >
+        <h1 class="text-[40px] font-bold tracking-[-0.04em] uppercase text-text-primary leading-[0.95]">
           Blog Posts
         </h1>
       </div>
 
       {blogPosts.length > 0 ? (
-        <div class="flex flex-col" style="border: 1px solid var(--border-strong);">
+        <div class="flex flex-col border border-border-strong">
           {blogPosts.map((post: any, i: number) => (
             <a
               href={`/blog/${post.slug}`}
-              class="blog-post-link block no-underline"
-              style={`display: grid; grid-template-columns: 60px 1fr auto; transition: background 240ms ease;${i < blogPosts.length - 1 ? ' border-bottom: 1px solid var(--border-strong);' : ''}`}
+              class:list={[
+                "block no-underline grid grid-cols-1 sm:grid-cols-[60px_1fr_auto] transition-colors duration-[240ms] hover:bg-surface",
+                i < blogPosts.length - 1 && "border-b border-border-strong",
+              ]}
             >
-              <div
-                style="font-family: 'MonoLisa', monospace; font-size: 13px; font-style: italic; color: var(--text-muted); padding: 24px 16px; border-right: 1px solid var(--border-strong); display: flex; align-items: center;"
-              >
+              <div class="hidden sm:flex items-center text-[13px] italic text-text-muted px-4 py-6 border-r border-border-strong">
                 0{i + 1}
               </div>
-              <div style="padding: 24px;">
-                <div class="flex items-center gap-3" style="margin-bottom: 8px;">
-                  <span
-                    style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); background: var(--ind-accent-muted); padding: 4px 8px;"
-                  >
+              <div class="p-6">
+                <div class="flex items-center gap-3 mb-2">
+                  <span class="text-[11px] font-semibold tracking-[0.12em] uppercase text-text-on-accent bg-ind-accent px-2.5 py-1.5">
                     {post.category}
                   </span>
                   {post.featured && (
-                    <span
-                      style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); background: var(--surface-elevated); padding: 4px 8px;"
-                    >
+                    <span class="text-[11px] font-bold tracking-[0.12em] uppercase text-ind-accent bg-bg-main border border-ind-accent px-2 py-1">
                       Featured
                     </span>
                   )}
                 </div>
-                <div
-                  style="font-family: 'MonoLisa', monospace; font-size: 16px; font-weight: 600; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 6px;"
-                >
+                <div class="text-[16px] font-semibold tracking-[-0.02em] text-text-primary mb-1.5">
                   {post.title}
                 </div>
-                <div
-                  style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.6; color: var(--text-muted); max-width: 600px;"
-                >
+                <div class="text-[13px] leading-[1.6] text-text-muted max-w-[600px]">
                   {post.excerpt}
                 </div>
               </div>
-              <div
-                class="flex flex-col items-end justify-center gap-2"
-                style="padding: 24px; border-left: 1px solid var(--border-strong);"
-              >
-                <span
-                  style="font-family: 'MonoLisa', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: -0.02em;"
+              <div class="flex sm:flex-col flex-row items-center sm:items-end sm:justify-center gap-2 px-6 py-3 sm:p-6 border-t sm:border-t-0 sm:border-l border-border-soft sm:border-border-strong">
+                <time
+                  datetime={post.isoDate}
+                  class="text-[12px] text-text-secondary tracking-[-0.02em]"
                 >
-                  {new Date(post.date).toLocaleDateString()}
-                </span>
-                <span
-                  style="font-family: 'MonoLisa', monospace; font-size: 11px; color: var(--text-muted); letter-spacing: -0.02em;"
-                >
+                  {post.formattedDate}
+                </time>
+                <span class="text-[12px] text-text-secondary tracking-[-0.02em]">
                   {post.readTime}
                 </span>
-                <span style="font-family: 'MonoLisa', monospace; font-size: 14px; color: var(--ind-accent);">→</span>
+                <span class="text-[14px] text-ind-accent">→</span>
               </div>
             </a>
           ))}
         </div>
       ) : (
-        <div style="text-align: center; padding: 72px 0;">
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 18px; font-weight: 600; color: var(--text-primary); margin-bottom: 12px;"
-          >
+        <div class="text-center py-18">
+          <div class="text-[18px] font-semibold text-text-primary mb-3">
             No blog posts yet
           </div>
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 13px; color: var(--text-muted); margin-bottom: 24px; max-width: 400px; margin-inline: auto; line-height: 1.6;"
-          >
+          <div class="text-[13px] text-text-muted mb-6 max-w-[400px] mx-auto leading-[1.6]">
             I'm working on some exciting content! Check back soon for insights
             and tutorials.
           </div>
           <a
             href="/"
-            class="inline-block no-underline"
-            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; padding: 12px 24px;"
+            class="inline-block no-underline text-[12px] font-semibold tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent px-6 py-3"
           >
             ← Back to Home
           </a>
@@ -118,26 +104,3 @@ const blogPosts = allPosts
     </div>
   </section>
 </Base>
-
-<style>
-  .blog-post-link:hover {
-    background: var(--surface) !important;
-  }
-  @media (max-width: 640px) {
-    section > div {
-      padding: 0 24px !important;
-    }
-    .blog-post-link {
-      grid-template-columns: 1fr !important;
-    }
-    .blog-post-link > div:first-child {
-      display: none !important;
-    }
-    .blog-post-link > div:last-child {
-      border-left: none !important;
-      flex-direction: row;
-      padding: 12px 24px !important;
-      border-top: 1px solid var(--border-soft);
-    }
-  }
-</style>

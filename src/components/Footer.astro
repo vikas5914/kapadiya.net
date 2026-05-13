@@ -30,32 +30,27 @@ const cols = [
     ],
   },
 ];
+
+const linkClass =
+  "block no-underline text-[13px] text-text-secondary tracking-[-0.02em] py-1 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
+
+const bottomLinkClass =
+  "text-[12px] text-text-muted tracking-[-0.02em] cursor-pointer bg-transparent border-none p-0 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
 ---
 
-<footer style="padding-top: 48px; padding-bottom: 48px; border-top: 1px solid var(--border-medium);">
-  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
+<footer class="py-12 border-t border-border-medium">
+  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
     <!-- Top Grid -->
-    <div
-      class="footer-grid"
-      style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid var(--border-soft);"
-    >
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 pb-12 border-b border-border-soft">
       <!-- Brand Column -->
       <div>
-        <div
-          class="flex items-center gap-2.5"
-          style="font-family: 'MonoLisa', monospace; font-size: 18px; font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 16px;"
-        >
-          <div
-            class="flex items-center justify-center"
-            style="width: 24px; height: 24px; background: var(--ind-accent); color: #fff; font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 600;"
-          >
+        <div class="flex items-center gap-2.5 text-[18px] font-bold tracking-[-0.04em] uppercase text-text-primary mb-4">
+          <div class="flex items-center justify-center w-6 h-6 bg-ind-accent text-text-on-accent text-[11px] font-bold">
             VK
           </div>
           Vikas Kapadiya
         </div>
-        <div
-          style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; letter-spacing: -0.02em; color: var(--text-muted); max-width: 320px;"
-        >
+        <div class="text-[13px] leading-[1.65] tracking-[-0.02em] text-text-muted max-w-[320px]">
           Full-stack developer passionate about creating amazing web experiences.
           Clean code, reliable systems, scalable architecture.
         </div>
@@ -64,9 +59,7 @@ const cols = [
       <!-- Link Columns -->
       {cols.map((col) => (
         <div>
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;"
-          >
+          <div class="text-[11px] font-medium tracking-[0.12em] uppercase text-text-muted mb-4">
             {col.title}
           </div>
           {col.links.map((link) => (
@@ -74,8 +67,7 @@ const cols = [
               href={link.href}
               target={link.href.startsWith("#") || link.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
-              class="footer-link block no-underline"
-              style="font-family: 'MonoLisa', monospace; font-size: 13px; color: var(--text-secondary); letter-spacing: -0.02em; padding: 4px 0; transition: color 240ms ease;"
+              class={linkClass}
             >
               {link.name}
             </a>
@@ -85,58 +77,14 @@ const cols = [
     </div>
 
     <!-- Bottom Row -->
-    <div class="flex justify-between items-center" style="padding-top: 24px;">
-      <span
-        style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;"
-      >
+    <div class="flex justify-between items-center pt-6">
+      <span class="text-[12px] text-text-muted tracking-[-0.02em]">
         © {YEAR} Vikas Kapadiya — All rights reserved
       </span>
       <div class="flex gap-6">
-        <button
-          type="button"
-          class="footer-bottom-link"
-          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease; background: none; border: none; padding: 0;"
-        >
-          Privacy
-        </button>
-        <button
-          type="button"
-          class="footer-bottom-link"
-          style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em; cursor: pointer; transition: color 240ms ease; background: none; border: none; padding: 0;"
-        >
-          Built with care
-        </button>
+        <button type="button" class={bottomLinkClass}>Privacy</button>
+        <button type="button" class={bottomLinkClass}>Built with care</button>
       </div>
     </div>
   </div>
 </footer>
-
-<style>
-  .footer-link:hover {
-    color: var(--ind-accent) !important;
-  }
-  .footer-link:focus-visible {
-    outline: 2px solid var(--ind-accent);
-    outline-offset: 2px;
-  }
-  .footer-bottom-link:hover {
-    color: var(--ind-accent) !important;
-  }
-  .footer-bottom-link:focus-visible {
-    outline: 2px solid var(--ind-accent);
-    outline-offset: 2px;
-  }
-  @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 1fr 1fr !important;
-    }
-  }
-  @media (max-width: 640px) {
-    footer > div {
-      padding: 0 24px !important;
-    }
-    .footer-grid {
-      grid-template-columns: 1fr !important;
-    }
-  }
-</style>

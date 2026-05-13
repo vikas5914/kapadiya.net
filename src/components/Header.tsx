@@ -2,7 +2,16 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const focusVisibleClass =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ind-accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--bg-main)]";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ind-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-main";
+
+const navLinkClass =
+  "no-underline text-[12px] font-normal tracking-[0.08em] uppercase text-text-secondary transition-colors duration-200 hover:text-ind-accent";
+
+const navButtonBaseClass =
+  "bg-transparent border-none cursor-pointer p-0 text-[12px] font-normal tracking-[0.08em] uppercase transition-colors duration-200 hover:text-ind-accent";
+
+const ctaClass =
+  "no-underline text-[11px] font-medium tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent border-none px-5 py-2.5 transition-opacity duration-[240ms] hover:opacity-85";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -43,46 +52,14 @@ const Header = () => {
   };
 
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 border-b"
-      style={{
-        background: "var(--bg-main)",
-        borderColor: "var(--border-medium)",
-      }}
-    >
-      <div
-        className="mx-auto flex items-center justify-between"
-        style={{
-          maxWidth: "var(--container-max)",
-          padding: "0 48px",
-          height: "64px",
-        }}
-      >
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border-medium bg-bg-main">
+      <div className="mx-auto flex items-center justify-between max-w-[1440px] h-16 px-6 sm:px-12">
         {/* Brand */}
         <a
           href="/"
-          className="flex items-center gap-2.5 no-underline"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "14px",
-            fontWeight: 700,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            color: "var(--ind-accent)",
-          }}
+          className="flex items-center gap-2.5 no-underline text-[14px] font-bold tracking-[0.08em] uppercase text-ind-accent"
         >
-          <div
-            className="flex items-center justify-center"
-            style={{
-              width: "28px",
-              height: "28px",
-              background: "var(--ind-accent)",
-              color: "#fff",
-              fontFamily: "'MonoLisa', monospace",
-              fontSize: "11px",
-              fontWeight: 700,
-            }}
-          >
+          <div className="flex items-center justify-center w-7 h-7 bg-ind-accent text-text-on-accent text-[11px] font-bold">
             VK
           </div>
           <span className="hidden sm:inline">Vikas Kapadiya</span>
@@ -95,22 +72,7 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className={`transition-colors duration-200 ${focusVisibleClass}`}
-                style={{
-                  fontFamily: "'MonoLisa', monospace",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "var(--text-secondary)",
-                  textDecoration: "none",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "var(--ind-accent)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "var(--text-secondary)")
-                }
+                className={`${navLinkClass} ${focusVisibleClass}`}
               >
                 {item.name}
               </a>
@@ -118,26 +80,9 @@ const Header = () => {
               <button
                 key={item.name}
                 onClick={() => handleNavigate(item.id!)}
-                className={`transition-colors duration-200 bg-transparent border-none cursor-pointer p-0 ${focusVisibleClass}`}
-                style={{
-                  fontFamily: "'MonoLisa', monospace",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color:
-                    activeSection === item.id
-                      ? "var(--ind-accent)"
-                      : "var(--text-secondary)",
-                }}
-                onMouseEnter={(e) => {
-                  if (activeSection !== item.id)
-                    e.currentTarget.style.color = "var(--ind-accent)";
-                }}
-                onMouseLeave={(e) => {
-                  if (activeSection !== item.id)
-                    e.currentTarget.style.color = "var(--text-secondary)";
-                }}
+                className={`${navButtonBaseClass} ${
+                  activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
+                } ${focusVisibleClass}`}
               >
                 {item.name}
               </button>
@@ -145,22 +90,7 @@ const Header = () => {
           )}
           <a
             href="mailto:vikas@kapadiya.net"
-            className={focusVisibleClass}
-            style={{
-              fontFamily: "'MonoLisa', monospace",
-              fontSize: "11px",
-              fontWeight: 500,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              background: "var(--ind-accent)",
-              color: "#fff",
-              border: "none",
-              padding: "10px 20px",
-              textDecoration: "none",
-              transition: "opacity 240ms ease",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            className={`${ctaClass} ${focusVisibleClass}`}
           >
             Contact →
           </a>
@@ -168,8 +98,7 @@ const Header = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className={`md:hidden bg-transparent border-none cursor-pointer p-2 ${focusVisibleClass}`}
-          style={{ color: "var(--text-primary)" }}
+          className={`md:hidden bg-transparent border-none cursor-pointer p-2 text-text-primary ${focusVisibleClass}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close menu" : "Toggle menu"}
         >
@@ -179,13 +108,9 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden ${
+        className={`md:hidden transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden bg-bg-main border-t border-border-medium ${
           isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
-        style={{
-          background: "var(--bg-main)",
-          borderTop: "1px solid var(--border-medium)",
-        }}
       >
         <div className="px-12 py-6 flex flex-col gap-4">
           {navItems.map((item) =>
@@ -193,16 +118,7 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                style={{
-                  fontFamily: "'MonoLisa', monospace",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "var(--text-secondary)",
-                  textDecoration: "none",
-                  padding: "8px 0",
-                }}
+                className="no-underline text-[12px] font-normal tracking-[0.08em] uppercase text-text-secondary py-2"
               >
                 {item.name}
               </a>
@@ -210,19 +126,9 @@ const Header = () => {
               <button
                 key={item.name}
                 onClick={() => handleNavigate(item.id!)}
-                className="bg-transparent border-none cursor-pointer text-left"
-                style={{
-                  fontFamily: "'MonoLisa', monospace",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color:
-                    activeSection === item.id
-                      ? "var(--ind-accent)"
-                      : "var(--text-secondary)",
-                  padding: "8px 0",
-                }}
+                className={`bg-transparent border-none cursor-pointer text-left text-[12px] font-normal tracking-[0.08em] uppercase py-2 ${
+                  activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
+                }`}
               >
                 {item.name}
               </button>
@@ -230,18 +136,7 @@ const Header = () => {
           )}
           <a
             href="mailto:vikas@kapadiya.net"
-            className="inline-block text-center mt-2"
-            style={{
-              fontFamily: "'MonoLisa', monospace",
-              fontSize: "11px",
-              fontWeight: 500,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              background: "var(--ind-accent)",
-              color: "#fff",
-              padding: "10px 20px",
-              textDecoration: "none",
-            }}
+            className="inline-block text-center mt-2 no-underline text-[11px] font-medium tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent px-5 py-2.5"
           >
             Contact →
           </a>

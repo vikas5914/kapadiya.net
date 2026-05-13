@@ -28,6 +28,12 @@ const {
   featured = false,
   cover,
 } = Astro.props;
+
+const dateObj = new Date(date);
+const formattedDate = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "long",
+}).format(dateObj);
+const isoDate = dateObj.toISOString().slice(0, 10);
 ---
 
 <html lang="en">
@@ -46,59 +52,52 @@ const {
       href={new URL("rss.xml", Astro.site)}
     />
   </head>
-  <body class="antialiased" style="background: var(--bg-main); color: var(--text-primary);">
+  <body class="antialiased">
     <div class="min-h-screen">
       <Header client:load />
-      <main style="padding-top: 64px;">
-        <article style="padding: 72px 0;">
-          <div class="mx-auto" style="max-width: 800px; padding: 0 48px;">
+      <main class="pt-16">
+        <article class="py-18">
+          <div class="mx-auto max-w-[800px] px-6 sm:px-12">
             <!-- Back to Blog -->
-            <div style="margin-bottom: 32px;">
+            <div class="mb-8">
               <a
                 href="/blog"
-                class="inline-flex items-center gap-2 no-underline"
-                style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ind-accent); border: 1px solid var(--ind-accent); padding: 8px 16px; transition: all 240ms ease;"
+                class="inline-flex items-center gap-2 no-underline text-[11px] font-medium tracking-[0.1em] uppercase text-ind-accent border border-ind-accent px-4 py-2 transition-colors duration-[240ms] hover:bg-ind-accent hover:text-text-on-accent"
               >
                 ← Back to Blog
               </a>
             </div>
 
             <!-- Article Header -->
-            <header style="margin-bottom: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border-soft);">
-              <div class="flex items-center gap-3" style="margin-bottom: 20px;">
-                <span
-                  style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ind-accent); background: var(--ind-accent-muted); padding: 4px 10px;"
-                >
+            <header class="mb-12 pb-8 border-b border-border-soft">
+              <div class="flex items-center gap-3 mb-5">
+                <span class="text-[11px] font-semibold tracking-[0.12em] uppercase text-text-on-accent bg-ind-accent px-3 py-1.5">
                   {category}
                 </span>
                 {featured && (
-                  <span
-                    style="font-family: 'MonoLisa', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); background: var(--surface-elevated); padding: 4px 10px;"
-                  >
+                  <span class="text-[11px] font-bold tracking-[0.12em] uppercase text-ind-accent bg-bg-main border border-ind-accent px-2.5 py-1">
                     Featured
                   </span>
                 )}
               </div>
 
-              <h1
-                style="font-family: 'MonoLisa', monospace; font-size: clamp(28px, 4vw, 40px); font-weight: 700; letter-spacing: -0.04em; color: var(--text-primary); line-height: 1.1; margin-bottom: 20px;"
-              >
+              <h1 class="text-[clamp(28px,4vw,40px)] font-bold tracking-[-0.04em] text-text-primary leading-[1.1] mb-5">
                 {title}
               </h1>
 
-              <div class="flex flex-wrap items-center gap-6" style="margin-bottom: 20px;">
-                <span style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;">
+              <div class="flex flex-wrap items-center gap-6 mb-5">
+                <span class="text-[13px] text-text-secondary tracking-[-0.02em]">
                   {author}
                 </span>
-                <span style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;">
-                  {new Date(date).toLocaleDateString()}
-                </span>
-                <span style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-muted); letter-spacing: -0.02em;">
+                <time datetime={isoDate} class="text-[13px] text-text-secondary tracking-[-0.02em]">
+                  {formattedDate}
+                </time>
+                <span class="text-[13px] text-text-secondary tracking-[-0.02em]">
                   {readTime}
                 </span>
               </div>
 
-              <p style="font-family: 'MonoLisa', monospace; font-size: 15px; line-height: 1.7; color: var(--text-secondary); max-width: 640px;">
+              <p class="text-[17px] leading-[1.7] text-text-secondary max-w-[640px]">
                 {description}
               </p>
             </header>
@@ -109,19 +108,18 @@ const {
             </div>
 
             <!-- CTA -->
-            <div style="background: var(--surface); padding: 28px; margin-top: 48px; border: 1px solid var(--border-soft);">
-              <div style="font-family: 'MonoLisa', monospace; font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px;">
+            <div class="bg-surface p-7 mt-12 border border-border-soft">
+              <div class="text-[16px] font-bold text-text-primary mb-2">
                 What's Next?
               </div>
-              <p style="font-family: 'MonoLisa', monospace; font-size: 13px; line-height: 1.65; color: var(--text-secondary); margin-bottom: 16px;">
+              <p class="text-[13px] leading-[1.65] text-text-secondary mb-4">
                 Want to dive deeper into web development? Check out my other
                 posts on building scalable applications and modern development
                 practices.
               </p>
               <a
                 href="/blog"
-                class="inline-block no-underline"
-                style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; background: var(--ind-accent); color: #fff; padding: 12px 24px; transition: opacity 240ms ease;"
+                class="inline-block no-underline text-[12px] font-semibold tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent px-6 py-3 transition-opacity duration-[240ms] hover:opacity-90"
               >
                 View All Posts →
               </a>
@@ -135,18 +133,17 @@ const {
 </html>
 
 <style>
+  /* Prose styles target slot-rendered MDX content via :global(); cannot use Tailwind utilities here. */
   .blog-prose {
     color: var(--text-secondary);
-    font-family: 'MonoLisa', monospace;
-    font-size: 14px;
-    line-height: 1.8;
+    font-size: 16px;
+    line-height: 1.75;
   }
   .blog-prose :global(h1),
   .blog-prose :global(h2),
   .blog-prose :global(h3),
   .blog-prose :global(h4) {
     color: var(--text-primary);
-    font-family: 'MonoLisa', monospace;
     font-weight: 700;
     letter-spacing: -0.04em;
     text-transform: uppercase;
@@ -180,7 +177,6 @@ const {
     padding: 20px;
     margin: 24px 0;
     overflow-x: auto;
-    font-family: 'MonoLisa', monospace;
     font-size: 13px;
   }
   .blog-prose :global(blockquote) {
@@ -196,6 +192,9 @@ const {
     margin-bottom: 20px;
   }
   .blog-prose :global(li) {
+    color: var(--text-secondary);
+    font-size: 16px;
+    line-height: 1.75;
     margin-bottom: 8px;
   }
   .blog-prose :global(img) {
@@ -217,7 +216,6 @@ const {
   .blog-prose :global(td) {
     border: 1px solid var(--border-strong);
     padding: 10px 14px;
-    font-family: 'MonoLisa', monospace;
     font-size: 13px;
   }
   .blog-prose :global(th) {
@@ -227,10 +225,5 @@ const {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-size: 11px;
-  }
-  @media (max-width: 640px) {
-    article > div {
-      padding: 0 24px !important;
-    }
   }
 </style>

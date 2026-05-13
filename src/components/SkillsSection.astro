@@ -2,67 +2,46 @@
 import { skills } from "../config";
 ---
 
-<section id="skills" style="background: var(--ind-accent); color: var(--text-on-accent);">
-  <div class="mx-auto" style="max-width: var(--container-max); padding: 0 48px;">
-    <div class="skills-grid" style="display: grid; grid-template-columns: 1fr 1fr; border: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);">
+<section id="skills" class="bg-ind-accent text-text-on-accent">
+  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 border border-text-on-accent/30">
       <!-- Left Pane -->
-      <div
-        class="flex flex-col justify-between"
-        style="border-right: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent); padding: 72px 48px; min-height: 600px;"
-      >
+      <div class="flex flex-col justify-between md:border-r border-b md:border-b-0 border-text-on-accent/30 px-6 py-12 sm:px-12 sm:py-18 md:min-h-[600px]">
         <div>
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent); margin-bottom: 16px;"
-          >
+          <div class="text-[11px] font-medium tracking-[0.12em] uppercase text-text-on-accent/60 mb-4">
             Technical Data
           </div>
-          <h2
-            style="font-family: 'MonoLisa', monospace; font-size: 44px; font-weight: 700; letter-spacing: -0.04em; word-spacing: -0.15em; text-transform: uppercase; color: var(--text-on-accent); line-height: 0.95; margin-bottom: 24px;"
-          >
+          <h2 class="text-[32px] sm:text-[44px] font-bold tracking-[-0.04em] [word-spacing:-0.15em] uppercase text-text-on-accent leading-[0.95] mb-6">
             Technical Skills
           </h2>
-          <p
-            style="font-family: 'MonoLisa', monospace; font-size: 14px; line-height: 1.7; letter-spacing: -0.02em; color: color-mix(in srgb, var(--text-on-accent) 80%, transparent); max-width: 400px;"
-          >
+          <p class="text-[14px] leading-[1.7] tracking-[-0.02em] text-text-on-accent/80 max-w-[400px]">
             Here, you'll find my musings, tips, and stories from the trenches
             of full-stack development. If you're a fellow code warrior or just
             curious about the web dev life, stick around.
           </p>
         </div>
-        <div class="flex justify-between items-end">
+        <div class="flex flex-wrap justify-between items-end gap-6 mt-10 md:mt-0">
           <div class="flex flex-col gap-1">
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1; font-variant-numeric: tabular-nums;"
-            >
+            <div class="text-[36px] font-bold tracking-[-0.04em] text-text-on-accent leading-none tabular-nums">
               8+
             </div>
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent);"
-            >
+            <div class="text-[11px] tracking-[0.1em] uppercase text-text-on-accent/60">
               Years Experience
             </div>
           </div>
           <div class="flex flex-col gap-1">
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1; font-variant-numeric: tabular-nums;"
-            >
+            <div class="text-[36px] font-bold tracking-[-0.04em] text-text-on-accent leading-none tabular-nums">
               6
             </div>
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent);"
-            >
+            <div class="text-[11px] tracking-[0.1em] uppercase text-text-on-accent/60">
               Core Modules
             </div>
           </div>
           <div class="flex flex-col gap-1">
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 36px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-on-accent); line-height: 1; font-variant-numeric: tabular-nums;"
-            >
+            <div class="text-[36px] font-bold tracking-[-0.04em] text-text-on-accent leading-none tabular-nums">
               v5+
             </div>
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--text-on-accent) 60%, transparent);"
-            >
+            <div class="text-[11px] tracking-[0.1em] uppercase text-text-on-accent/60">
               Laravel Since
             </div>
           </div>
@@ -73,31 +52,27 @@ import { skills } from "../config";
       <div class="flex flex-col">
         {skills.map((skill, i) => (
           <div
-            class="skill-row"
-            style={`display: grid; grid-template-columns: 60px 1fr;${i < skills.length - 1 ? ' border-bottom: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);' : ''}`}
+            class:list={[
+              "grid grid-cols-[60px_1fr]",
+              i < skills.length - 1 && "border-b border-text-on-accent/30",
+            ]}
           >
-            <div
-              style="font-family: 'MonoLisa', monospace; font-size: 13px; font-style: italic; color: color-mix(in srgb, var(--text-on-accent) 50%, transparent); padding: 20px 16px; border-right: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent); display: flex; align-items: center;"
-            >
+            <div class="flex items-center text-[13px] italic text-text-on-accent/50 px-4 py-5 border-r border-text-on-accent/30">
               0{i + 1}
             </div>
-            <div style="padding: 20px 24px;">
-              <div class="flex justify-between items-center" style="margin-bottom: 10px;">
-                <span
-                  style="font-family: 'MonoLisa', monospace; font-size: 14px; font-weight: 600; letter-spacing: -0.02em; text-transform: uppercase; color: var(--text-on-accent);"
-                >
+            <div class="px-6 py-5">
+              <div class="flex justify-between items-center mb-2.5">
+                <span class="text-[14px] font-semibold tracking-[-0.02em] uppercase text-text-on-accent">
                   {skill.name}
                 </span>
-                <span
-                  style="font-family: 'MonoLisa', monospace; font-size: 13px; font-weight: 500; color: color-mix(in srgb, var(--text-on-accent) 80%, transparent);"
-                >
+                <span class="text-[13px] font-medium text-text-on-accent/80">
                   {skill.level}%
                 </span>
               </div>
-              <div style="width: 100%; height: 4px; background: color-mix(in srgb, var(--text-on-accent) 15%, transparent);">
+              <div class="w-full h-1 bg-text-on-accent/15">
                 <div
-                  class="skill-bar-fill"
-                  style={`height: 4px; background: var(--text-on-accent); width: 0%; --skill-level: ${skill.level}%; transition: width 1200ms ease; transition-delay: ${i * 120}ms;`}
+                  class="skill-bar-fill h-1 bg-text-on-accent w-0 transition-[width] duration-[1200ms] ease motion-reduce:transition-none"
+                  style={`--skill-level: ${skill.level}%; transition-delay: ${i * 120}ms;`}
                 ></div>
               </div>
             </div>
@@ -105,30 +80,18 @@ import { skills } from "../config";
         ))}
 
         <!-- Tagline Row -->
-        <div
-          class="flex items-end"
-          style="flex: 1; border-top: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent); padding: 24px;"
-        >
-          <div
-            style="font-family: 'MonoLisa', monospace; font-size: 24px; font-weight: 700; letter-spacing: -0.03em; word-spacing: -0.15em; text-transform: uppercase; color: var(--text-on-accent); line-height: 1.1;"
-          >
+        <div class="flex items-end flex-1 border-t border-text-on-accent/30 p-6">
+          <div class="text-[24px] font-bold tracking-[-0.03em] [word-spacing:-0.15em] uppercase text-text-on-accent leading-[1.1]">
             Clean code. Reliable systems. Scalable architecture.
           </div>
         </div>
 
         <!-- Footer Row -->
-        <div
-          class="flex justify-between items-center"
-          style="padding: 16px 24px; border-top: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);"
-        >
-          <span
-            style="font-family: 'MonoLisa', monospace; font-size: 12px; letter-spacing: -0.02em; color: color-mix(in srgb, var(--text-on-accent) 50%, transparent);"
-          >
+        <div class="flex justify-between items-center px-6 py-4 border-t border-text-on-accent/30">
+          <span class="text-[12px] tracking-[-0.02em] text-text-on-accent/50">
             Vikas Kapadiya
           </span>
-          <span
-            style="font-family: 'MonoLisa', monospace; font-size: 12px; color: var(--text-on-accent); font-weight: 500;"
-          >
+          <span class="text-[12px] text-text-on-accent font-medium">
             2026
           </span>
         </div>
@@ -156,35 +119,3 @@ import { skills } from "../config";
   const skillsSection = document.getElementById('skills');
   if (skillsSection) observer.observe(skillsSection);
 </script>
-
-<style>
-  @media (prefers-reduced-motion: reduce) {
-    .skill-bar-fill {
-      transition: none !important;
-    }
-  }
-  @media (max-width: 768px) {
-    .skills-grid {
-      grid-template-columns: 1fr !important;
-    }
-    .skills-grid > div:first-child {
-      border-right: none !important;
-      border-bottom: 1px solid color-mix(in srgb, var(--text-on-accent) 30%, transparent);
-      min-height: auto !important;
-      padding: 48px 24px !important;
-    }
-    .skills-grid > div:first-child > div:last-child {
-      margin-top: 40px;
-      flex-wrap: wrap;
-      gap: 24px;
-    }
-  }
-  @media (max-width: 640px) {
-    section > div {
-      padding: 0 24px !important;
-    }
-    .skills-grid > div:first-child h2 {
-      font-size: 32px !important;
-    }
-  }
-</style>
