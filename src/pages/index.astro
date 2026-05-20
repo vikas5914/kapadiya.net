@@ -3,10 +3,35 @@ import Base from "../layouts/Base.astro";
 import HeroSection from "../components/HeroSection.astro";
 import AboutSection from "../components/AboutSection.astro";
 import SkillsSection from "../components/SkillsSection.astro";
-import { metaData } from "../config";
+import { metaData, socialLinks } from "../config";
 ---
 
 <Base title={metaData.title} description={metaData.description}>
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: metaData.title,
+        url: metaData.baseUrl,
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        name: metaData.name,
+        url: metaData.baseUrl,
+        jobTitle: "Full-Stack Developer",
+        sameAs: [
+          socialLinks.github,
+          socialLinks.linkedin,
+          socialLinks.twitter,
+          socialLinks.bluesky,
+          socialLinks.instagram,
+        ],
+      },
+    ])}
+  />
   <HeroSection />
   <AboutSection />
   <SkillsSection />

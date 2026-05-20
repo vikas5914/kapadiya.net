@@ -1,6 +1,6 @@
 const metaData = {
   baseUrl: "https://kapadiya.net",
-  title: "My Useless Blog",
+  title: "Vikas Kapadiya - Full-Stack Developer",
   name: "Vikas Kapadiya",
   description:
     "Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves PHP almost as much as I love coffee (almost!).",

@@ -4,8 +4,10 @@ import BlogLayout from "../../layouts/BlogLayout.astro";
 import { metaData } from "../../config";
 
 import CustomMdx from "@components/Mdx.astro";
+import { getImagePath } from "astro-takumi";
 
 const { url, site } = Astro;
+const ogImageUrl = getImagePath({ url, site });
 
 const { slug } = Astro.params;
 
@@ -51,7 +53,7 @@ if (post === undefined) {
         datePublished: post.data.date,
         dateModified: post.data.date,
         description: post.data.excerpt,
-        image: url.href,
+        image: ogImageUrl,
         url: url,
         author: {
           "@type": "Person",

@@ -65,7 +65,7 @@ const bottomLinkClass =
           {col.links.map((link) => (
             <a
               href={link.href}
-              target={link.href.startsWith("#") || link.href.startsWith("mailto") ? undefined : "_blank"}
+              target={link.href.startsWith("/") || link.href.startsWith("#") || link.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
               class={linkClass}
             >
