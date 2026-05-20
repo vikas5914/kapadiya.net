@@ -278,6 +278,7 @@
 
 html {
   scroll-padding-top: 5rem;
+  scrollbar-gutter: stable;
 }
 @media (prefers-reduced-motion: no-preference) {
   html {
