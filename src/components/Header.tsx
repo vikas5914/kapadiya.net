@@ -18,10 +18,10 @@ const Header = () => {
   const [activeSection, setActiveSection] = useState("home");
 
   const navItems = [
-    { name: "Home", id: "home" },
-    { name: "About", id: "about" },
-    { name: "Skills", id: "skills" },
-    { name: "Blog", href: "/blog" },
+    { name: "Home", id: "home", href: "/#home" },
+    { name: "About", id: "about", href: "/#about" },
+    { name: "Skills", id: "skills", href: "/#skills" },
+    { name: "Blog", href: "/blog/" },
   ];
 
   useEffect(() => {
@@ -42,13 +42,16 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavigate = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 70;
-      window.scrollTo({ top: y, behavior: "smooth" });
+  const handleNavigate = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (window.location.pathname === "/") {
+      e.preventDefault();
+      const el = document.getElementById(id);
+      if (el) {
+        const y = el.getBoundingClientRect().top + window.scrollY - 70;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+      setIsMenuOpen(false);
     }
-    setIsMenuOpen(false);
   };
 
   return (
@@ -67,27 +70,18 @@ const Header = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) =>
-            item.href ? (
-              <a
-                key={item.name}
-                href={item.href}
-                className={`${navLinkClass} ${focusVisibleClass}`}
-              >
-                {item.name}
-              </a>
-            ) : (
-              <button
-                key={item.name}
-                onClick={() => handleNavigate(item.id!)}
-                className={`${navButtonBaseClass} ${
-                  activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
-                } ${focusVisibleClass}`}
-              >
-                {item.name}
-              </button>
-            )
-          )}
+          {navItems.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              onClick={(e) => item.id && handleNavigate(e, item.id)}
+              className={`${navLinkClass} ${
+                activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
+              } ${focusVisibleClass}`}
+            >
+              {item.name}
+            </a>
+          ))}
           <a
             href="mailto:vikas@kapadiya.net"
             className={`${ctaClass} ${focusVisibleClass}`}
@@ -113,27 +107,18 @@ const Header = () => {
         }`}
       >
         <div className="px-12 py-6 flex flex-col gap-4">
-          {navItems.map((item) =>
-            item.href ? (
-              <a
-                key={item.name}
-                href={item.href}
-                className="no-underline text-sm font-normal tracking-wide uppercase text-text-secondary py-2"
-              >
-                {item.name}
-              </a>
-            ) : (
-              <button
-                key={item.name}
-                onClick={() => handleNavigate(item.id!)}
-                className={`bg-transparent border-none cursor-pointer text-left text-sm font-normal tracking-wide uppercase py-2 ${
-                  activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
-                }`}
-              >
-                {item.name}
-              </button>
-            )
-          )}
+          {navItems.map((item) => (
+            <a
+              key={item.name}
+              href={item.href}
+              onClick={(e) => item.id && handleNavigate(e, item.id)}
+              className={`no-underline text-sm font-normal tracking-wide uppercase py-2 ${
+                activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
+              }`}
+            >
+              {item.name}
+            </a>
+          ))}
           <a
             href="mailto:vikas@kapadiya.net"
             className="inline-block text-center mt-2 no-underline text-xs font-medium tracking-widest uppercase bg-ind-accent text-text-on-accent px-5 py-2.5"
@@ -142,6 +127,11 @@ const Header = () => {
           </a>
         </div>
       </div>
+      <div
+        id="scroll-progress"
+        className="absolute bottom-0 left-0 h-[2px] bg-ind-accent w-full origin-left scale-x-0"
+        style={{ transform: "scaleX(0)" }}
+      />
     </header>
   );
 };

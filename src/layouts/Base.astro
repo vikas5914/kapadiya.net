@@ -38,5 +38,22 @@ const { title, description, image } = Astro.props;
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      // Fallback for browsers that don't support scroll-driven CSS animations (e.g. Firefox)
+      if (!CSS.supports('animation-timeline', 'scroll()')) {
+        const progress = document.querySelector('#scroll-progress');
+        if (progress) {
+          const updateProgress = () => {
+            const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = window.scrollY;
+            const progressPercentage = scrollable > 0 ? scrolled / scrollable : 0;
+            progress.style.transform = `scaleX(${progressPercentage})`;
+          };
+          window.addEventListener('scroll', updateProgress, { passive: true });
+          window.addEventListener('resize', updateProgress, { passive: true });
+          updateProgress();
+        }
+      }
+    </script>
   </body>
 </html>

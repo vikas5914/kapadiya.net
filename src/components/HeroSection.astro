@@ -7,16 +7,16 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
 
 <section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
   <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
-    <!-- Top Label -->
-    <div class="flex items-center gap-3 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-6">
-      <div class="w-8 h-px bg-ind-accent"></div>
-      Portfolio&nbsp;—&nbsp;2026
-    </div>
-
     <!-- Main Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-start">
+    <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-center">
       <!-- Left Content -->
       <div>
+        <!-- Top Label -->
+        <div class="flex items-center gap-3 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-6">
+          <div class="w-8 h-px bg-ind-accent"></div>
+          Portfolio&nbsp;—&nbsp;2026
+        </div>
+
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight uppercase text-text-primary mb-8">
           I work with
           <span class="block text-ind-accent">Noobs.</span>
@@ -55,6 +55,7 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
             width={400}
             height={360}
             loading="eager"
+            fetchpriority="high"
           />
           <!-- Overlay -->
           <div class="absolute bottom-0 left-0 right-0 flex justify-between items-center px-5 py-4 bg-black/60">

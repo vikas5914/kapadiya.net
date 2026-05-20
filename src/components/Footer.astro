@@ -6,10 +6,10 @@ const cols = [
   {
     title: "Navigate",
     links: [
-      { name: "Home", href: "#home" },
-      { name: "About", href: "#about" },
-      { name: "Skills", href: "#skills" },
-      { name: "Blog", href: "/blog" },
+      { name: "Home", href: "/#home" },
+      { name: "About", href: "/#about" },
+      { name: "Skills", href: "/#skills" },
+      { name: "Blog", href: "/blog/" },
     ],
   },
   {
@@ -77,14 +77,10 @@ const bottomLinkClass =
     </div>
 
     <!-- Bottom Row -->
-    <div class="flex justify-between items-center pt-6">
+    <div class="pt-6 text-right">
       <span class="text-xs text-text-muted">
         © {YEAR} Vikas Kapadiya — All rights reserved
       </span>
-      <div class="flex gap-6">
-        <button type="button" class={bottomLinkClass}>Privacy</button>
-        <button type="button" class={bottomLinkClass}>Built with care</button>
-      </div>
     </div>
   </div>
 </footer>
