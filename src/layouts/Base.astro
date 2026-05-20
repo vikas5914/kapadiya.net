@@ -18,7 +18,7 @@ const { title, description, image } = Astro.props;
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#141414" />
-    <link rel="preload" href="/fonts/MonoLisa-core-normal.woff2" as="font" type="font/woff2" crossorigin />
+
     <meta
       name="googlebot"
       content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
@@ -29,7 +29,7 @@ const { title, description, image } = Astro.props;
   <body class="antialiased min-h-screen flex flex-col">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 bg-ind-accent text-text-on-accent text-[13px] font-semibold"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 bg-ind-accent text-text-on-accent text-sm font-semibold"
     >
       Skip to content
     </a>
