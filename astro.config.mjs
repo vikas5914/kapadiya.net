@@ -38,5 +38,6 @@ export default defineConfig({
       render: presets.waveSvg,
     }),
   ],
+  trailingSlash: "always",
   output: "static",
 });
