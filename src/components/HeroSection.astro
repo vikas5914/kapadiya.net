@@ -8,7 +8,7 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
 <section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
   <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
     <!-- Top Label -->
-    <div class="flex items-center gap-3 text-[11px] font-medium tracking-[0.12em] uppercase text-ind-accent mb-6">
+    <div class="flex items-center gap-3 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-6">
       <div class="w-8 h-px bg-ind-accent"></div>
       Portfolio&nbsp;—&nbsp;2026
     </div>
@@ -17,12 +17,12 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
     <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-start">
       <!-- Left Content -->
       <div>
-        <h1 class="text-[36px] sm:text-[clamp(48px,5.5vw,80px)] font-bold leading-[0.95] tracking-[-0.04em] [word-spacing:-0.15em] uppercase text-text-primary mb-8">
+        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight uppercase text-text-primary mb-8">
           I work with
           <span class="block text-ind-accent">Noobs.</span>
         </h1>
 
-        <p class="text-[14px] leading-[1.7] tracking-[-0.02em] [word-spacing:-0.08em] text-text-secondary max-w-[560px] mb-12">
+        <p class="text-base leading-relaxed text-text-secondary max-w-[560px] mb-12">
           Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves
           PHP almost as much as I love coffee (almost!). In my world, function
           declarations rule, and PHP 8's latest features are my playground.
@@ -33,7 +33,7 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
           {tags.map((tag, i, arr) => (
             <div
               class:list={[
-                "flex items-center gap-2.5 px-5 py-3.5 text-[12px] font-medium tracking-[0.06em] uppercase text-text-primary",
+                "flex items-center gap-2.5 px-5 py-3.5 text-xs font-mono font-medium tracking-wider uppercase text-text-primary",
                 i < arr.length - 1 && "sm:border-r border-b sm:border-b-0 border-border-strong",
               ]}
             >
@@ -58,10 +58,10 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
           />
           <!-- Overlay -->
           <div class="absolute bottom-0 left-0 right-0 flex justify-between items-center px-5 py-4 bg-black/60">
-            <span class="text-[11px] tracking-[0.1em] uppercase text-white/70">
+            <span class="text-xs font-mono tracking-wider uppercase text-white/70">
               Status
             </span>
-            <span class="text-[11px] tracking-[0.08em] uppercase text-white font-semibold">
+            <span class="text-xs font-mono tracking-wider uppercase text-white font-semibold">
               Available
             </span>
           </div>
@@ -69,13 +69,13 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
 
         <!-- Profile Info -->
         <div class="p-6">
-          <div class="text-[18px] font-bold tracking-[-0.04em] uppercase text-text-primary mb-2">
+          <div class="text-lg font-bold tracking-tight uppercase text-text-primary mb-2">
             Vikas Kapadiya
           </div>
-          <div class="text-[12px] tracking-[0.06em] uppercase text-ind-accent mb-4">
+          <div class="text-xs tracking-wider uppercase text-ind-accent mb-4">
             Full-Stack Developer
           </div>
-          <div class="text-[13px] leading-[1.65] tracking-[-0.02em] text-text-muted">
+          <div class="text-sm leading-relaxed text-text-muted">
             By day, I juggle Laravel, Node.js, MySQL, and Tailwind to create web magic,
             and by night… well, I'm probably debugging.
           </div>
@@ -83,11 +83,11 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
 
         <!-- Status Row -->
         <div class="flex justify-between items-center border-t border-border-soft px-6 py-3.5">
-          <span class="flex items-center text-[11px] tracking-[0.08em] uppercase text-success font-medium">
+          <span class="flex items-center text-xs tracking-wider uppercase text-success font-medium">
             <span class="w-2 h-2 rounded-full bg-success inline-block mr-2"></span>
             Available for freelance
           </span>
-          <span class="text-[11px] tracking-[-0.02em] text-text-muted">
+          <span class="text-xs text-text-muted">
             REV 2026.05
           </span>
         </div>

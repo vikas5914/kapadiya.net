@@ -32,10 +32,10 @@ const cols = [
 ];
 
 const linkClass =
-  "block no-underline text-[13px] text-text-secondary tracking-[-0.02em] py-1 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
+  "block no-underline text-sm text-text-secondary py-1 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
 
 const bottomLinkClass =
-  "text-[12px] text-text-muted tracking-[-0.02em] cursor-pointer bg-transparent border-none p-0 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
+  "text-xs text-text-muted cursor-pointer bg-transparent border-none p-0 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
 ---
 
 <footer class="py-12 border-t border-border-medium">
@@ -44,13 +44,13 @@ const bottomLinkClass =
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 pb-12 border-b border-border-soft">
       <!-- Brand Column -->
       <div>
-        <div class="flex items-center gap-2.5 text-[18px] font-bold tracking-[-0.04em] uppercase text-text-primary mb-4">
-          <div class="flex items-center justify-center w-6 h-6 bg-ind-accent text-text-on-accent text-[11px] font-bold">
+        <div class="flex items-center gap-2.5 text-lg font-bold tracking-tight uppercase text-text-primary mb-4">
+          <div class="flex items-center justify-center w-6 h-6 bg-ind-accent text-text-on-accent text-xs font-bold">
             VK
           </div>
           Vikas Kapadiya
         </div>
-        <div class="text-[13px] leading-[1.65] tracking-[-0.02em] text-text-muted max-w-[320px]">
+        <div class="text-sm leading-relaxed text-text-muted max-w-[320px]">
           Full-stack developer passionate about creating amazing web experiences.
           Clean code, reliable systems, scalable architecture.
         </div>
@@ -59,7 +59,7 @@ const bottomLinkClass =
       <!-- Link Columns -->
       {cols.map((col) => (
         <div>
-          <div class="text-[11px] font-medium tracking-[0.12em] uppercase text-text-muted mb-4">
+          <div class="text-xs font-medium tracking-widest uppercase text-text-muted mb-4">
             {col.title}
           </div>
           {col.links.map((link) => (
@@ -78,7 +78,7 @@ const bottomLinkClass =
 
     <!-- Bottom Row -->
     <div class="flex justify-between items-center pt-6">
-      <span class="text-[12px] text-text-muted tracking-[-0.02em]">
+      <span class="text-xs text-text-muted">
         © {YEAR} Vikas Kapadiya — All rights reserved
       </span>
       <div class="flex gap-6">

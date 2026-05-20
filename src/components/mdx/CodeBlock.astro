@@ -6,7 +6,7 @@ const highlighted = await highlight(code);
 
 <div class="blog-codeblock bg-surface px-6 py-5 my-6 border border-border-medium border-l-[3px] border-l-ind-accent">
   <pre
-    class={`language-${lang} overflow-x-auto text-[13px] leading-[1.65] text-text-primary m-0`}
+    class={`language-${lang} overflow-x-auto text-sm leading-relaxed text-text-primary m-0`}
     set:html={highlighted}
   />
 </div>

@@ -30,10 +30,10 @@ const blogPosts = allPosts
     <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
       <!-- Header -->
       <div class="mb-12 pb-6 border-b border-border-soft">
-        <div class="text-[11px] font-medium tracking-[0.12em] uppercase text-ind-accent mb-3">
+        <div class="text-xs font-medium tracking-widest uppercase text-ind-accent mb-3">
           Writing
         </div>
-        <h1 class="text-[40px] font-bold tracking-[-0.04em] uppercase text-text-primary leading-[0.95]">
+        <h1 class="text-4xl font-bold tracking-tight uppercase text-text-primary leading-none">
           Blog Posts
         </h1>
       </div>
@@ -48,54 +48,54 @@ const blogPosts = allPosts
                 i < blogPosts.length - 1 && "border-b border-border-strong",
               ]}
             >
-              <div class="hidden sm:flex items-center text-[13px] italic text-text-muted px-4 py-6 border-r border-border-strong">
+              <div class="hidden sm:flex items-center text-sm italic text-text-muted px-4 py-6 border-r border-border-strong">
                 0{i + 1}
               </div>
               <div class="p-6">
                 <div class="flex items-center gap-3 mb-2">
-                  <span class="text-[11px] font-semibold tracking-[0.12em] uppercase text-text-on-accent bg-ind-accent px-2.5 py-1.5">
+                  <span class="text-xs font-semibold tracking-widest uppercase text-text-on-accent bg-ind-accent px-2.5 py-1.5">
                     {post.category}
                   </span>
                   {post.featured && (
-                    <span class="text-[11px] font-bold tracking-[0.12em] uppercase text-ind-accent bg-bg-main border border-ind-accent px-2 py-1">
+                    <span class="text-xs font-bold tracking-widest uppercase text-ind-accent bg-bg-main border border-ind-accent px-2 py-1">
                       Featured
                     </span>
                   )}
                 </div>
-                <div class="text-[16px] font-semibold tracking-[-0.02em] text-text-primary mb-1.5">
+                <div class="text-base font-semibold text-text-primary mb-1.5">
                   {post.title}
                 </div>
-                <div class="text-[13px] leading-[1.6] text-text-muted max-w-[600px]">
+                <div class="text-sm leading-relaxed text-text-muted max-w-[600px]">
                   {post.excerpt}
                 </div>
               </div>
               <div class="flex sm:flex-col flex-row items-center sm:items-end sm:justify-center gap-2 px-6 py-3 sm:p-6 border-t sm:border-t-0 sm:border-l border-border-soft sm:border-border-strong">
                 <time
                   datetime={post.isoDate}
-                  class="text-[12px] text-text-secondary tracking-[-0.02em]"
+                  class="text-xs text-text-secondary"
                 >
                   {post.formattedDate}
                 </time>
-                <span class="text-[12px] text-text-secondary tracking-[-0.02em]">
+                <span class="text-xs text-text-secondary">
                   {post.readTime}
                 </span>
-                <span class="text-[14px] text-ind-accent">→</span>
+                <span class="text-sm text-ind-accent">→</span>
               </div>
             </a>
           ))}
         </div>
       ) : (
         <div class="text-center py-18">
-          <div class="text-[18px] font-semibold text-text-primary mb-3">
+          <div class="text-lg font-semibold text-text-primary mb-3">
             No blog posts yet
           </div>
-          <div class="text-[13px] text-text-muted mb-6 max-w-[400px] mx-auto leading-[1.6]">
+          <div class="text-sm text-text-muted mb-6 max-w-[400px] mx-auto leading-relaxed">
             I'm working on some exciting content! Check back soon for insights
             and tutorials.
           </div>
           <a
             href="/"
-            class="inline-block no-underline text-[12px] font-semibold tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent px-6 py-3"
+            class="inline-block no-underline text-xs font-semibold tracking-widest uppercase bg-ind-accent text-text-on-accent px-6 py-3"
           >
             ← Back to Home
           </a>

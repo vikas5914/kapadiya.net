@@ -62,7 +62,7 @@ const isoDate = dateObj.toISOString().slice(0, 10);
             <div class="mb-8">
               <a
                 href="/blog"
-                class="inline-flex items-center gap-2 no-underline text-[11px] font-medium tracking-[0.1em] uppercase text-ind-accent border border-ind-accent px-4 py-2 transition-colors duration-[240ms] hover:bg-ind-accent hover:text-text-on-accent"
+                class="inline-flex items-center gap-2 no-underline text-xs font-medium tracking-widest uppercase text-ind-accent border border-ind-accent px-4 py-2 transition-colors duration-[240ms] hover:bg-ind-accent hover:text-text-on-accent"
               >
                 ← Back to Blog
               </a>
@@ -71,33 +71,33 @@ const isoDate = dateObj.toISOString().slice(0, 10);
             <!-- Article Header -->
             <header class="mb-12 pb-8 border-b border-border-soft">
               <div class="flex items-center gap-3 mb-5">
-                <span class="text-[11px] font-semibold tracking-[0.12em] uppercase text-text-on-accent bg-ind-accent px-3 py-1.5">
+                <span class="text-xs font-semibold tracking-widest uppercase text-text-on-accent bg-ind-accent px-3 py-1.5">
                   {category}
                 </span>
                 {featured && (
-                  <span class="text-[11px] font-bold tracking-[0.12em] uppercase text-ind-accent bg-bg-main border border-ind-accent px-2.5 py-1">
+                  <span class="text-xs font-bold tracking-widest uppercase text-ind-accent bg-bg-main border border-ind-accent px-2.5 py-1">
                     Featured
                   </span>
                 )}
               </div>
 
-              <h1 class="text-[clamp(28px,4vw,40px)] font-bold tracking-[-0.04em] text-text-primary leading-[1.1] mb-5">
+              <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary leading-tight mb-5">
                 {title}
               </h1>
 
               <div class="flex flex-wrap items-center gap-6 mb-5">
-                <span class="text-[13px] text-text-secondary tracking-[-0.02em]">
+                <span class="text-sm text-text-secondary">
                   {author}
                 </span>
-                <time datetime={isoDate} class="text-[13px] text-text-secondary tracking-[-0.02em]">
+                <time datetime={isoDate} class="text-sm text-text-secondary">
                   {formattedDate}
                 </time>
-                <span class="text-[13px] text-text-secondary tracking-[-0.02em]">
+                <span class="text-sm text-text-secondary">
                   {readTime}
                 </span>
               </div>
 
-              <p class="text-[17px] leading-[1.7] text-text-secondary max-w-[640px]">
+              <p class="text-lg leading-relaxed text-text-secondary max-w-[640px]">
                 {description}
               </p>
             </header>
@@ -109,17 +109,17 @@ const isoDate = dateObj.toISOString().slice(0, 10);
 
             <!-- CTA -->
             <div class="bg-surface p-7 mt-12 border border-border-soft">
-              <div class="text-[16px] font-bold text-text-primary mb-2">
+              <div class="text-base font-bold text-text-primary mb-2">
                 What's Next?
               </div>
-              <p class="text-[13px] leading-[1.65] text-text-secondary mb-4">
+              <p class="text-sm leading-relaxed text-text-secondary mb-4">
                 Want to dive deeper into web development? Check out my other
                 posts on building scalable applications and modern development
                 practices.
               </p>
               <a
                 href="/blog"
-                class="inline-block no-underline text-[12px] font-semibold tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent px-6 py-3 transition-opacity duration-[240ms] hover:opacity-90"
+                class="inline-block no-underline text-xs font-semibold tracking-widest uppercase bg-ind-accent text-text-on-accent px-6 py-3 transition-opacity duration-[240ms] hover:opacity-90"
               >
                 View All Posts →
               </a>
@@ -133,10 +133,10 @@ const isoDate = dateObj.toISOString().slice(0, 10);
 </html>
 
 <style>
-  /* Prose styles target slot-rendered MDX content via :global(); cannot use Tailwind utilities here. */
+  /* Prose styles target slot-rendered MDX content via :global(); Tailwind utilities cannot reach these. */
   .blog-prose {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.75;
   }
   .blog-prose :global(h1),
@@ -145,23 +145,23 @@ const isoDate = dateObj.toISOString().slice(0, 10);
   .blog-prose :global(h4) {
     color: var(--text-primary);
     font-weight: 700;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.025em;
     text-transform: uppercase;
   }
   .blog-prose :global(h2) {
-    font-size: 24px;
-    margin-top: 48px;
-    margin-bottom: 16px;
-    padding-bottom: 12px;
+    font-size: 1.5rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--border-soft);
   }
   .blog-prose :global(h3) {
-    font-size: 18px;
-    margin-top: 32px;
-    margin-bottom: 12px;
+    font-size: 1.125rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
   }
   .blog-prose :global(p) {
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
   }
   .blog-prose :global(a) {
     color: var(--ind-accent);
@@ -174,56 +174,56 @@ const isoDate = dateObj.toISOString().slice(0, 10);
   .blog-prose :global(pre) {
     background: var(--surface) !important;
     border: 1px solid var(--border-medium);
-    padding: 20px;
-    margin: 24px 0;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
     overflow-x: auto;
-    font-size: 13px;
+    font-size: 0.875rem;
   }
   .blog-prose :global(blockquote) {
     border-left: 3px solid var(--ind-accent);
-    padding-left: 20px;
+    padding-left: 1.25rem;
     color: var(--text-secondary);
     font-style: italic;
-    margin: 24px 0;
+    margin: 1.5rem 0;
   }
   .blog-prose :global(ul),
   .blog-prose :global(ol) {
-    padding-left: 20px;
-    margin-bottom: 20px;
+    padding-left: 1.25rem;
+    margin-bottom: 1.25rem;
   }
   .blog-prose :global(li) {
     color: var(--text-secondary);
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.75;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
   }
   .blog-prose :global(img) {
     max-width: 100%;
-    margin: 24px 0;
+    margin: 1.5rem 0;
   }
   .blog-prose :global(hr) {
     border: none;
     border-top: 1px solid var(--border-medium);
-    margin: 32px 0;
+    margin: 2rem 0;
   }
   .blog-prose :global(table) {
     width: 100%;
     border: 1px solid var(--border-strong);
     border-collapse: collapse;
-    margin: 24px 0;
+    margin: 1.5rem 0;
   }
   .blog-prose :global(th),
   .blog-prose :global(td) {
     border: 1px solid var(--border-strong);
-    padding: 10px 14px;
-    font-size: 13px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
   }
   .blog-prose :global(th) {
     background: var(--surface);
     color: var(--text-primary);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 11px;
+    letter-spacing: 0.05em;
+    font-size: 0.75rem;
   }
 </style>

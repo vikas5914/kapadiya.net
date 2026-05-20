@@ -5,13 +5,13 @@ const focusVisibleClass =
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ind-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-main";
 
 const navLinkClass =
-  "no-underline text-[12px] font-normal tracking-[0.08em] uppercase text-text-secondary transition-colors duration-200 hover:text-ind-accent";
+  "no-underline text-sm font-normal tracking-wide uppercase text-text-secondary transition-colors duration-200 hover:text-ind-accent";
 
 const navButtonBaseClass =
-  "bg-transparent border-none cursor-pointer p-0 text-[12px] font-normal tracking-[0.08em] uppercase transition-colors duration-200 hover:text-ind-accent";
+  "bg-transparent border-none cursor-pointer p-0 text-sm font-normal tracking-wide uppercase transition-colors duration-200 hover:text-ind-accent";
 
 const ctaClass =
-  "no-underline text-[11px] font-medium tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent border-none px-5 py-2.5 transition-opacity duration-[240ms] hover:opacity-85";
+  "no-underline text-xs font-medium tracking-widest uppercase bg-ind-accent text-text-on-accent border-none px-5 py-2.5 transition-opacity duration-[240ms] hover:opacity-85";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -57,9 +57,9 @@ const Header = () => {
         {/* Brand */}
         <a
           href="/"
-          className="flex items-center gap-2.5 no-underline text-[14px] font-bold tracking-[0.08em] uppercase text-ind-accent"
+          className="flex items-center gap-2.5 no-underline text-sm font-bold tracking-wide uppercase text-ind-accent"
         >
-          <div className="flex items-center justify-center w-7 h-7 bg-ind-accent text-text-on-accent text-[11px] font-bold">
+          <div className="flex items-center justify-center w-7 h-7 bg-ind-accent text-text-on-accent text-xs font-bold">
             VK
           </div>
           <span className="hidden sm:inline">Vikas Kapadiya</span>
@@ -118,7 +118,7 @@ const Header = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="no-underline text-[12px] font-normal tracking-[0.08em] uppercase text-text-secondary py-2"
+                className="no-underline text-sm font-normal tracking-wide uppercase text-text-secondary py-2"
               >
                 {item.name}
               </a>
@@ -126,7 +126,7 @@ const Header = () => {
               <button
                 key={item.name}
                 onClick={() => handleNavigate(item.id!)}
-                className={`bg-transparent border-none cursor-pointer text-left text-[12px] font-normal tracking-[0.08em] uppercase py-2 ${
+                className={`bg-transparent border-none cursor-pointer text-left text-sm font-normal tracking-wide uppercase py-2 ${
                   activeSection === item.id ? "text-ind-accent" : "text-text-secondary"
                 }`}
               >
@@ -136,7 +136,7 @@ const Header = () => {
           )}
           <a
             href="mailto:vikas@kapadiya.net"
-            className="inline-block text-center mt-2 no-underline text-[11px] font-medium tracking-[0.1em] uppercase bg-ind-accent text-text-on-accent px-5 py-2.5"
+            className="inline-block text-center mt-2 no-underline text-xs font-medium tracking-widest uppercase bg-ind-accent text-text-on-accent px-5 py-2.5"
           >
             Contact →
           </a>
