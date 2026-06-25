@@ -8,6 +8,7 @@ import { metaData, socialLinks } from "../config";
 
 <Base title={metaData.title} description={metaData.description}>
   <script
+    is:inline
     type="application/ld+json"
     set:html={JSON.stringify([
       {

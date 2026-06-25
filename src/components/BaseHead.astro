@@ -14,7 +14,7 @@ const { url, site } = Astro;
 
 import { getImagePath } from "astro-takumi";
 
-const openGraphImageUrl = getImagePath({ url, site });
+const openGraphImageUrl = image ?? getImagePath({ url, site });
 
 if (title !== metaData.title) {
   title = `${title} | ${metaData.title}`;

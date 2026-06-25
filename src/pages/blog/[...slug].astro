@@ -1,9 +1,15 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { type CollectionEntry, getCollection, render } from "astro:content";
 import BlogLayout from "../../layouts/BlogLayout.astro";
 import { metaData } from "../../config";
 
-import CustomMdx from "@components/Mdx.astro";
+import CustomLink from "@components/mdx/CustomLink.astro";
+import FeaturedImage from "@components/mdx/FeaturedImage.astro";
+import Image from "@components/mdx/Image.astro";
+import Paragraph from "@components/mdx/Paragraph.astro";
+import ProTip from "@components/mdx/ProTip.astro";
+import Tweet from "@components/mdx/Tweet.astro";
+import YouTube from "@components/mdx/YouTube.astro";
 import { getImagePath } from "astro-takumi";
 
 const { url, site } = Astro;
@@ -30,6 +36,8 @@ const post = Astro.props;
 if (post === undefined) {
   return Astro.redirect("/404");
 }
+
+const { Content } = await render(post);
 ---
 
 <BlogLayout
@@ -45,6 +53,7 @@ if (post === undefined) {
   excerpt={post.data.excerpt}
   ><section>
     <script
+      is:inline
       type="application/ld+json"
       set:html={JSON.stringify({
         "@context": "https://schema.org",
@@ -61,6 +70,16 @@ if (post === undefined) {
         },
       })}
     />
-    <CustomMdx content={post.body} />
+    <Content
+      components={{
+        FeaturedImage,
+        Image,
+        ProTip,
+        Tweet,
+        YouTube,
+        a: CustomLink,
+        p: Paragraph,
+      }}
+    />
   </section>
 </BlogLayout>

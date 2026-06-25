@@ -7,9 +7,6 @@ const focusVisibleClass =
 const navLinkClass =
   "no-underline text-sm font-normal tracking-wide uppercase text-text-secondary transition-colors duration-200 hover:text-ind-accent";
 
-const navButtonBaseClass =
-  "bg-transparent border-none cursor-pointer p-0 text-sm font-normal tracking-wide uppercase transition-colors duration-200 hover:text-ind-accent";
-
 const ctaClass =
   "no-underline text-xs font-medium tracking-widest uppercase bg-ind-accent text-text-on-accent border-none px-5 py-2.5 transition-opacity duration-[240ms] hover:opacity-85";
 

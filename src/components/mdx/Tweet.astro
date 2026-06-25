@@ -1,5 +1,5 @@
 ---
-import { EmbeddedTweet, TweetNotFound, type TweetProps } from "react-tweet";
+import { EmbeddedTweet, TweetNotFound } from "react-tweet";
 
 interface Props {
   id: string;
@@ -19,6 +19,7 @@ if (id) {
     }
     tweet = tweet.data;
   } catch (err) {
+    error = err;
     tweet = null;
   }
 }
