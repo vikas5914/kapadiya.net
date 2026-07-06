@@ -16,14 +16,14 @@ const Header = () => {
 
   const navItems = [
     { name: "Home", id: "home", href: "/#home" },
+    { name: "Projects", id: "projects", href: "/#projects" },
     { name: "About", id: "about", href: "/#about" },
-    { name: "Skills", id: "skills", href: "/#skills" },
     { name: "Blog", href: "/blog/" },
   ];
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ["skills", "about", "home"];
+      const sections = ["about", "projects", "home"];
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el) {

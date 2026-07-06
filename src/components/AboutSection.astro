@@ -24,7 +24,8 @@ const socials = [
         </h2>
       </div>
       <div class="hidden md:block text-sm text-text-muted max-w-[380px] leading-relaxed text-right">
-        Passionate full-stack developer with over 8 years of experience crafting digital solutions.
+        AI engineer with a decade of full-stack work underneath — PHP to
+        TypeScript to LLMs.
       </div>
     </div>
 
@@ -33,28 +34,28 @@ const socials = [
       <!-- Left Column — About Text -->
       <div class="flex flex-col gap-6">
         <p class="text-base leading-relaxed text-text-secondary">
-          I'm a passionate full-stack developer with over 8 years of experience crafting
-          digital solutions. My journey started with PHP, and I've been riding the Laravel
-          wave since version 5.
+          I started with PHP and spent a decade shipping full-stack —
+          Laravel, Node.js, React, and everything it takes to keep
+          production systems running. That foundation still shapes how I
+          build: clean code, reliable systems, scalable architecture.
         </p>
         <p class="text-base leading-relaxed text-text-secondary">
-          When I'm not debugging code or exploring new frameworks, you'll find me contributing
-          to open-source projects or helping fellow developers on Laravel Artisan community.
-          I believe in writing clean, maintainable code and sharing knowledge with the
-          developer community.
+          These days I'm an AI Engineer at Shopos AI, building agents and
+          the LLM tooling around them — the layer where models meet real
+          products and have to actually work.
         </p>
         <p class="text-base leading-relaxed text-text-secondary">
-          Currently, I'm exploring the intersection of AI and web development, experimenting
-          with tools that can enhance developer productivity while maintaining code quality.
+          Outside of work you'll find me maintaining open-source projects
+          and writing about what I learn along the way.
         </p>
 
         <!-- CTA Block -->
         <div class="bg-surface p-7 mt-2 shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
           <div class="text-xs font-mono font-medium tracking-wider uppercase text-ind-accent mb-2">
-            Available for freelance work
+            Contact
           </div>
           <div class="text-sm leading-relaxed text-text-secondary mb-5">
-            Let's build something amazing together!
+            Always up for talking agents, tooling, or the web.
           </div>
           <a
             href="mailto:vikas@kapadiya.net"
@@ -66,7 +67,7 @@ const socials = [
       </div>
 
       <!-- Right Column — Social Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 border border-border-strong">
+      <div class="grid grid-cols-1 sm:grid-cols-2 border border-border-strong self-start">
         {socials.map((s, i) => {
           const isRight = i % 2 === 1;
           const isLastRow = i >= socials.length - 2;
@@ -94,26 +95,6 @@ const socials = [
             </a>
           );
         })}
-
-        <!-- Community Block -->
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 col-span-full p-6 border-t border-border-strong">
-          <div>
-            <div class="text-xs font-mono font-medium tracking-widest uppercase text-text-muted mb-1.5">
-              Community
-            </div>
-            <div class="text-base font-bold tracking-tight uppercase text-text-primary">
-              Laravel Artisan
-            </div>
-          </div>
-          <a
-            href="https://telegram.me/LaravelArtisans"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="no-underline text-xs font-medium tracking-widest uppercase text-ind-accent border border-ind-accent px-5 py-2.5 bg-transparent transition-colors duration-[240ms] hover:bg-ind-accent hover:text-text-on-accent focus-visible:outline-2 focus-visible:outline-white focus-visible:outline-offset-2 shrink-0"
-          >
-            Join →
-          </a>
-        </div>
       </div>
     </div>
   </div>
