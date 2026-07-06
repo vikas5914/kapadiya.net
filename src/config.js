@@ -15,16 +15,6 @@ const socialLinks = {
   bluesky: "https://bsky.app/profile/kapadiya.net",
 };
 
-// TEMPORARY: still imported by SkillsSection.astro; removed in the skills rebuild task.
-const skills = [
-  { name: "PHP/Laravel", level: 95 },
-  { name: "Node.js", level: 88 },
-  { name: "React/TypeScript", level: 90 },
-  { name: "MySQL", level: 85 },
-  { name: "Tailwind CSS", level: 92 },
-  { name: "AWS/DevOps", level: 78 },
-];
-
 const skillGroups = [
   {
     title: "AI / LLM",
@@ -71,4 +61,4 @@ const projects = [
   },
 ];
 
-export { metaData, socialLinks, skills, skillGroups, projects };
+export { metaData, socialLinks, skillGroups, projects };

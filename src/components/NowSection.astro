@@ -1,0 +1,37 @@
+---
+const items = [
+  { label: "Role", value: "AI Engineer @ Shopos AI" },
+  { label: "Focus", value: "Agents & LLM tooling" },
+  { label: "Stack", value: "TypeScript · Python · Claude" },
+];
+---
+
+<section id="now" class="border-t border-border-medium">
+  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
+    <div class="grid grid-cols-1 md:grid-cols-[160px_1fr] border-x border-border-strong">
+      <div class="flex items-center px-6 py-5 md:border-r border-b md:border-b-0 border-border-strong">
+        <span class="flex items-center gap-2.5 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent">
+          <span class="w-2 h-2 bg-ind-accent inline-block animate-pulse motion-reduce:animate-none"></span>
+          Now
+        </span>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3">
+        {items.map((item, i, arr) => (
+          <div
+            class:list={[
+              "px-6 py-5",
+              i < arr.length - 1 && "sm:border-r border-b sm:border-b-0 border-border-strong",
+            ]}
+          >
+            <div class="text-xs font-mono font-medium tracking-widest uppercase text-text-muted mb-1.5">
+              {item.label}
+            </div>
+            <div class="text-sm font-semibold text-text-primary">
+              {item.value}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

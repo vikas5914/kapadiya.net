@@ -1,5 +1,5 @@
 ---
-import { skills } from "../config";
+import { skillGroups } from "../config";
 ---
 
 <section id="skills" class="bg-ind-accent text-text-on-accent">
@@ -12,68 +12,64 @@ import { skills } from "../config";
             Technical Data
           </div>
           <h2 class="text-3xl sm:text-4xl font-bold tracking-tight uppercase text-text-on-accent leading-none mb-6">
-            Technical Skills
+            What I Work With
           </h2>
           <p class="text-base leading-relaxed text-text-on-accent max-w-[400px]">
-            Here, you'll find my musings, tips, and stories from the trenches
-            of full-stack development. If you're a fellow code warrior or just
-            curious about the web dev life, stick around.
+            The current toolkit — AI systems up front, a decade of web
+            infrastructure underneath. No percentage bars; either I ship
+            with it or I don't.
           </p>
         </div>
         <div class="flex flex-wrap justify-between items-end gap-6 mt-10 md:mt-0">
           <div class="flex flex-col gap-1.5">
             <div class="text-4xl font-bold tracking-tight text-text-on-accent leading-none tabular-nums">
-              8+
+              10+
             </div>
             <div class="text-xs font-mono tracking-wider uppercase text-text-on-accent">
-              Years Experience
+              Years Shipping
             </div>
           </div>
           <div class="flex flex-col gap-1.5">
             <div class="text-4xl font-bold tracking-tight text-text-on-accent leading-none tabular-nums">
-              6
+              30+
             </div>
             <div class="text-xs font-mono tracking-wider uppercase text-text-on-accent">
-              Core Modules
+              Open-Source Repos
             </div>
           </div>
           <div class="flex flex-col gap-1.5">
             <div class="text-4xl font-bold tracking-tight text-text-on-accent leading-none tabular-nums">
-              v5+
+              600+
             </div>
             <div class="text-xs font-mono tracking-wider uppercase text-text-on-accent">
-              Laravel Since
+              GitHub Stars
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Pane — Skill Rows -->
+      <!-- Right Pane — Skill Groups -->
       <div class="flex flex-col">
-        {skills.map((skill, i) => (
+        {skillGroups.map((group, i) => (
           <div
             class:list={[
               "grid grid-cols-[60px_1fr]",
-              i < skills.length - 1 && "border-b border-text-on-accent/40",
+              i < skillGroups.length - 1 && "border-b border-text-on-accent/40",
             ]}
           >
-            <div class="flex items-center text-sm italic font-mono text-text-on-accent/90 px-4 py-5 border-r border-text-on-accent/40">
+            <div class="flex items-center text-sm italic font-mono text-text-on-accent/90 px-4 py-6 border-r border-text-on-accent/40">
               0{i + 1}
             </div>
-            <div class="px-6 py-5">
-              <div class="flex justify-between items-center mb-2.5">
-                <span class="text-sm font-semibold uppercase text-text-on-accent">
-                  {skill.name}
-                </span>
-                <span class="text-sm font-semibold text-text-on-accent">
-                  {skill.level}%
-                </span>
+            <div class="px-6 py-6">
+              <div class="text-sm font-semibold uppercase tracking-wider text-text-on-accent mb-3">
+                {group.title}
               </div>
-              <div class="w-full h-1 bg-text-on-accent/25">
-                <div
-                  class="skill-bar-fill h-1 bg-text-on-accent w-0 transition-[width] duration-[1200ms] ease motion-reduce:transition-none"
-                  style={`--skill-level: ${skill.level}%; transition-delay: ${i * 120}ms;`}
-                ></div>
+              <div class="flex flex-wrap gap-2">
+                {group.items.map((item) => (
+                  <span class="text-xs font-mono tracking-wider uppercase border border-text-on-accent/40 px-3 py-1.5 text-text-on-accent/90">
+                    {item}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -99,23 +95,3 @@ import { skills } from "../config";
     </div>
   </div>
 </section>
-
-<script>
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.querySelectorAll('.skill-bar-fill').forEach((bar) => {
-            const el = bar as HTMLElement;
-            el.style.width = el.style.getPropertyValue('--skill-level');
-          });
-          observer.disconnect();
-        }
-      });
-    },
-    { threshold: 0.2 }
-  );
-
-  const skillsSection = document.getElementById('skills');
-  if (skillsSection) observer.observe(skillsSection);
-</script>

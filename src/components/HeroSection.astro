@@ -1,12 +1,20 @@
 ---
 import { Image } from "astro:assets";
 import profile from "@images/profile.jpg";
+import AsciiShader from "./AsciiShader.astro";
 
-const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
+const tags = ["AI Agents", "LLM Tooling", "Full-Stack Roots"];
 ---
 
 <section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
-  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
+  <AsciiShader />
+  <!-- Scrim: keeps hero text readable over the shader -->
+  <div
+    class="absolute inset-0 bg-linear-to-r from-bg-main/85 via-bg-main/60 to-bg-main/30 pointer-events-none"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="relative mx-auto max-w-[1440px] px-6 sm:px-12">
     <!-- Main Layout -->
     <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-center">
       <!-- Left Content -->
@@ -14,22 +22,22 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
         <!-- Top Label -->
         <div class="flex items-center gap-3 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-6">
           <div class="w-8 h-px bg-ind-accent"></div>
-          Portfolio&nbsp;—&nbsp;2026
+          Vikas Kapadiya&nbsp;—&nbsp;AI Engineer
         </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight uppercase text-text-primary mb-8">
-          I work with
-          <span class="block text-ind-accent">Noobs.</span>
+          I build with
+          <span class="block text-ind-accent">AI.</span>
         </h1>
 
         <p class="text-base leading-relaxed text-text-secondary max-w-[560px] mb-12">
-          Hey, I'm Vikas Kapadiya, your go-to full-stack developer who loves
-          PHP almost as much as I love coffee (almost!). In my world, function
-          declarations rule, and PHP 8's latest features are my playground.
+          Hey, I'm Vikas Kapadiya — AI Engineer at Shopos AI. A decade of
+          shipping on the web, now building agents and the LLM tooling
+          around them.
         </p>
 
         <!-- Role Tags -->
-        <div class="flex flex-col sm:flex-row flex-wrap border border-border-strong">
+        <div class="flex flex-col sm:flex-row flex-wrap border border-border-strong bg-bg-main/60">
           {tags.map((tag, i, arr) => (
             <div
               class:list={[
@@ -60,10 +68,10 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
           <!-- Overlay -->
           <div class="absolute bottom-0 left-0 right-0 flex justify-between items-center px-5 py-4 bg-black/60">
             <span class="text-xs font-mono tracking-wider uppercase text-white/70">
-              Status
+              Currently
             </span>
             <span class="text-xs font-mono tracking-wider uppercase text-white font-semibold">
-              Available
+              Shopos AI
             </span>
           </div>
         </div>
@@ -74,11 +82,11 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
             Vikas Kapadiya
           </div>
           <div class="text-xs tracking-wider uppercase text-ind-accent mb-4">
-            Full-Stack Developer
+            AI Engineer — Shopos AI
           </div>
           <div class="text-sm leading-relaxed text-text-muted">
-            By day, I juggle Laravel, Node.js, MySQL, and Tailwind to create web magic,
-            and by night… well, I'm probably debugging.
+            Building AI products at Shopos AI. Before that: a decade of
+            full-stack — PHP to Node to TypeScript.
           </div>
         </div>
 
@@ -86,10 +94,10 @@ const tags = ["Full-Stack Developer", "Coffee Enthusiast", "Tech Explorer"];
         <div class="flex justify-between items-center border-t border-border-soft px-6 py-3.5">
           <span class="flex items-center text-xs tracking-wider uppercase text-success font-medium">
             <span class="w-2 h-2 rounded-full bg-success inline-block mr-2"></span>
-            Available for freelance
+            AI Engineer @ Shopos AI
           </span>
           <span class="text-xs text-text-muted">
-            REV 2026.05
+            REV 2026.07
           </span>
         </div>
       </div>
