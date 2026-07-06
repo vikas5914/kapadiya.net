@@ -1,0 +1,79 @@
+---
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts");
+const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
+
+const recentPosts = allPosts
+  .sort(
+    (a, b) =>
+      new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  )
+  .slice(0, 3)
+  .map((post) => {
+    const dateObj = new Date(post.data.date);
+    return {
+      ...post.data,
+      formattedDate: dateFormatter.format(dateObj),
+      isoDate: dateObj.toISOString().slice(0, 10),
+    };
+  });
+---
+
+<section id="writing" class="py-18 border-t border-border-medium">
+  <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row md:justify-between md:items-end gap-4 mb-12 pb-6 border-b border-border-soft">
+      <div>
+        <div class="text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-3">
+          Writing
+        </div>
+        <h2 class="text-4xl font-bold tracking-tight uppercase text-text-primary leading-none">
+          Recent Posts
+        </h2>
+      </div>
+      <a
+        href="/blog/"
+        class="no-underline text-xs font-mono font-medium tracking-widest uppercase text-ind-accent hover:text-ind-accent-hover transition-colors duration-[240ms]"
+      >
+        View all posts →
+      </a>
+    </div>
+
+    {recentPosts.length > 0 ? (
+      <div class="flex flex-col border border-border-strong">
+        {recentPosts.map((post, i) => (
+          <a
+            href={`/blog/${post.slug}/`}
+            class:list={[
+              "block no-underline grid grid-cols-1 sm:grid-cols-[60px_1fr_auto] transition-colors duration-[240ms] hover:bg-surface focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:-outline-offset-2",
+              i < recentPosts.length - 1 && "border-b border-border-strong",
+            ]}
+          >
+            <div class="hidden sm:flex items-center text-sm italic font-mono text-text-muted px-4 py-6 border-r border-border-strong">
+              0{i + 1}
+            </div>
+            <div class="p-6">
+              <div class="text-xs font-semibold tracking-widest uppercase text-ind-accent mb-2">
+                {post.category}
+              </div>
+              <div class="text-base font-semibold text-text-primary mb-1.5">
+                {post.title}
+              </div>
+              <div class="text-sm leading-relaxed text-text-muted max-w-[600px]">
+                {post.excerpt}
+              </div>
+            </div>
+            <div class="flex sm:flex-col flex-row items-center sm:items-end sm:justify-center gap-2 px-6 py-3 sm:p-6 border-t sm:border-t-0 sm:border-l border-border-soft sm:border-border-strong">
+              <time datetime={post.isoDate} class="text-xs text-text-secondary">
+                {post.formattedDate}
+              </time>
+              <span class="text-xs text-text-secondary">{post.readTime}</span>
+              <span class="text-sm text-ind-accent">→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : null}
+  </div>
+</section>

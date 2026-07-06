@@ -1,8 +1,11 @@
 ---
 import Base from "../layouts/Base.astro";
 import HeroSection from "../components/HeroSection.astro";
-import AboutSection from "../components/AboutSection.astro";
+import NowSection from "../components/NowSection.astro";
+import ProjectsSection from "../components/ProjectsSection.astro";
 import SkillsSection from "../components/SkillsSection.astro";
+import AboutSection from "../components/AboutSection.astro";
+import WritingSection from "../components/WritingSection.astro";
 import { metaData, socialLinks } from "../config";
 ---
 
@@ -22,7 +25,11 @@ import { metaData, socialLinks } from "../config";
         "@type": "Person",
         name: metaData.name,
         url: metaData.baseUrl,
-        jobTitle: "Full-Stack Developer",
+        jobTitle: "AI Engineer",
+        worksFor: {
+          "@type": "Organization",
+          name: "Shopos AI",
+        },
         sameAs: [
           socialLinks.github,
           socialLinks.linkedin,
@@ -34,6 +41,9 @@ import { metaData, socialLinks } from "../config";
     ])}
   />
   <HeroSection />
-  <AboutSection />
+  <NowSection />
+  <ProjectsSection />
   <SkillsSection />
+  <AboutSection />
+  <WritingSection />
 </Base>
