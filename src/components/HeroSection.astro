@@ -1,16 +1,16 @@
 ---
 import { Image } from "astro:assets";
 import profile from "@images/profile.jpg";
-import AsciiShader from "./AsciiShader.astro";
+import DotGrid from "./DotGrid.astro";
 
-const tags = ["AI Agents", "LLM Tooling", "Full-Stack Roots"];
+const tags = ["AI Agents", "LLM Tooling", "Production Systems"];
 ---
 
 <section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
-  <AsciiShader />
-  <!-- Scrim: keeps hero text readable over the shader -->
+  <DotGrid />
+  <!-- Scrim: keeps hero text readable over the dot grid -->
   <div
-    class="absolute inset-0 bg-linear-to-r from-bg-main/85 via-bg-main/60 to-bg-main/30 pointer-events-none"
+    class="absolute inset-0 bg-linear-to-r from-bg-main/70 via-bg-main/30 to-transparent pointer-events-none"
     aria-hidden="true"
   >
   </div>
@@ -26,14 +26,13 @@ const tags = ["AI Agents", "LLM Tooling", "Full-Stack Roots"];
         </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight uppercase text-text-primary mb-8">
-          I build with
-          <span class="block text-ind-accent">AI.</span>
+          I build
+          <span class="block text-ind-accent">Agent systems.</span>
         </h1>
 
         <p class="text-base leading-relaxed text-text-secondary max-w-[560px] mb-12">
-          Hey, I'm Vikas Kapadiya — AI Engineer at Shopos AI. A decade of
-          shipping on the web, now building agents and the LLM tooling
-          around them.
+          AI Engineer at Shopos AI, building agent workflows and LLM
+          tooling for production software.
         </p>
 
         <!-- Role Tags -->
@@ -85,8 +84,8 @@ const tags = ["AI Agents", "LLM Tooling", "Full-Stack Roots"];
             AI Engineer — Shopos AI
           </div>
           <div class="text-sm leading-relaxed text-text-muted">
-            Building AI products at Shopos AI. Before that: a decade of
-            full-stack — PHP to Node to TypeScript.
+            Building agent systems at Shopos AI — from LLM workflows to
+            the production infrastructure that runs them.
           </div>
         </div>
 

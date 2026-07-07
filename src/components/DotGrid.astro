@@ -1,0 +1,167 @@
+---
+// Interactive dot-grid canvas rendered behind hero content.
+// Zero dependencies: 2D canvas. Dots shimmer slowly and glow orange near the
+// cursor. Parent must be position:relative.
+---
+
+<div class="absolute inset-0 overflow-hidden" aria-hidden="true" data-dot-grid>
+  <canvas class="block h-full w-full"></canvas>
+</div>
+
+<script>
+  const GAP = 26; // CSS px between dots (matches the .grid-pattern motif scale)
+  const DOT_R = 1.5;
+  const GLOW_RADIUS = 180; // px around the cursor
+  const GLOW_ALPHA = 0.75;
+  const PUSH = 7; // px of displacement away from the cursor
+  const FRAME_MS = 1000 / 30; // 30fps cap
+  const ACCENT = [242, 92, 5]; // --ind-accent
+  const BASE = [232, 228, 223]; // --text-primary
+  const BASE_ALPHA = 0.14;
+
+  // --- value noise (ambient shimmer) ------------------------------------
+  function hash(x: number, y: number): number {
+    let h = (x * 374761393 + y * 668265263) | 0;
+    h = (h ^ (h >> 13)) | 0;
+    h = (h * 1274126177) | 0;
+    return ((h ^ (h >> 16)) >>> 0) / 4294967295;
+  }
+
+  function smoothstep(t: number): number {
+    return t * t * (3 - 2 * t);
+  }
+
+  function valueNoise(x: number, y: number): number {
+    const xi = Math.floor(x);
+    const yi = Math.floor(y);
+    const u = smoothstep(x - xi);
+    const v = smoothstep(y - yi);
+    const a = hash(xi, yi);
+    const b = hash(xi + 1, yi);
+    const c = hash(xi, yi + 1);
+    const d = hash(xi + 1, yi + 1);
+    return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+  }
+
+  // --- grid --------------------------------------------------------------
+  function start(root: HTMLElement): void {
+    const canvas = root.querySelector("canvas");
+    const ctx = canvas?.getContext("2d");
+    if (!canvas || !ctx) return;
+
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    let width = 0;
+    let height = 0;
+    let cols = 0;
+    let rows = 0;
+    let rafId = 0;
+    let visible = true;
+    let lastFrame = 0;
+    // Eased pointer: target (tx, ty) set by events, (x, y) trails it smoothly.
+    const pointer = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4 };
+
+    function resize(): void {
+      const rect = root.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.max(1, Math.round(width * dpr));
+      canvas.height = Math.max(1, Math.round(height * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS px
+      cols = Math.ceil(width / GAP) + 1;
+      rows = Math.ceil(height / GAP) + 1;
+      drawFrame(lastTime);
+    }
+
+    let lastTime = 0;
+    function drawFrame(t: number): void {
+      lastTime = t;
+      ctx.clearRect(0, 0, width, height);
+      const time = t * 0.0003;
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          let x = col * GAP;
+          let y = row * GAP;
+
+          // Slow ambient shimmer so the grid feels alive without a cursor
+          const shimmer = valueNoise(col * 0.16 + time, row * 0.16 + time * 0.6);
+          let alpha = BASE_ALPHA * (0.35 + shimmer);
+          let radius = DOT_R;
+          let mix = 0; // 0 = base color, 1 = accent
+
+          const dx = x - pointer.x;
+          const dy = y - pointer.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < GLOW_RADIUS) {
+            const f = smoothstep(1 - dist / GLOW_RADIUS);
+            alpha += f * GLOW_ALPHA;
+            radius += f * 1.7;
+            mix = f;
+            if (dist > 0.001) {
+              // Dots yield away from the cursor
+              x += (dx / dist) * f * PUSH;
+              y += (dy / dist) * f * PUSH;
+            }
+          }
+
+          const r = BASE[0] + (ACCENT[0] - BASE[0]) * mix;
+          const g = BASE[1] + (ACCENT[1] - BASE[1]) * mix;
+          const b = BASE[2] + (ACCENT[2] - BASE[2]) * mix;
+          ctx.beginPath();
+          ctx.arc(x, y, radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, ${Math.min(1, alpha)})`;
+          ctx.fill();
+        }
+      }
+    }
+
+    function loop(t: number): void {
+      rafId = requestAnimationFrame(loop);
+      if (!visible) return;
+      if (t - lastFrame < FRAME_MS) return;
+      lastFrame = t;
+      pointer.x += (pointer.tx - pointer.x) * 0.18;
+      pointer.y += (pointer.ty - pointer.y) * 0.18;
+      drawFrame(t);
+    }
+
+    new ResizeObserver(resize).observe(root);
+    resize();
+
+    if (reduceMotion) {
+      drawFrame(0); // single static frame
+      return;
+    }
+
+    window.addEventListener(
+      "pointermove",
+      (e) => {
+        const rect = root.getBoundingClientRect();
+        pointer.tx = e.clientX - rect.left;
+        pointer.ty = e.clientY - rect.top;
+      },
+      { passive: true }
+    );
+
+    new IntersectionObserver((entries) => {
+      visible = entries[0]?.isIntersecting ?? true;
+    }).observe(root);
+
+    document.addEventListener("visibilitychange", () => {
+      visible = document.visibilityState === "visible";
+    });
+
+    rafId = requestAnimationFrame(loop);
+  }
+
+  document.querySelectorAll<HTMLElement>("[data-dot-grid]").forEach((el) => {
+    try {
+      start(el);
+    } catch {
+      el.remove(); // any failure -> clean dark hero
+    }
+  });
+</script>

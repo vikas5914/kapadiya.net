@@ -1,9 +1,9 @@
 const metaData = {
   baseUrl: "https://kapadiya.net",
-  title: "Vikas Kapadiya - AI Engineer",
+  title: "Vikas Kapadiya | AI Engineer at Shopos AI",
   name: "Vikas Kapadiya",
   description:
-    "AI Engineer at Shopos AI. A decade of shipping on the web — now building agents and the LLM tooling around them.",
+    "AI Engineer at Shopos AI building agent systems, LLM tooling, and production web infrastructure.",
 };
 
 const socialLinks = {
@@ -21,30 +21,30 @@ const skillGroups = [
     items: ["Claude API", "Agents", "RAG", "MCP"],
   },
   {
-    title: "Languages",
-    items: ["TypeScript", "Python", "PHP"],
+    title: "Production Build",
+    items: ["TypeScript", "Python", "React", "Node.js"],
   },
   {
-    title: "Web",
-    items: ["React", "Node.js", "Astro", "Laravel", "Tailwind"],
-  },
-  {
-    title: "Infra",
+    title: "Systems",
     items: ["AWS", "Docker", "MySQL", "Postgres", "Redis"],
+  },
+  {
+    title: "Web Roots",
+    items: ["PHP", "Laravel", "Astro", "Tailwind"],
   },
 ];
 
 const projects = [
   {
     name: "google-photos-backup",
-    description: "Backup your Google Photos library using Playwright automation.",
-    stars: "261",
+    description: "Back up a Google Photos library with Playwright automation.",
+    stars: "260+",
     url: "https://github.com/vikas5914/google-photos-backup",
   },
   {
     name: "helium-drm-fixer",
-    description: "TypeScript tooling that repairs DRM-broken media libraries.",
-    stars: "78",
+    description: "TypeScript CLI that restores Widevine support in the Helium browser.",
+    stars: "75+",
     url: "https://github.com/vikas5914/helium-drm-fixer",
   },
   {
