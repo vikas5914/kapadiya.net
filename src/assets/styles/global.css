@@ -352,3 +352,63 @@ html {
     transform: translateY(0);
   }
 }
+
+/* ============================================================
+   HERO ROTATING HEADLINE
+   ============================================================ */
+.hero-rotate-viewport {
+  display: block;
+  height: 1.05em;
+  overflow: hidden;
+}
+
+.hero-rotate-track {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-rotate-item {
+  display: block;
+  height: 1.05em;
+  line-height: 1.05;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-rotate-track {
+    /* 3 phrases + seamless return to first; ~2.8s per line */
+    animation: hero-rotate-up 11.2s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-rotate-track {
+    transform: none;
+  }
+
+  .hero-rotate-item:not(:first-child) {
+    display: none;
+  }
+}
+
+@keyframes hero-rotate-up {
+  /* hold each line, then snap-scroll to next */
+  0%,
+  20% {
+    transform: translateY(0%);
+  }
+  25%,
+  45% {
+    transform: translateY(-25%);
+  }
+  50%,
+  70% {
+    transform: translateY(-50%);
+  }
+  75%,
+  95% {
+    transform: translateY(-75%);
+  }
+  100% {
+    transform: translateY(-75%);
+  }
+}

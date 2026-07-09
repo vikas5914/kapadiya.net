@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { writingTopics } from "../config";
 
 const allPosts = await getCollection("posts");
 const dateFormatter = new Intl.DateTimeFormat("en-US", { dateStyle: "long" });
@@ -18,6 +19,8 @@ const recentPosts = allPosts
       isoDate: dateObj.toISOString().slice(0, 10),
     };
   });
+
+const hasPosts = recentPosts.length > 0;
 ---
 
 <section id="writing" class="py-18 border-t border-border-medium" data-reveal>
@@ -29,51 +32,124 @@ const recentPosts = allPosts
           Writing
         </div>
         <h2 class="text-4xl font-bold tracking-tight uppercase text-text-primary leading-none">
-          Recent Posts
+          {hasPosts ? "Recent Posts" : "Notes from Production"}
         </h2>
       </div>
-      <a
-        href="/blog/"
-        class="no-underline text-xs font-mono font-medium tracking-widest uppercase text-ind-accent hover:text-ind-accent-hover transition-colors duration-[240ms]"
-      >
-        View all posts →
-      </a>
+      {hasPosts ? (
+        <a
+          href="/blog/"
+          class="no-underline text-xs font-mono font-medium tracking-widest uppercase text-ind-accent hover:text-ind-accent-hover transition-colors duration-[240ms]"
+        >
+          View all posts →
+        </a>
+      ) : (
+        <div class="text-sm text-text-muted max-w-[320px] leading-relaxed md:text-right">
+          Field notes on agents, TypeScript, and shipping systems.
+        </div>
+      )}
     </div>
 
-    {recentPosts.length > 0 ? (
-      <div class="flex flex-col border border-border-strong">
-        {recentPosts.map((post, i) => (
+    {hasPosts ? (
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-0 border border-border-strong">
+        <div class="flex flex-col lg:border-r border-border-strong">
+          {recentPosts.map((post, i) => (
+            <a
+              href={`/blog/${post.slug}/`}
+              class:list={[
+                "block no-underline grid grid-cols-1 sm:grid-cols-[60px_1fr_auto] transition-colors duration-[240ms] hover:bg-surface focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:-outline-offset-2",
+                i < recentPosts.length - 1 && "border-b border-border-strong",
+              ]}
+            >
+              <div class="hidden sm:flex items-center text-sm italic font-mono text-text-muted px-4 py-6 border-r border-border-strong">
+                0{i + 1}
+              </div>
+              <div class="p-6">
+                <div class="text-xs font-semibold tracking-widest uppercase text-ind-accent mb-2">
+                  {post.category}
+                </div>
+                <div class="text-base font-semibold text-text-primary mb-1.5">
+                  {post.title}
+                </div>
+                <div class="text-sm leading-relaxed text-text-muted max-w-[600px]">
+                  {post.excerpt}
+                </div>
+              </div>
+              <div class="flex sm:flex-col flex-row items-center sm:items-end sm:justify-center gap-2 px-6 py-3 sm:p-6 border-t sm:border-t-0 sm:border-l border-border-soft sm:border-border-strong">
+                <time datetime={post.isoDate} class="text-xs text-text-secondary">
+                  {post.formattedDate}
+                </time>
+                <span class="text-xs text-text-secondary">{post.readTime}</span>
+                <span class="text-sm text-ind-accent">→</span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <!-- Topics rail — fills space when the archive is still thin -->
+        <div class="flex flex-col justify-between p-6 sm:p-7 border-t lg:border-t-0 border-border-strong bg-surface/40">
+          <div>
+            <div class="text-xs font-mono font-medium tracking-widest uppercase text-text-muted mb-4">
+              Topics I cover
+            </div>
+            <ul class="flex flex-col gap-0 list-none p-0 m-0">
+              {writingTopics.map((topic, i) => (
+                <li
+                  class:list={[
+                    "py-3 text-sm text-text-secondary",
+                    i < writingTopics.length - 1 && "border-b border-border-soft",
+                  ]}
+                >
+                  <span class="text-ind-accent font-mono text-xs mr-2">//</span>
+                  {topic}
+                </li>
+              ))}
+            </ul>
+          </div>
           <a
-            href={`/blog/${post.slug}/`}
-            class:list={[
-              "block no-underline grid grid-cols-1 sm:grid-cols-[60px_1fr_auto] transition-colors duration-[240ms] hover:bg-surface focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:-outline-offset-2",
-              i < recentPosts.length - 1 && "border-b border-border-strong",
-            ]}
+            href="/blog/"
+            class="mt-8 inline-flex no-underline text-xs font-mono font-medium tracking-widest uppercase text-ind-accent hover:text-ind-accent-hover transition-colors duration-[240ms]"
           >
-            <div class="hidden sm:flex items-center text-sm italic font-mono text-text-muted px-4 py-6 border-r border-border-strong">
-              0{i + 1}
-            </div>
-            <div class="p-6">
-              <div class="text-xs font-semibold tracking-widest uppercase text-ind-accent mb-2">
-                {post.category}
-              </div>
-              <div class="text-base font-semibold text-text-primary mb-1.5">
-                {post.title}
-              </div>
-              <div class="text-sm leading-relaxed text-text-muted max-w-[600px]">
-                {post.excerpt}
-              </div>
-            </div>
-            <div class="flex sm:flex-col flex-row items-center sm:items-end sm:justify-center gap-2 px-6 py-3 sm:p-6 border-t sm:border-t-0 sm:border-l border-border-soft sm:border-border-strong">
-              <time datetime={post.isoDate} class="text-xs text-text-secondary">
-                {post.formattedDate}
-              </time>
-              <span class="text-xs text-text-secondary">{post.readTime}</span>
-              <span class="text-sm text-ind-accent">→</span>
-            </div>
+            Browse the archive →
           </a>
-        ))}
+        </div>
       </div>
-    ) : null}
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] border border-border-strong">
+        <div class="p-7 sm:p-10 border-b md:border-b-0 md:border-r border-border-strong">
+          <div class="text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-4">
+            Coming soon
+          </div>
+          <p class="text-base leading-relaxed text-text-secondary max-w-[480px] mb-6">
+            I write about the messy middle of production work — agent
+            tooling, TypeScript systems, and notes from open source.
+            First posts are on the way.
+          </p>
+          <a
+            href="mailto:vikas@kapadiya.net?subject=Writing%20topic%20idea"
+            class="inline-flex items-center gap-2 no-underline text-xs font-semibold tracking-widest uppercase border border-border-strong text-text-primary px-6 py-3 transition-colors duration-[240ms] hover:border-ind-accent hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2"
+          >
+            Suggest a topic
+          </a>
+        </div>
+        <div class="p-7 sm:p-10">
+          <div class="text-xs font-mono font-medium tracking-widest uppercase text-text-muted mb-4">
+            Topics on deck
+          </div>
+          <ul class="flex flex-col gap-0 list-none p-0 m-0">
+            {writingTopics.map((topic, i) => (
+              <li
+                class:list={[
+                  "py-3 text-sm text-text-secondary",
+                  i < writingTopics.length - 1 && "border-b border-border-soft",
+                ]}
+              >
+                <span class="text-ind-accent font-mono text-xs mr-2">//</span>
+                {topic}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )}
   </div>
 </section>

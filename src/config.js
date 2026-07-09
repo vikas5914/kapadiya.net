@@ -40,25 +40,61 @@ const projects = [
     description: "Back up a Google Photos library with Playwright automation.",
     stars: "260+",
     url: "https://github.com/vikas5914/google-photos-backup",
+    tags: ["Playwright", "Node.js", "Automation"],
   },
   {
     name: "helium-drm-fixer",
     description: "TypeScript CLI that restores Widevine support in the Helium browser.",
     stars: "75+",
     url: "https://github.com/vikas5914/helium-drm-fixer",
+    tags: ["TypeScript", "CLI", "Browser"],
   },
   {
     name: "astro-takumi",
     description: "Open Graph image generation for Astro — this site uses it.",
     stars: "30",
     url: "https://github.com/vikas5914/astro-takumi",
+    tags: ["Astro", "OG Images", "TypeScript"],
   },
   {
     name: "sumie",
     description: "Mobile-first manga reader for iOS, built with NativePHP Mobile.",
     stars: "2",
     url: "https://github.com/vikas5914/sumie",
+    tags: ["PHP", "NativePHP", "iOS"],
   },
 ];
 
-export { metaData, socialLinks, skillGroups, projects };
+const careerTimeline = [
+  {
+    era: "01",
+    title: "PHP foundations",
+    detail: "Laravel and full-stack web apps — learning how production systems actually behave.",
+  },
+  {
+    era: "02",
+    title: "Full-stack systems",
+    detail: "Node.js, React, databases, and the infrastructure it takes to keep products shipping.",
+  },
+  {
+    era: "03",
+    title: "AI engineering",
+    detail: "Agent workflows and LLM tooling at Shopos AI — where models meet real products.",
+  },
+];
+
+const writingTopics = [
+  "TypeScript tooling",
+  "Agent workflows",
+  "Production systems",
+  "Open-source notes",
+];
+
+export {
+  metaData,
+  socialLinks,
+  skillGroups,
+  projects,
+  careerTimeline,
+  writingTopics,
+};

@@ -4,6 +4,7 @@ import profile from "@images/profile.jpg";
 import DotGrid from "./DotGrid.astro";
 
 const tags = ["AI Agents", "LLM Tooling", "Production Systems"];
+const headlines = ["Agent systems.", "LLM tooling.", "Production software."];
 ---
 
 <section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
@@ -26,8 +27,19 @@ const tags = ["AI Agents", "LLM Tooling", "Production Systems"];
         </div>
 
         <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight uppercase text-text-primary mb-8">
-          I build
-          <span class="block text-ind-accent">Agent systems.</span>
+          <span class="block">I build</span>
+          <span class="hero-rotate sr-only">
+            {headlines.join(" ")}
+          </span>
+          <span class="hero-rotate-viewport" aria-hidden="true">
+            <span class="hero-rotate-track">
+              {headlines.map((line) => (
+                <span class="hero-rotate-item text-ind-accent">{line}</span>
+              ))}
+              <!-- Duplicate first for seamless loop -->
+              <span class="hero-rotate-item text-ind-accent">{headlines[0]}</span>
+            </span>
+          </span>
         </h1>
 
         <p class="text-base leading-relaxed text-text-secondary max-w-[560px] mb-8">

@@ -17,13 +17,16 @@ const Header = () => {
   const navItems = [
     { name: "Home", id: "home", href: "/#home" },
     { name: "Projects", id: "projects", href: "/#projects" },
+    { name: "Skills", id: "skills", href: "/#skills" },
     { name: "About", id: "about", href: "/#about" },
+    { name: "Writing", id: "writing", href: "/#writing" },
     { name: "Blog", href: "/blog/" },
   ];
 
   useEffect(() => {
+    // Bottom-to-top so the lowest section in view wins
+    const sections = ["writing", "about", "skills", "projects", "home"];
     const handleScroll = () => {
-      const sections = ["about", "projects", "home"];
       for (const id of sections) {
         const el = document.getElementById(id);
         if (el) {
@@ -36,6 +39,7 @@ const Header = () => {
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -66,7 +70,7 @@ const Header = () => {
         </a>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden lg:flex items-center gap-6">
           {navItems.map((item) => (
             <a
               key={item.name}
@@ -87,9 +91,9 @@ const Header = () => {
           </a>
         </nav>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile / tablet Menu Button */}
         <button
-          className={`md:hidden bg-transparent border-none cursor-pointer p-2 text-text-primary ${focusVisibleClass}`}
+          className={`lg:hidden bg-transparent border-none cursor-pointer p-2 text-text-primary ${focusVisibleClass}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label={isMenuOpen ? "Close menu" : "Toggle menu"}
         >
@@ -99,8 +103,8 @@ const Header = () => {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden bg-bg-main border-t border-border-medium ${
-          isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden transition-[max-height,opacity] duration-300 ease-in-out overflow-hidden bg-bg-main border-t border-border-medium ${
+          isMenuOpen ? "max-h-[28rem] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div className="px-12 py-6 flex flex-col gap-4">
