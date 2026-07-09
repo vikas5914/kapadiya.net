@@ -32,7 +32,7 @@ const hasPosts = recentPosts.length > 0;
           Writing
         </div>
         <h2 class="text-4xl font-bold tracking-tight uppercase text-text-primary leading-none">
-          {hasPosts ? "Recent Posts" : "Notes from Production"}
+          {hasPosts ? "Recent posts" : "Writing"}
         </h2>
       </div>
       {hasPosts ? (
@@ -40,11 +40,11 @@ const hasPosts = recentPosts.length > 0;
           href="/blog/"
           class="no-underline text-xs font-mono font-medium tracking-widest uppercase text-ind-accent hover:text-ind-accent-hover transition-colors duration-[240ms]"
         >
-          View all posts →
+          All posts →
         </a>
       ) : (
         <div class="text-sm text-text-muted max-w-[320px] leading-relaxed md:text-right">
-          Field notes on agents, TypeScript, and shipping systems.
+          TypeScript, agents, and whatever I just finished debugging.
         </div>
       )}
     </div>
@@ -85,11 +85,11 @@ const hasPosts = recentPosts.length > 0;
           ))}
         </div>
 
-        <!-- Topics rail — fills space when the archive is still thin -->
+        <!-- Side rail — useful when the list is still short -->
         <div class="flex flex-col justify-between p-6 sm:p-7 border-t lg:border-t-0 border-border-strong bg-surface/40">
           <div>
             <div class="text-xs font-mono font-medium tracking-widest uppercase text-text-muted mb-4">
-              Topics I cover
+              Stuff I write about
             </div>
             <ul class="flex flex-col gap-0 list-none p-0 m-0">
               {writingTopics.map((topic, i) => (
@@ -109,7 +109,7 @@ const hasPosts = recentPosts.length > 0;
             href="/blog/"
             class="mt-8 inline-flex no-underline text-xs font-mono font-medium tracking-widest uppercase text-ind-accent hover:text-ind-accent-hover transition-colors duration-[240ms]"
           >
-            Browse the archive →
+            All posts →
           </a>
         </div>
       </div>
@@ -117,12 +117,12 @@ const hasPosts = recentPosts.length > 0;
       <div class="grid grid-cols-1 md:grid-cols-[1.2fr_1fr] border border-border-strong">
         <div class="p-7 sm:p-10 border-b md:border-b-0 md:border-r border-border-strong">
           <div class="text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-4">
-            Coming soon
+            Nothing here yet
           </div>
           <p class="text-base leading-relaxed text-text-secondary max-w-[480px] mb-6">
-            I write about the messy middle of production work — agent
-            tooling, TypeScript systems, and notes from open source.
-            First posts are on the way.
+            When something bites me hard enough, I write it down.
+            TypeScript messes, agent setups, open source notes. First
+            posts soon.
           </p>
           <a
             href="mailto:vikas@kapadiya.net?subject=Writing%20topic%20idea"
@@ -133,7 +133,7 @@ const hasPosts = recentPosts.length > 0;
         </div>
         <div class="p-7 sm:p-10">
           <div class="text-xs font-mono font-medium tracking-widest uppercase text-text-muted mb-4">
-            Topics on deck
+            On the list
           </div>
           <ul class="flex flex-col gap-0 list-none p-0 m-0">
             {writingTopics.map((topic, i) => (

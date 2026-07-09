@@ -3,7 +3,7 @@ const metaData = {
   title: "Vikas Kapadiya | AI Engineer at Shopos AI",
   name: "Vikas Kapadiya",
   description:
-    "AI Engineer at Shopos AI building agent systems, LLM tooling, and production web infrastructure.",
+    "AI engineer at Shopos AI. Agents, LLM tooling, TypeScript, and open source.",
 };
 
 const socialLinks = {
@@ -21,15 +21,15 @@ const skillGroups = [
     items: ["Claude API", "Agents", "RAG", "MCP"],
   },
   {
-    title: "Production Build",
+    title: "Day to day",
     items: ["TypeScript", "Python", "React", "Node.js"],
   },
   {
-    title: "Systems",
+    title: "Infra",
     items: ["AWS", "Docker", "MySQL", "Postgres", "Redis"],
   },
   {
-    title: "Web Roots",
+    title: "Also",
     items: ["PHP", "Laravel", "Astro", "Tailwind"],
   },
 ];
@@ -37,28 +37,28 @@ const skillGroups = [
 const projects = [
   {
     name: "google-photos-backup",
-    description: "Back up a Google Photos library with Playwright automation.",
+    description: "Pull a full Google Photos library down with Playwright. No official bulk export that didn't suck.",
     stars: "260+",
     url: "https://github.com/vikas5914/google-photos-backup",
     tags: ["Playwright", "Node.js", "Automation"],
   },
   {
     name: "helium-drm-fixer",
-    description: "TypeScript CLI that restores Widevine support in the Helium browser.",
+    description: "CLI that puts Widevine back into the Helium browser so Netflix and friends work.",
     stars: "75+",
     url: "https://github.com/vikas5914/helium-drm-fixer",
     tags: ["TypeScript", "CLI", "Browser"],
   },
   {
     name: "astro-takumi",
-    description: "Open Graph image generation for Astro — this site uses it.",
+    description: "OG image generation for Astro. This site runs on it.",
     stars: "30",
     url: "https://github.com/vikas5914/astro-takumi",
     tags: ["Astro", "OG Images", "TypeScript"],
   },
   {
     name: "sumie",
-    description: "Mobile-first manga reader for iOS, built with NativePHP Mobile.",
+    description: "Manga reader for iOS. Built with NativePHP Mobile because I wanted PHP on a phone.",
     stars: "2",
     url: "https://github.com/vikas5914/sumie",
     tags: ["PHP", "NativePHP", "iOS"],
@@ -68,26 +68,26 @@ const projects = [
 const careerTimeline = [
   {
     era: "01",
-    title: "PHP foundations",
-    detail: "Laravel and full-stack web apps — learning how production systems actually behave.",
+    title: "PHP & Laravel",
+    detail: "Started here. Full-stack apps, MySQL, clients who needed things fixed yesterday.",
   },
   {
     era: "02",
-    title: "Full-stack systems",
-    detail: "Node.js, React, databases, and the infrastructure it takes to keep products shipping.",
+    title: "Full-stack web",
+    detail: "Node, React, databases, AWS. Same work, bigger piles of code.",
   },
   {
     era: "03",
-    title: "AI engineering",
-    detail: "Agent workflows and LLM tooling at Shopos AI — where models meet real products.",
+    title: "AI at Shopos",
+    detail: "Agents, Claude, TypeScript and Python services. Still shipping, just a different stack.",
   },
 ];
 
 const writingTopics = [
-  "TypeScript tooling",
-  "Agent workflows",
-  "Production systems",
-  "Open-source notes",
+  "TypeScript gotchas",
+  "Agent glue code",
+  "Deploying LLM stuff",
+  "Side projects",
 ];
 
 export {

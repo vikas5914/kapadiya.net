@@ -24,7 +24,7 @@ const blogPosts = allPosts
 
 <Base
   title="Blog - Vikas Kapadiya"
-  description="Notes on agents, LLM tooling, AI engineering, and production systems."
+  description="Occasional posts on TypeScript, agents, and whatever I'm debugging."
 >
   <section class="py-18 border-t border-border-medium">
     <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
@@ -34,8 +34,12 @@ const blogPosts = allPosts
           Writing
         </div>
         <h1 class="text-4xl font-bold tracking-tight uppercase text-text-primary leading-none">
-          Blog Posts
+          Blog
         </h1>
+        <p class="mt-4 text-sm text-text-muted max-w-[480px] leading-relaxed">
+          Occasional posts. TypeScript, agents, open source — whatever
+          was annoying enough to write down.
+        </p>
       </div>
 
       {blogPosts.length > 0 ? (
@@ -87,11 +91,11 @@ const blogPosts = allPosts
       ) : (
         <div class="text-center py-18">
           <div class="text-lg font-semibold text-text-primary mb-3">
-            No blog posts yet
+            No posts yet
           </div>
           <div class="text-sm text-text-muted mb-6 max-w-[400px] mx-auto leading-relaxed">
-            No posts published yet. Notes on agents, LLM tooling, and
-            production systems are in progress.
+            Nothing published. I'll put something here when the next
+            debugging session is worth sharing.
           </div>
           <a
             href="/"
