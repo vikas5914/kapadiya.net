@@ -1,0 +1,57 @@
+name: Purge Cloudflare cache
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  purge:
+    name: Purge after production deployment
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Wait for Cloudflare Pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in {1..90}; do
+            check=$(gh api \
+              --header "Accept: application/vnd.github+json" \
+              "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/check-runs" \
+              --jq '.check_runs[] | select(.name == "Cloudflare Pages") | [.status, (.conclusion // "")] | @tsv' \
+              | head -n 1)
+
+            status=${check%%$'\t'*}
+            conclusion=${check#*$'\t'}
+
+            if [[ "$status" == "completed" && "$conclusion" == "success" ]]; then
+              echo "Cloudflare Pages deployment succeeded."
+              break
+            fi
+
+            if [[ "$status" == "completed" ]]; then
+              echo "Cloudflare Pages deployment finished with: ${conclusion:-unknown}"
+              exit 1
+            fi
+
+            if [[ "$attempt" == "90" ]]; then
+              echo "Timed out waiting for Cloudflare Pages deployment."
+              exit 1
+            fi
+
+            sleep 10
+          done
+
+      - uses: actions/checkout@v4
+
+      - name: Purge kapadiya.net cache
+        env:
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_CACHE_PURGE_TOKEN: ${{ secrets.CLOUDFLARE_CACHE_PURGE_TOKEN }}
+          CLOUDFLARE_HOSTNAME: kapadiya.net
+        run: node scripts/purge-cloudflare-cache.mjs
