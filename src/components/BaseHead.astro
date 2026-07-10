@@ -72,7 +72,12 @@ if (title && title !== metaData.title) {
     creator: "@kapadiyavikas",
   }}
   extend={{
-    // extending the default link tags
     link: [{ rel: "icon", href: "/favicon.ico" }],
+    meta: [
+      {
+        property: "og:logo",
+        content: new URL("/favicon.png", metaData.baseUrl).href,
+      },
+    ],
   }}
 />
