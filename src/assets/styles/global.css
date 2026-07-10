@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Geist+Mono:wght@100..900&display=swap');
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 
 @import "tailwindcss";
 
@@ -7,9 +8,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: 'Geist', sans-serif;
-  --font-mono: 'Geist Mono', monospace;
-  --font-display: 'Geist', sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
+  --font-mono: "Geist Mono Variable", monospace;
+  --font-display: "Geist Variable", sans-serif;
 
   --color-bg-main: var(--bg-main);
   --color-surface: var(--surface);
@@ -64,24 +65,47 @@
   --animate-skill-bar: skill-bar 1.2s ease forwards;
 
   @keyframes accordion-down {
-    from { height: 0; }
-    to { height: var(--radix-accordion-content-height); }
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
   }
   @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to { height: 0; }
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
   }
   @keyframes fade-in {
-    0% { opacity: 0; transform: translateY(20px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
   @keyframes skill-bar {
-    from { width: 0%; }
-    to { width: var(--skill-level); }
+    from {
+      width: 0%;
+    }
+    to {
+      width: var(--skill-level);
+    }
   }
 }
 
@@ -91,19 +115,19 @@
 :root {
   /* Backgrounds */
   --bg-main: #141414;
-  --surface: #1E1E1E;
+  --surface: #1e1e1e;
   --surface-elevated: #282828;
 
   /* Accent */
-  --ind-accent: #F25C05;
-  --ind-accent-hover: #FF7A2E;
+  --ind-accent: #f25c05;
+  --ind-accent-hover: #ff7a2e;
   --ind-accent-muted: rgba(242, 92, 5, 0.2);
 
   /* Text */
-  --text-on-accent: #FFFFFF;
-  --text-primary: #E8E4DF;
-  --text-secondary: #A8A29E;
-  --text-muted: #9C9590;
+  --text-on-accent: #000000;
+  --text-primary: #e8e4df;
+  --text-secondary: #a8a29e;
+  --text-muted: #9c9590;
 
   /* Borders */
   --border-soft: rgba(255, 255, 255, 0.08);
@@ -111,7 +135,7 @@
   --border-strong: rgba(255, 255, 255, 0.2);
 
   /* Semantic */
-  --color-success-raw: #52B788;
+  --color-success-raw: #52b788;
 
   /* Spacing */
   --container-max: 1440px;
@@ -154,19 +178,6 @@
   --theme-beige: 42 25% 88%;
   --theme-beige-light: 42 25% 93%;
 
-  /* Syntax Highlighting */
-  --sh-class: #60a5fa;
-  --sh-identifier: #e5e7eb;
-  --sh-sign: #9ca3af;
-  --sh-string: #34d399;
-  --sh-keyword: #f87171;
-  --sh-comment: #6b7280;
-  --sh-jsxliterals: #a78bfa;
-  --sh-property: #F25C05;
-  --sh-entity: #fb923c;
-  --sh-function: #22d3ee;
-  --sh-number: #fbbf24;
-  --sh-boolean: #f472b6;
 }
 
 @utility container {
@@ -204,7 +215,12 @@
     font-size-adjust: from-font;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
   }
 
@@ -215,7 +231,8 @@
 }
 
 .grid-pattern {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
   background-size: 20px 20px;
 }
@@ -324,8 +341,12 @@ html {
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: scroll()) {
     @keyframes grow-progress {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
+      from {
+        transform: scaleX(0);
+      }
+      to {
+        transform: scaleX(1);
+      }
     }
 
     #scroll-progress {
@@ -341,14 +362,10 @@ html {
    ============================================================ */
 @media (prefers-reduced-motion: no-preference) {
   html.js [data-reveal] {
-    opacity: 0;
-    transform: translateY(24px);
-    transition:
-      opacity 600ms ease,
-      transform 600ms ease;
+    transform: translateY(12px);
+    transition: transform 500ms ease;
   }
   html.js [data-reveal].is-revealed {
-    opacity: 1;
     transform: translateY(0);
   }
 }

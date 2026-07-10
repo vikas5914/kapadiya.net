@@ -48,6 +48,8 @@
     const canvas = root.querySelector("canvas");
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
+    const surface = canvas;
+    const context = ctx;
 
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
@@ -58,7 +60,6 @@
     let height = 0;
     let cols = 0;
     let rows = 0;
-    let rafId = 0;
     let visible = true;
     let lastFrame = 0;
     // Eased pointer: target (tx, ty) set by events, (x, y) trails it smoothly.
@@ -68,9 +69,9 @@
       const rect = root.getBoundingClientRect();
       width = rect.width;
       height = rect.height;
-      canvas.width = Math.max(1, Math.round(width * dpr));
-      canvas.height = Math.max(1, Math.round(height * dpr));
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS px
+      surface.width = Math.max(1, Math.round(width * dpr));
+      surface.height = Math.max(1, Math.round(height * dpr));
+      context.setTransform(dpr, 0, 0, dpr, 0, 0); // draw in CSS px
       cols = Math.ceil(width / GAP) + 1;
       rows = Math.ceil(height / GAP) + 1;
       drawFrame(lastTime);
@@ -79,7 +80,7 @@
     let lastTime = 0;
     function drawFrame(t: number): void {
       lastTime = t;
-      ctx.clearRect(0, 0, width, height);
+      context.clearRect(0, 0, width, height);
       const time = t * 0.0003;
       for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
@@ -110,16 +111,16 @@
           const r = BASE[0] + (ACCENT[0] - BASE[0]) * mix;
           const g = BASE[1] + (ACCENT[1] - BASE[1]) * mix;
           const b = BASE[2] + (ACCENT[2] - BASE[2]) * mix;
-          ctx.beginPath();
-          ctx.arc(x, y, radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, ${Math.min(1, alpha)})`;
-          ctx.fill();
+          context.beginPath();
+          context.arc(x, y, radius, 0, Math.PI * 2);
+          context.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, ${Math.min(1, alpha)})`;
+          context.fill();
         }
       }
     }
 
     function loop(t: number): void {
-      rafId = requestAnimationFrame(loop);
+      requestAnimationFrame(loop);
       if (!visible) return;
       if (t - lastFrame < FRAME_MS) return;
       lastFrame = t;
@@ -154,7 +155,7 @@
       visible = document.visibilityState === "visible";
     });
 
-    rafId = requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
   }
 
   document.querySelectorAll<HTMLElement>("[data-dot-grid]").forEach((el) => {

@@ -19,7 +19,7 @@ const headlines = ["Agents.", "LLM tools.", "Web apps."];
     <!-- Main Layout -->
     <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-center">
       <!-- Left Content -->
-      <div>
+      <div class="order-first md:order-none">
         <!-- Top Label -->
         <div class="flex items-center gap-3 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-6">
           <div class="w-8 h-px bg-ind-accent"></div>
@@ -80,9 +80,9 @@ const headlines = ["Agents.", "LLM tools.", "Web apps."];
       </div>
 
       <!-- Right Content — Profile Card -->
-      <div class="bg-surface shadow-[0_30px_60px_rgba(0,0,0,0.12)] overflow-hidden order-first md:order-none">
+      <div class="bg-surface shadow-[0_30px_60px_rgba(0,0,0,0.12)] overflow-hidden">
         <!-- Profile Image -->
-        <div class="relative flex items-center justify-center overflow-hidden w-full h-[360px] bg-ind-accent">
+        <div class="relative flex items-center justify-center overflow-hidden w-full h-[260px] sm:h-[360px] bg-ind-accent">
           <Image
             src={profile}
             alt="Vikas Kapadiya"

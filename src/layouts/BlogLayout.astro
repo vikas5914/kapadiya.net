@@ -1,32 +1,36 @@
 ---
 import "@styles/global.css";
-import Header from "@components/Header";
-import Footer from "@components/Footer.astro";
-import BaseHead from "../components/BaseHead.astro";
+import Base from "./Base.astro";
 import { metaData } from "../config";
 
 export interface Props {
   title: string;
+  seoTitle?: string;
   description: string;
   author?: string;
   date: string | Date;
+  updated?: string | Date;
   readTime: string;
   category: string;
   featured?: boolean;
   slug: string;
   cover?: string;
   excerpt?: string;
+  tags?: string[];
 }
 
 const {
   title,
+  seoTitle,
   description,
   author = metaData.name,
   date,
+  updated,
   readTime,
   category,
   featured = false,
   cover,
+  tags = [],
 } = Astro.props;
 
 const dateObj = new Date(date);
@@ -34,27 +38,26 @@ const formattedDate = new Intl.DateTimeFormat("en-US", {
   dateStyle: "long",
 }).format(dateObj);
 const isoDate = dateObj.toISOString().slice(0, 10);
+const publishedTime = dateObj.toISOString();
+const modifiedTime = updated ? new Date(updated).toISOString() : undefined;
+const formattedUpdatedDate = updated
+  ? new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(new Date(updated))
+  : undefined;
 ---
 
-<html lang="en" class="[color-scheme:dark]">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="googlebot"
-      content="index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1"
-    />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <BaseHead title={title} description={description} image={cover} />
-    <meta name="author" content={author} />
-    <meta property="article:published_time" content={isoDate} />
-    <meta property="article:author" content={author} />
-  </head>
-  <body class="antialiased">
-    <div class="min-h-screen">
-      <Header client:load />
-      <main class="pt-16">
-        <article class="py-18">
-          <div class="mx-auto max-w-[800px] px-6 sm:px-12">
+<Base
+  title={seoTitle ?? title}
+  description={description}
+  image={cover}
+  pageType="article"
+  publishedTime={publishedTime}
+  modifiedTime={modifiedTime}
+  section={category}
+  tags={tags}
+  author={author}
+>
+  <article class="py-18">
+    <div class="mx-auto max-w-[800px] px-6 sm:px-12">
             <!-- Back to Blog -->
             <div class="mb-8">
               <a
@@ -89,6 +92,11 @@ const isoDate = dateObj.toISOString().slice(0, 10);
                 <time datetime={isoDate} class="text-sm text-text-secondary">
                   {formattedDate}
                 </time>
+                {formattedUpdatedDate && (
+                  <time datetime={modifiedTime} class="text-sm text-text-secondary">
+                    Updated {formattedUpdatedDate}
+                  </time>
+                )}
                 <span class="text-sm text-text-secondary">
                   {readTime}
                 </span>
@@ -100,9 +108,9 @@ const isoDate = dateObj.toISOString().slice(0, 10);
             </header>
 
             <!-- Article Content -->
-            <div class="prose prose-lg max-w-none blog-prose">
-              <slot />
-            </div>
+      <div class="prose prose-lg max-w-none blog-prose" data-article-content>
+        <slot />
+      </div>
 
             <!-- CTA -->
             <div class="bg-surface p-7 mt-12 border border-border-soft">
@@ -119,13 +127,57 @@ const isoDate = dateObj.toISOString().slice(0, 10);
                 All posts →
               </a>
             </div>
-          </div>
-        </article>
-      </main>
-      <Footer />
     </div>
-  </body>
-</html>
+  </article>
+</Base>
+
+<script>
+  const codeBlocks = document.querySelectorAll<HTMLElement>(
+    "[data-article-content] pre",
+  );
+
+  codeBlocks.forEach((pre) => {
+    if (pre.parentElement?.classList.contains("article-code-block")) return;
+
+    const code = pre.querySelector("code");
+    const languageClass = Array.from(code?.classList ?? []).find((name) =>
+      name.startsWith("language-"),
+    );
+    const source = (code?.textContent ?? pre.textContent ?? "").trimStart();
+    const inferredLanguage = source.startsWith("{") || source.startsWith("[")
+      ? "json"
+      : /^(project-root\/|[├└│])/m.test(source)
+        ? "tree"
+        : "code";
+    const language = languageClass?.replace("language-", "") || inferredLanguage;
+    const wrapper = document.createElement("div");
+    const toolbar = document.createElement("div");
+    const label = document.createElement("span");
+    const copyButton = document.createElement("button");
+
+    wrapper.className = "article-code-block";
+    toolbar.className = "article-code-toolbar";
+    label.textContent = language;
+    copyButton.type = "button";
+    copyButton.className = "article-code-copy";
+    copyButton.textContent = "Copy";
+    copyButton.setAttribute(`aria-label`, `Copy ${language} code`);
+
+    copyButton.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(code?.textContent ?? pre.textContent ?? "");
+        copyButton.textContent = "Copied";
+        window.setTimeout(() => (copyButton.textContent = "Copy"), 1600);
+      } catch {
+        copyButton.textContent = "Select code to copy";
+      }
+    });
+
+    pre.before(wrapper);
+    toolbar.append(label, copyButton);
+    wrapper.append(toolbar, pre);
+  });
+</script>
 
 <style>
   /* Prose styles target slot-rendered MDX content via :global(); Tailwind utilities cannot reach these. */
@@ -134,6 +186,11 @@ const isoDate = dateObj.toISOString().slice(0, 10);
     font-size: 1rem;
     line-height: 1.75;
   }
+  @media (min-width: 640px) {
+    .blog-prose {
+      font-size: 1.0625rem;
+    }
+  }
   .blog-prose :global(h1),
   .blog-prose :global(h2),
   .blog-prose :global(h3),
@@ -141,7 +198,6 @@ const isoDate = dateObj.toISOString().slice(0, 10);
     color: var(--text-primary);
     font-weight: 700;
     letter-spacing: -0.025em;
-    text-transform: uppercase;
   }
   .blog-prose :global(h2) {
     font-size: 1.5rem;
@@ -173,6 +229,41 @@ const isoDate = dateObj.toISOString().slice(0, 10);
     margin: 1.5rem 0;
     overflow-x: auto;
     font-size: 0.875rem;
+  }
+  .blog-prose :global(.article-code-block) {
+    margin: 1.75rem 0;
+    border: 1px solid var(--border-medium);
+    background: var(--surface);
+  }
+  .blog-prose :global(.article-code-block pre) {
+    margin: 0;
+    border: 0;
+  }
+  .blog-prose :global(.article-code-toolbar) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 2.5rem;
+    padding: 0 0.875rem;
+    border-bottom: 1px solid var(--border-medium);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .blog-prose :global(.article-code-copy) {
+    border: 0;
+    background: transparent;
+    color: var(--ind-accent);
+    cursor: pointer;
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+  }
+  .blog-prose :global(.article-code-copy:focus-visible) {
+    outline: 2px solid var(--ind-accent);
+    outline-offset: 3px;
   }
   .blog-prose :global(blockquote) {
     border-left: 3px solid var(--ind-accent);

@@ -1,0 +1,141 @@
+---
+const navItems = [
+  { name: "Home", id: "home", href: "/#home" },
+  { name: "Projects", id: "projects", href: "/#projects" },
+  { name: "Skills", id: "skills", href: "/#skills" },
+  { name: "About", id: "about", href: "/#about" },
+  { name: "Writing", id: "writing", href: "/#writing" },
+  { name: "Blog", id: "blog", href: "/blog/" },
+];
+
+const focusVisible =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ind-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-main";
+const navLink =
+  "nav-link no-underline text-sm font-normal tracking-wide uppercase text-text-secondary transition-colors duration-200 hover:text-ind-accent";
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-border-medium bg-bg-main" data-header>
+  <div class="mx-auto flex items-center justify-between max-w-[1440px] h-16 px-6 sm:px-12">
+    <a
+      href="/"
+      class:list={["flex items-center gap-2.5 no-underline text-sm font-bold tracking-wide uppercase text-ind-accent", focusVisible]}
+    >
+      <span class="flex items-center justify-center w-7 h-7 bg-ind-accent text-text-on-accent text-xs font-bold">
+        VK
+      </span>
+      <span class="hidden sm:inline">Vikas Kapadiya</span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-6" aria-label="Primary navigation">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          data-section={item.id}
+          class:list={[navLink, focusVisible]}
+        >
+          {item.name}
+        </a>
+      ))}
+      <a
+        href="mailto:vikas@kapadiya.net"
+        class:list={["no-underline text-xs font-medium tracking-widest uppercase bg-ind-accent text-text-on-accent px-5 py-2.5 transition-opacity duration-[240ms] hover:opacity-85", focusVisible]}
+      >
+        Contact →
+      </a>
+    </nav>
+
+    <button
+      type="button"
+      class:list={["lg:hidden bg-transparent border-none cursor-pointer p-2 text-text-primary", focusVisible]}
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-navigation"
+      data-menu-toggle
+    >
+      <svg data-menu-open aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
+      <svg data-menu-close aria-hidden="true" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M18 6 6 18M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-navigation"
+    class="lg:hidden bg-bg-main border-t border-border-medium"
+    aria-label="Mobile navigation"
+    data-mobile-nav
+    hidden
+  >
+    <div class="px-6 sm:px-12 py-6 flex flex-col gap-4">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          data-section={item.id}
+          class="nav-link no-underline text-sm font-normal tracking-wide uppercase py-2 text-text-secondary"
+        >
+          {item.name}
+        </a>
+      ))}
+      <a
+        href="mailto:vikas@kapadiya.net"
+        class="inline-block text-center mt-2 no-underline text-xs font-medium tracking-widest uppercase bg-ind-accent text-text-on-accent px-5 py-2.5"
+      >
+        Contact →
+      </a>
+    </div>
+  </nav>
+
+  <div
+    id="scroll-progress"
+    class="absolute bottom-0 left-0 h-[2px] bg-ind-accent w-full origin-left scale-x-0"
+  ></div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const toggle = header?.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const mobileNav = header?.querySelector<HTMLElement>("[data-mobile-nav]");
+  const openIcon = header?.querySelector<SVGElement>("[data-menu-open]");
+  const closeIcon = header?.querySelector<SVGElement>("[data-menu-close]");
+
+  const setMenuOpen = (isOpen: boolean) => {
+    if (!toggle || !mobileNav || !openIcon || !closeIcon) return;
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+    mobileNav.hidden = !isOpen;
+    openIcon.classList.toggle("hidden", isOpen);
+    closeIcon.classList.toggle("hidden", !isOpen);
+  };
+
+  toggle?.addEventListener("click", () => {
+    setMenuOpen(toggle.getAttribute("aria-expanded") !== "true");
+  });
+
+  header?.querySelectorAll<HTMLAnchorElement>("[data-mobile-nav] a").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  const sectionLinks = header?.querySelectorAll<HTMLAnchorElement>("[data-section]");
+  const sections = ["writing", "about", "skills", "projects", "home"];
+  const updateActiveSection = () => {
+    const activeId = window.location.pathname.startsWith("/blog/")
+      ? "blog"
+      : (sections.find((id) => {
+          const section = document.getElementById(id);
+          return section && section.getBoundingClientRect().top <= 120;
+        }) ?? "home");
+
+    sectionLinks?.forEach((link) => {
+      const isActive = link.dataset.section === activeId;
+      link.classList.toggle("text-ind-accent", isActive);
+      link.classList.toggle("text-text-secondary", !isActive);
+      if (isActive) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
+  window.addEventListener("scroll", updateActiveSection, { passive: true });
+  updateActiveSection();
+</script>

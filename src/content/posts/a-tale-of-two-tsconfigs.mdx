@@ -1,17 +1,22 @@
 ---
 title: "A Tale of Two tsconfigs: Taming a Monorepo-Style Vercel Project"
+seoTitle: "Splitting Client and Server tsconfigs in a Vercel Project"
 description: "How I wrangled a project with conflicting TypeScript configurations for the client and server by creating a multi-tsconfig setup."
 date: "2025-08-18"
+updated: "2026-07-11"
 readTime: "6 min"
 category: "Web Development"
+tags: ["TypeScript", "Vercel", "Project References", "React"]
 featured: true
 slug: "a-tale-of-two-tsconfigs"
 excerpt: "One tsconfig for Vite React and Vercel /api functions was a mess. I split it into a base plus client and server configs."
 ---
 
+## The workflow problem
+
 It all started when I was pulled into another project within the company. The app started as a Lovable build, which basically meant React with Vite instead of the Next.js setups we were used to with tools like v0.app.
 
-An intern had shipped most of the app using Kiro (Amazon's new IDE). They pushed everything to Vercel, so the project followed Vercel’s standard pattern, with an /api folder for serverless functions. The catch? Every time they wanted to test something, they kicked off a fresh deployment.
+An intern had shipped most of the app using Kiro, Amazon’s AI-assisted IDE. They pushed everything to Vercel, so the project followed Vercel’s standard pattern, with an `/api` folder for serverless functions. The catch? Every time they wanted to test something, they kicked off a fresh deployment.
 
 Here’s what I inherited:
 
@@ -22,13 +27,17 @@ Here’s what I inherited:
 └── supabase
 ```
 
-First goal: fix the workflow. Deploying on every single change was painful. Since we were already on Vercel, the obvious move was vercel dev. That way I could run everything locally, including the API functions.
+First goal: fix the workflow. Deploying on every single change was painful. Since we were already on Vercel, the obvious move was [`vercel dev`](https://vercel.com/docs/cli/dev). That way I could run everything locally, including the API functions.
 
 The good news? It worked. The bad news? My editor and vercel dev exploded with TypeScript errors coming from /api.
 
 The root problem was the `tsconfig.json`. It was built for a React client. I kept tweaking compiler options like `moduleResolution`, `module`, and `target`, trying to find a combo that worked for both client and server. No luck. It was clear that one tsconfig was never going to handle both.
 
+## Split the configuration
+
 After banging my head on this for a while, the fix was obvious: split it into two tsconfigs, one for the client and one for the server, both inheriting from a base file.
+
+### Start with shared settings
 
 I started with a tsconfig.base.json at the root to hold shared settings:
 
@@ -44,7 +53,9 @@ I started with a tsconfig.base.json at the root to hold shared settings:
 }
 ```
 
-Then for the frontend React code, I created `src/tsconfig.json`:
+### Configure the React client
+
+Then for the frontend React code, I created `src/tsconfig.json`. The client uses `moduleResolution: "bundler"` because Vite handles its imports:
 
 ```json
 {
@@ -67,7 +78,9 @@ Then for the frontend React code, I created `src/tsconfig.json`:
 }
 ```
 
-For the serverless functions, I added `api/tsconfig.json`:
+### Configure the serverless functions
+
+For the serverless functions, I added `api/tsconfig.json`. This side uses `NodeNext` so TypeScript follows Node’s module rules:
 
 ```json
 {
@@ -86,7 +99,9 @@ For the serverless functions, I added `api/tsconfig.json`:
 }
 ```
 
-Finally, I wired everything up in the root tsconfig.json using TypeScript’s references:
+## Connect the projects
+
+Finally, I wired everything up in the root `tsconfig.json` using [TypeScript project references](https://www.typescriptlang.org/docs/handbook/project-references.html):
 
 ```json
 {
@@ -111,6 +126,8 @@ project-root/
 └── package.json
 ```
 
-And that was it. TypeScript errors disappeared. `vercel dev` ran smoothly. My editor finally understood both the client and the server.
+## The result
+
+And that was it. TypeScript errors disappeared. `vercel dev` ran smoothly. My editor finally understood both the client and the server. The root configuration became an index of independently type-checked projects instead of a compromise between incompatible runtimes.
 
 Turns out, the trick to taming Vercel-style monorepos is simple: stop forcing one tsconfig to do two jobs.

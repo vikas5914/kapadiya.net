@@ -6,9 +6,9 @@ interface Props {
 const { title = "💡 Pro Tip" } = Astro.props;
 ---
 
-<div class="bg-theme-beige-light p-6 mb-6 border border-theme-orange/20">
-  <h3 class="font-bold text-gray-900 mb-3">{title}</h3>
-  <div class="text-gray-700">
+<aside class="bg-surface-elevated p-6 mb-6 border-l-2 border-ind-accent">
+  <h3 class="font-bold text-text-primary mb-3">{title}</h3>
+  <div class="text-text-secondary">
     <slot />
   </div>
-</div>
+</aside>

@@ -3,12 +3,26 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  pageType?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  section?: string;
+  tags?: string[];
 }
 
 import { metaData } from "../config";
 import { SEO } from "astro-seo";
 
-let { title, description = metaData.description, image } = Astro.props;
+let {
+  title,
+  description = metaData.description,
+  image,
+  pageType = "website",
+  publishedTime,
+  modifiedTime,
+  section,
+  tags = [],
+} = Astro.props;
 
 const { url, site } = Astro;
 
@@ -16,8 +30,8 @@ import { getImagePath } from "astro-takumi";
 
 const openGraphImageUrl = image ?? getImagePath({ url, site });
 
-if (title !== metaData.title) {
-  title = `${title} | ${metaData.title}`;
+if (title && title !== metaData.title) {
+  title = `${title} | ${metaData.name}`;
 }
 ---
 
@@ -29,21 +43,32 @@ if (title !== metaData.title) {
   openGraph={{
     basic: {
       title: title || metaData.title,
-      type: "website",
+      type: pageType,
       image: openGraphImageUrl,
       url: url,
     },
     optional: {
       description,
-      siteName: "Vikas's Blog",
+      siteName: metaData.name,
       locale: "en_US",
     },
+    image: {
+      alt: `${title || metaData.title} social preview`,
+    },
+    article: pageType === "article" ? {
+      publishedTime,
+      modifiedTime,
+      authors: [metaData.baseUrl],
+      section,
+      tags,
+    } : undefined,
   }}
   twitter={{
     card: "summary_large_image",
     title: title || metaData.title,
     description,
     image: openGraphImageUrl,
+    imageAlt: `${title || metaData.title} social preview`,
     creator: "@kapadiyavikas",
   }}
   extend={{

@@ -37,28 +37,31 @@ const skillGroups = [
 const projects = [
   {
     name: "google-photos-backup",
-    description: "Pull a full Google Photos library down with Playwright. No official bulk export that didn't suck.",
-    stars: "260+",
+    description:
+      "Pull a full Google Photos library down with Playwright. No official bulk export that didn't suck.",
+    stars: "261",
     url: "https://github.com/vikas5914/google-photos-backup",
     tags: ["Playwright", "Node.js", "Automation"],
   },
   {
     name: "helium-drm-fixer",
-    description: "CLI that puts Widevine back into the Helium browser so Netflix and friends work.",
-    stars: "75+",
+    description:
+      "CLI that puts Widevine back into the Helium browser so Netflix and friends work.",
+    stars: "82",
     url: "https://github.com/vikas5914/helium-drm-fixer",
     tags: ["TypeScript", "CLI", "Browser"],
   },
   {
     name: "astro-takumi",
     description: "OG image generation for Astro. This site runs on it.",
-    stars: "30",
+    stars: "32",
     url: "https://github.com/vikas5914/astro-takumi",
     tags: ["Astro", "OG Images", "TypeScript"],
   },
   {
     name: "sumie",
-    description: "Manga reader for iOS. Built with NativePHP Mobile because I wanted PHP on a phone.",
+    description:
+      "Manga reader for iOS. Built with NativePHP Mobile because I wanted PHP on a phone.",
     stars: "2",
     url: "https://github.com/vikas5914/sumie",
     tags: ["PHP", "NativePHP", "iOS"],
@@ -69,7 +72,8 @@ const careerTimeline = [
   {
     era: "01",
     title: "PHP & Laravel",
-    detail: "Started here. Full-stack apps, MySQL, clients who needed things fixed yesterday.",
+    detail:
+      "Started here. Full-stack apps, MySQL, clients who needed things fixed yesterday.",
   },
   {
     era: "02",
@@ -79,7 +83,8 @@ const careerTimeline = [
   {
     era: "03",
     title: "AI at Shopos",
-    detail: "Agents, Claude, TypeScript and Python services. Still shipping, just a different stack.",
+    detail:
+      "Agents, Claude, TypeScript and Python services. Still shipping, just a different stack.",
   },
 ];
 
