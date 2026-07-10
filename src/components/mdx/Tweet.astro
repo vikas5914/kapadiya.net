@@ -1,5 +1,38 @@
 ---
-import { EmbeddedTweet, TweetNotFound } from "react-tweet";
+/**
+ * Static X/Twitter embed.
+ *
+ * react-tweet's CSS modules do not emit styles under Astro SSG (classNames
+ * resolve, rules never land in the bundle), so we fetch syndication data and
+ * render a site-styled card with zero client JS.
+ */
+
+interface TweetUser {
+  name: string;
+  screen_name: string;
+  profile_image_url_https: string;
+  is_blue_verified?: boolean;
+  verified?: boolean;
+}
+
+interface TweetMedia {
+  type: string;
+  media_url_https: string;
+  expanded_url?: string;
+  ext_alt_text?: string;
+}
+
+interface TweetData {
+  id_str: string;
+  text: string;
+  created_at: string;
+  favorite_count?: number;
+  conversation_count?: number;
+  user: TweetUser;
+  mediaDetails?: TweetMedia[];
+  quoted_tweet?: TweetData;
+  note_tweet?: boolean;
+}
 
 interface Props {
   id: string;
@@ -7,38 +40,479 @@ interface Props {
 
 const { id } = Astro.props;
 
-let error;
-let tweet;
+let tweet: TweetData | null = null;
+let fetchError: string | null = null;
 
 if (id) {
   try {
-    tweet = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}`);
-    tweet = await tweet.json();
-    if (tweet.error) {
-      throw new Error(tweet.error);
+    const res = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}`);
+    const json = await res.json();
+    if (!res.ok || json.error || !json.data) {
+      throw new Error(json.error ?? `Failed to load tweet ${id}`);
     }
-    tweet = tweet.data;
+    tweet = json.data as TweetData;
   } catch (err) {
-    error = err;
+    fetchError = err instanceof Error ? err.message : "Tweet unavailable";
     tweet = null;
   }
 }
+
+function tweetUrl(t: TweetData) {
+  return `https://x.com/${t.user.screen_name}/status/${t.id_str}`;
+}
+
+function cleanText(text: string) {
+  // Drop trailing t.co media URLs — images render separately.
+  return text.replace(/\s*https:\/\/t\.co\/\w+\s*$/g, "").trim();
+}
+
+function formatCount(n: number | undefined) {
+  if (n == null) return null;
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}K`;
+  return String(n);
+}
+
+function formatDate(iso: string) {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(iso));
+}
+
+const photos = (t: TweetData) =>
+  (t.mediaDetails ?? []).filter((m) => m.type === "photo");
 ---
 
-<div class="tweet my-6">
-  <div class="flex justify-center">
-    {!tweet ? <TweetNotFound error={error} /> : <EmbeddedTweet tweet={tweet} />}
-  </div>
-</div>
+{
+  !tweet ? (
+    <figure class="tweet-embed not-prose">
+      <div class="tweet-card tweet-card--missing">
+        <p class="tweet-missing__title">Tweet unavailable</p>
+        <p class="tweet-missing__body">
+          {fetchError ?? "Could not load this post."}
+        </p>
+        {
+          id && (
+            <a
+              class="tweet-missing__link"
+              href={`https://x.com/i/status/${id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open on X →
+            </a>
+          )
+        }
+      </div>
+    </figure>
+  ) : (
+    <figure class="tweet-embed not-prose">
+      <blockquote class="tweet-card" cite={tweetUrl(tweet)}>
+        <header class="tweet-card__header">
+          <a
+            class="tweet-card__author"
+            href={`https://x.com/${tweet.user.screen_name}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              class="tweet-card__avatar"
+              src={tweet.user.profile_image_url_https.replace("_normal", "_bigger")}
+              alt=""
+              width="48"
+              height="48"
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="tweet-card__meta">
+              <span class="tweet-card__name">
+                {tweet.user.name}
+                {
+                  (tweet.user.is_blue_verified || tweet.user.verified) && (
+                    <svg
+                      class="tweet-card__badge"
+                      viewBox="0 0 24 24"
+                      aria-label="Verified"
+                      role="img"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.9-.81-3.91s-2.52-1.27-3.91-.81c-.66-1.31-1.91-2.19-3.34-2.19s-2.67.88-3.33 2.19c-1.4-.46-2.91-.2-3.92.81s-1.26 2.52-.8 3.91c-1.31.67-2.2 1.91-2.2 3.34s.89 2.67 2.2 3.34c-.46 1.39-.21 2.9.8 3.91s2.52 1.26 3.91.81c.67 1.31 1.91 2.19 3.34 2.19s2.68-.88 3.34-2.19c1.39.45 2.9.2 3.91-.81s1.27-2.52.81-3.91c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.36-6.2 6.77z"
+                      ></path>
+                    </svg>
+                  )
+                }
+              </span>
+              <span class="tweet-card__handle">@{tweet.user.screen_name}</span>
+            </span>
+          </a>
+          <a
+            class="tweet-card__x"
+            href={tweetUrl(tweet)}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="View on X"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
+              ></path>
+            </svg>
+          </a>
+        </header>
+
+        <p class="tweet-card__body">{cleanText(tweet.text)}</p>
+
+        {
+          photos(tweet).length > 0 && (
+            <div
+              class:list={[
+                "tweet-card__media",
+                photos(tweet).length > 1 && "tweet-card__media--grid",
+              ]}
+            >
+              {
+                photos(tweet).map((media) => (
+                  <a
+                    href={media.expanded_url ?? tweetUrl(tweet)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="tweet-card__media-link"
+                  >
+                    <img
+                      src={media.media_url_https}
+                      alt={media.ext_alt_text ?? "Tweet image"}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </a>
+                ))
+              }
+            </div>
+          )
+        }
+
+        {
+          tweet.quoted_tweet && (
+            <a
+              class="tweet-card__quote"
+              href={tweetUrl(tweet.quoted_tweet)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span class="tweet-card__quote-author">
+                <img
+                  src={tweet.quoted_tweet.user.profile_image_url_https}
+                  alt=""
+                  width="20"
+                  height="20"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <strong>{tweet.quoted_tweet.user.name}</strong>
+                <span>@{tweet.quoted_tweet.user.screen_name}</span>
+              </span>
+              <span class="tweet-card__quote-body">
+                {cleanText(tweet.quoted_tweet.text)}
+              </span>
+              {
+                photos(tweet.quoted_tweet).length > 0 && (
+                  <img
+                    class="tweet-card__quote-img"
+                    src={photos(tweet.quoted_tweet)[0].media_url_https}
+                    alt={
+                      photos(tweet.quoted_tweet)[0].ext_alt_text ??
+                      "Quoted tweet image"
+                    }
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )
+              }
+            </a>
+          )
+        }
+
+        <footer class="tweet-card__footer">
+          <a
+            class="tweet-card__date"
+            href={tweetUrl(tweet)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <time datetime={new Date(tweet.created_at).toISOString()}>
+              {formatDate(tweet.created_at)}
+            </time>
+          </a>
+          <span class="tweet-card__stats">
+            {
+              tweet.favorite_count != null && (
+                <span>
+                  <strong>{formatCount(tweet.favorite_count)}</strong> likes
+                </span>
+              )
+            }
+            {
+              tweet.conversation_count != null && (
+                <span>
+                  <strong>{formatCount(tweet.conversation_count)}</strong>{" "}
+                  replies
+                </span>
+              )
+            }
+          </span>
+        </footer>
+      </blockquote>
+    </figure>
+  )
+}
 
 <style>
-  .tweet {
-    margin: 1.5rem 0;
+  .tweet-embed {
+    margin: 2rem 0;
+    width: 100%;
   }
-  .flex {
+
+  .tweet-card {
+    margin: 0 auto;
+    max-width: 550px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--border-medium);
+    background: var(--surface);
+    color: var(--text-primary);
+    padding: 1rem 1.125rem 0.875rem;
+    font-family: var(--font-sans);
+  }
+
+  .tweet-card--missing {
+    text-align: center;
+    padding: 1.5rem 1.25rem;
+  }
+
+  .tweet-missing__title {
+    margin: 0 0 0.35rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .tweet-missing__body {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+
+  .tweet-missing__link {
+    color: var(--ind-accent);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .tweet-missing__link:hover {
+    color: var(--ind-accent-hover);
+  }
+
+  .tweet-card__header {
     display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
   }
-  .justify-center {
-    justify-content: center;
+
+  .tweet-card__author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .tweet-card__avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: var(--surface-elevated);
+  }
+
+  .tweet-card__meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+  }
+
+  .tweet-card__name {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tweet-card__badge {
+    width: 1.1em;
+    height: 1.1em;
+    color: #1d9bf0;
+    flex-shrink: 0;
+  }
+
+  .tweet-card__handle {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tweet-card__x {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    width: 1.25rem;
+    height: 1.25rem;
+    display: inline-flex;
+    margin-top: 0.15rem;
+  }
+
+  .tweet-card__x svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .tweet-card__x:hover {
+    color: var(--text-primary);
+  }
+
+  .tweet-card__body {
+    margin: 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--text-primary);
+  }
+
+  .tweet-card__media {
+    margin-top: 0.75rem;
+    border: 1px solid var(--border-soft);
+    overflow: hidden;
+  }
+
+  .tweet-card__media--grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .tweet-card__media-link {
+    display: block;
+    line-height: 0;
+  }
+
+  .tweet-card__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .tweet-card__quote {
+    display: block;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    border: 1px solid var(--border-medium);
+    background: var(--bg-main);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color var(--transition-fast);
+  }
+
+  .tweet-card__quote:hover {
+    border-color: var(--border-strong);
+  }
+
+  .tweet-card__quote-author {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+  }
+
+  .tweet-card__quote-author img {
+    width: 20px;
+    height: 20px;
+    border-radius: 9999px;
+    margin: 0;
+  }
+
+  .tweet-card__quote-author strong {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .tweet-card__quote-body {
+    display: block;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
+
+  .tweet-card__quote-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0.65rem 0 0;
+    border: 1px solid var(--border-soft);
+  }
+
+  .tweet-card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-soft);
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .tweet-card__date {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .tweet-card__date:hover {
+    color: var(--ind-accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .tweet-card__stats {
+    display: flex;
+    gap: 0.85rem;
+  }
+
+  .tweet-card__stats strong {
+    color: var(--text-secondary);
+    font-weight: 600;
   }
 </style>

@@ -1,0 +1,94 @@
+---
+title: "Let Codex Subagents Use Different Models"
+seoTitle: "Codex Subagent Models with multi_agent_v2"
+description: "A version-specific Codex config flag can expose model and reasoning controls for subagents. Here is the setup, how to verify it, and the caveat."
+date: "2026-07-11"
+readTime: "5 min"
+category: "AI Engineering"
+tags: ["Codex", "OpenAI", "Agents", "LLM", "config.toml"]
+featured: true
+slug: "codex-subagent-model-config"
+excerpt: "If Codex subagents always match the parent model, this experimental config can expose model and reasoning controls on spawn."
+---
+
+## The expensive default
+
+If you run Codex with multiple agents, the default can be surprisingly expensive: a helper may inherit the parent model and reasoning effort even when the job is only search, triage, or a test run.
+
+Eidzoku ([@evi77ain](https://x.com/evi77ain)) spotted the missing controls in `spawn_agent`:
+
+<Tweet id="2075445272013095033" />
+
+In that setup, `spawn_agent` did not expose a model or reasoning-effort field. A helper launched by a Sol Ultra session therefore ran at the same tier as its parent—even when the work did not need it.
+
+That defeats one of the useful parts of orchestration: matching the cost of each agent to the job.
+
+## The configuration
+
+A follow-up in the thread shared the feature configuration that exposes the missing spawn metadata:
+
+<Tweet id="2075552490913968225" />
+
+Add this to your Codex `config.toml`:
+
+```toml
+[features.multi_agent_v2]
+enabled = true
+hide_spawn_agent_metadata = false
+tool_namespace = "agents"
+```
+
+The post in the thread only includes the final two keys. I include `enabled = true` because the installed Codex CLI lists `multi_agent_v2` as an under-development feature and reports it as disabled by default.
+
+Restart Codex after changing the file. In a new session, the agent-spawn tool should expose optional model and reasoning-effort fields. That lets the parent keep a stronger model while assigning routine work to a faster one.
+
+<ProTip title="This is version-specific">
+  `multi_agent_v2` is not documented in the public Codex configuration reference as of July 11, 2026. Codex 0.144.1 recognizes it, but labels it **under development**. Treat this as a workaround to verify on your installed build, not a permanent configuration contract.
+</ProTip>
+
+## Verify it on your machine
+
+First, check the installed version and feature state:
+
+```bash
+codex --version
+codex features list | grep multi_agent_v2
+```
+
+After enabling the block and restarting Codex, start a fresh multi-agent session and inspect the available `spawn_agent` arguments. You are looking for model and reasoning-effort controls—not merely confirmation that the feature name exists.
+
+If Codex rejects the keys or the fields still do not appear, remove the block rather than assuming it changed runtime behavior. The public [Codex configuration reference](https://developers.openai.com/codex/config-reference/) remains the source of truth for supported settings.
+
+## Why it matters
+
+Multi-agent coding only pays off if routine steps can stay routine. A parent that plans and reviews should not force every explorer and test runner onto the same tier.
+
+In practice that looks like:
+
+| Role | What you want |
+| --- | --- |
+| Parent / orchestrator | Strong model, higher reasoning |
+| Codebase explorer | Smaller / faster model |
+| Test runner / summarizer | Minimal reasoning effort |
+
+Without model selection on spawn, every row can inherit the parent tier. Quota becomes the bottleneck long before orchestration helps.
+
+## A few notes from the thread
+
+- The original report describes observed behavior, not a documented guarantee across every Codex surface.
+- The installed CLI calls `multi_agent_v2` an under-development feature, so its name and behavior can change.
+- A successful config parse does not prove model selection is active. Confirm that the spawn tool actually exposes the fields.
+- Restart Codex after editing `config.toml`; an existing session may keep its original tool schema.
+
+## Bottom line
+
+If Codex usage jumps whenever it fans out work, check whether subagents inherit the parent model. On builds that support it, `multi_agent_v2` can expose the controls needed to choose models and reasoning levels per helper.
+
+```toml
+[features.multi_agent_v2]
+enabled = true
+hide_spawn_agent_metadata = false
+tool_namespace = "agents"
+```
+
+Small config change, but verify the resulting tool schema before counting on the savings.
