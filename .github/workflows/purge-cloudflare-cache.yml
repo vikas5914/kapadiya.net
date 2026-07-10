@@ -47,7 +47,7 @@ jobs:
             sleep 10
           done
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Purge kapadiya.net cache
         env:
