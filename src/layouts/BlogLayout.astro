@@ -149,7 +149,10 @@ const formattedUpdatedDate = updated
       : /^(project-root\/|[├└│])/m.test(source)
         ? "tree"
         : "code";
-    const language = languageClass?.replace("language-", "") || inferredLanguage;
+    const language =
+      pre.dataset.language ||
+      languageClass?.replace("language-", "") ||
+      inferredLanguage;
     const wrapper = document.createElement("div");
     const toolbar = document.createElement("div");
     const label = document.createElement("span");
