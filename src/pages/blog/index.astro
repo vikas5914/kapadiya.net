@@ -48,7 +48,7 @@ const blogPosts = allPosts
             <a
               href={`/blog/${post.slug}/`}
               class:list={[
-                "block no-underline grid grid-cols-1 sm:grid-cols-[60px_1fr_auto] transition-colors duration-[240ms] hover:bg-surface",
+                "block no-underline grid grid-cols-1 sm:grid-cols-[60px_minmax(0,1fr)_138px] transition-colors duration-[240ms] hover:bg-surface",
                 i < blogPosts.length - 1 && "border-b border-border-strong",
               ]}
             >
