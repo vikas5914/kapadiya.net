@@ -39,7 +39,6 @@ if (title && title !== metaData.title) {
   title={title}
   titleDefault={metaData.title}
   description={description}
-  charset="UTF-8"
   openGraph={{
     basic: {
       title: title || metaData.title,
@@ -53,6 +52,8 @@ if (title && title !== metaData.title) {
       locale: "en_US",
     },
     image: {
+      width: 1200,
+      height: 630,
       alt: `${title || metaData.title} social preview`,
     },
     article: pageType === "article" ? {
@@ -69,10 +70,16 @@ if (title && title !== metaData.title) {
     description,
     image: openGraphImageUrl,
     imageAlt: `${title || metaData.title} social preview`,
+    site: "@kapadiyavikas",
     creator: "@kapadiyavikas",
   }}
   extend={{
-    link: [{ rel: "icon", href: "/favicon.ico" }],
+    link: [
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", sizes: "32x32", href: "/favicon-32x32.png" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
+      { rel: "manifest", href: "/site.webmanifest" },
+    ],
     meta: [
       {
         property: "og:logo",
