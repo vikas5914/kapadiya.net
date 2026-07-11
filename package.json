@@ -22,7 +22,7 @@
     "@types/react-dom": "^19.2.3",
     "astro": "7.0.3",
     "astro-seo": "^1.1.0",
-    "astro-takumi": "^1.1.13",
+    "astro-takumi": "^2.0.1",
     "clsx": "^2.1.1",
     "lucide-react": "^1.24.0",
     "react": "^19.2.7",
