@@ -44,3 +44,4 @@
 /*
   Cache-Control: public, s-maxage=2592000, stale-while-revalidate=86400
   Content-Signal: ai-train=no, search=yes, ai-input=yes
+  Vary: Accept

@@ -19,13 +19,13 @@ const records = [
 ];
 
 if (dryRun) {
-  console.log(JSON.stringify({ content_converter: "on", records }, null, 2));
+  console.log(JSON.stringify({ records }, null, 2));
   process.exit(0);
 }
 
 if (!zoneId || !apiToken) {
   console.error(
-    "Set CLOUDFLARE_ZONE_ID and CLOUDFLARE_API_TOKEN with Zone DNS Edit and Zone Settings Edit permissions."
+    "Set CLOUDFLARE_ZONE_ID and CLOUDFLARE_API_TOKEN with Zone DNS Edit permission."
   );
   process.exit(1);
 }
@@ -46,12 +46,6 @@ async function cloudflare(path, init = {}) {
   }
   return payload.result;
 }
-
-await cloudflare(`/zones/${zoneId}/settings/content_converter`, {
-  method: "PATCH",
-  body: JSON.stringify({ value: "on" }),
-});
-console.log("Enabled Cloudflare Markdown for Agents.");
 
 for (const record of records) {
   const query = new URLSearchParams({ type: record.type, name: record.name });

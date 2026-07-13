@@ -72,10 +72,14 @@ if (!homeHtml.includes("modelContext.registerTool") || !homeHtml.includes("model
 }
 
 for (const post of posts.posts) {
-  const markdownPath = `dist/blog/${post.slug}.md`;
-  const markdown = await readFile(markdownPath, "utf8");
-  if (!markdown.startsWith(`# ${post.title}\n`)) {
-    throw new Error(`${markdownPath} does not match the post title`);
+  for (const markdownPath of [
+    `dist/blog/${post.slug}.md`,
+    `dist/blog/${post.slug}/index.md`,
+  ]) {
+    const markdown = await readFile(markdownPath, "utf8");
+    if (!markdown.startsWith(`# ${post.title}\n`)) {
+      throw new Error(`${markdownPath} does not match the post title`);
+    }
   }
 }
 

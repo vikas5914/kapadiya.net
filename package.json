@@ -7,6 +7,7 @@
     "build": "bunx --bun astro build",
     "check:agents": "node scripts/check-agent-assets.mjs",
     "configure:cloudflare-agents": "node scripts/configure-cloudflare-agent-discovery.mjs",
+    "configure:cloudflare-markdown": "node scripts/configure-cloudflare-markdown-rules.mjs",
     "preview": "bunx --bun astro preview",
     "astro": "bunx --bun astro",
     "purge:cloudflare-cache": "node scripts/purge-cloudflare-cache.mjs"
