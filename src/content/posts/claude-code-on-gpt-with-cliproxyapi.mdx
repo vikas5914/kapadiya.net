@@ -1,0 +1,172 @@
+---
+title: "Run Claude Code Through a GPT Proxy with claudex"
+seoTitle: "Point Claude Code at GPT-5.6 via CLIProxyAPI (claudex)"
+description: "Keep the Claude Code interface but run GPT-5.6 behind it, using CLIProxyAPI and your ChatGPT subscription. The setup, how to verify it, the model picker, and a prompt to let an AI do it for you."
+date: "2026-07-13"
+readTime: "7 min"
+category: "AI Engineering"
+tags: ["Claude Code", "Codex", "OpenAI", "CLIProxyAPI", "LLM", "Proxy"]
+featured: true
+slug: "claude-code-on-gpt-with-cliproxyapi"
+excerpt: "Prefer the Claude Code harness but want a GPT model inside it? A local proxy and one alias get you claudex in about five minutes."
+---
+
+## The idea
+
+Claude Code is two separable pieces: the **harness** — the TUI, the tools, the agent loop, the plugins — and the **model endpoint** it talks to. Point the harness at an Anthropic-compatible endpoint that forwards to GPT, and the same interface runs on a GPT model.
+
+Tibo ([@thsottiaux](https://x.com/thsottiaux)) described the approach:
+
+<Tweet id="2076119366647894371" />
+
+CLIProxyAPI is the local proxy that makes this work. It speaks the Anthropic Messages API and forwards to GPT — or Gemini, Grok, and others — using your existing **ChatGPT/Codex subscription**, with no OpenAI API key required. The result is a single command: `claudex`.
+
+This is the setup I ran end to end, plus a copy‑paste prompt at the end if you'd rather have an AI wire it up.
+
+## What you'll need
+
+- **Homebrew** (macOS)
+- A **ChatGPT Plus/Pro or Codex** subscription — the proxy authenticates against it over OAuth
+- **Claude Code** `v2.1.129+` if you want proxy models to appear in the `/model` picker
+
+<ProTip title="Scope it to an alias, not globally">
+  The original screenshots put the proxy `ANTHROPIC_BASE_URL` in the global `~/.claude/settings.json`, which routes **every** Claude Code session through GPT. Keeping it in a single alias instead means plain `claude` stays on Anthropic and only `claudex` uses GPT — cleaner, and trivially reversible.
+</ProTip>
+
+## Step 1 — Install CLIProxyAPI
+
+```bash
+brew install cliproxyapi
+brew services start cliproxyapi
+```
+
+That starts a local server on port `8317`, which restarts at login. Confirm it's up:
+
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8317/   # expect 200
+```
+
+## Step 2 — Authenticate with your ChatGPT account
+
+```bash
+cliproxyapi -codex-login
+```
+
+This opens a browser for OpenAI OAuth. Log in, pick the right workspace if you have Teams/Business, and approve. The credentials land in `~/.cli-proxy-api/` as a JSON file, and the proxy can now route GPT models on your behalf.
+
+## Step 3 — Set a client token
+
+The proxy needs a token your client will present. In `/opt/homebrew/etc/cliproxyapi.conf`, replace the placeholder `api-keys` with one of your own:
+
+```yaml
+api-keys:
+  - "claudex-REPLACE_WITH_A_RANDOM_SECRET"
+```
+
+Generate a strong one with `echo "claudex-$(openssl rand -hex 16)"`, then restart the service so it reloads:
+
+```bash
+brew services restart cliproxyapi
+```
+
+Verify the proxy answers an Anthropic-format request and serves the GPT models:
+
+```bash
+TOKEN="claudex-REPLACE_WITH_A_RANDOM_SECRET"
+curl -s http://localhost:8317/v1/models -H "Authorization: Bearer $TOKEN" \
+  | grep -oE '"gpt-5\.6-[a-z]+"' | sort -u
+# "gpt-5.6-luna"  "gpt-5.6-sol"  "gpt-5.6-terra"
+```
+
+## Step 4 — Point Claude Code at the proxy
+
+Add an alias to `~/.zshrc` that carries the proxy settings and launches Claude Code on a GPT model. It's scoped to the alias, so plain `claude` is unaffected:
+
+```bash
+alias claudex='ANTHROPIC_BASE_URL=http://localhost:8317 \
+ANTHROPIC_AUTH_TOKEN=claudex-REPLACE_WITH_A_RANDOM_SECRET \
+CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1 \
+CLAUDE_CODE_SUBAGENT_MODEL=gpt-5.6-sol \
+CLAUDE_CODE_ALWAYS_ENABLE_EFFORT=1 \
+CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3 \
+ENABLE_TOOL_SEARCH=false \
+claude --model gpt-5.6-sol --dangerously-skip-permissions'
+```
+
+<ProTip title="This alias includes bypass-permissions mode">
+  `--dangerously-skip-permissions` starts Claude Code with no approval prompts. That's convenient for controlled work, but it lets the agent run any command and edit any file unsupervised. Remove the flag unless you explicitly want that; the [fuller warning is below](#a-few-honest-caveats).
+</ProTip>
+
+What each part does:
+
+| Setting | Effect |
+| --- | --- |
+| `ANTHROPIC_BASE_URL` / `ANTHROPIC_AUTH_TOKEN` | Route this session to the local proxy, scoped to the alias |
+| `--model gpt-5.6-sol` | The GPT model that drives the session |
+| `CLAUDE_CODE_SUBAGENT_MODEL` | Spawned subagents use the same model |
+| `CLAUDE_CODE_ALWAYS_ENABLE_EFFORT` | Exposes the model's effort controls |
+| `CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY=3` | Caps concurrent tool calls |
+| `ENABLE_TOOL_SEARCH=false` | Disables dynamic tool search |
+| `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY` | Populates the `/model` picker from the proxy (see Step 5) |
+| `--dangerously-skip-permissions` | Starts in bypass-permissions mode |
+
+Reload and run it:
+
+```bash
+source ~/.zshrc
+claudex
+```
+
+You start on `gpt-5.6-sol`. To use `terra`, `luna`, or anything else the proxy serves, switch in-session with `/model` — no need to relaunch.
+
+## Step 5 — Enable model discovery
+
+By default, `/model` shows only Claude Code's built-in models. The `CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1` flag in the alias changes that. At startup Claude Code queries the proxy's `/v1/models` and adds each one to the picker under a **"From gateway"** group. From there you can switch between `sol`, `terra`, `luna`, and the rest live. This is the [documented gateway path](https://code.claude.com/docs/en/llm-gateway-connect#add-gateway-models-to-the-model-picker) and requires Claude Code `v2.1.129+`.
+
+<ProTip title="One harmless duplicate">
+  Your launch model shows up twice in the picker: once as the active model, and once in the "From gateway" group. Claude Code only de-duplicates discovered IDs against its *built-in* rows, and a `gpt-*` id has no built-in row to fold into. Both entries point at the same model, so the duplicate is cosmetic.
+</ProTip>
+
+## Optional — the management API
+
+CLIProxyAPI also ships a management API and web control panel, disabled until you set `secret-key` under `remote-management` in the config (keep `allow-remote: false` for localhost-only). It's tangential to `claudex` itself; if you want it, see [CLIProxyAPI's docs](https://github.com/router-for-me/CLIProxyAPI). Note that the management key is a **separate** secret from the `api-keys` token your client uses for model calls.
+
+## Let an AI set it up for you
+
+If you'd rather not do this by hand, paste the following into a Claude Code (or any capable coding‑agent) session and let it drive. It pauses for the one interactive step and keeps the routing scoped to an alias:
+
+```text
+Set up a "claudex" command on my Mac: the Claude Code interface running on
+GPT-5.6 via CLIProxyAPI, using my existing ChatGPT/Codex subscription.
+
+1. Install CLIProxyAPI with Homebrew and start it as a service. Confirm it
+   listens on localhost:8317 (expect HTTP 200).
+2. Generate a strong random client token, put it in the `api-keys` list of
+   /opt/homebrew/etc/cliproxyapi.conf (back the file up first), and restart the service.
+3. Authenticate the proxy to my ChatGPT account with `cliproxyapi -codex-login`.
+   It opens a browser — pause, tell me to complete the login, then continue once
+   credentials are saved to ~/.cli-proxy-api/.
+4. Verify with an Anthropic-format call to http://localhost:8317/v1/messages for
+   gpt-5.6-sol, and list the models from /v1/models.
+5. Add a `claudex` ALIAS to ~/.zshrc (not a global settings change, so plain
+   `claude` stays on Anthropic) that sets ANTHROPIC_BASE_URL, ANTHROPIC_AUTH_TOKEN,
+   and CLAUDE_CODE_ENABLE_GATEWAY_MODEL_DISCOVERY=1, then runs
+   `claude --model gpt-5.6-sol`. Verify it resolves, then summarize what changed
+   and where the backups are.
+
+Don't print my real tokens back in plaintext beyond what's needed. Ask me before
+anything destructive.
+```
+
+Two deliberate omissions: I don't ask the agent to add `--dangerously-skip-permissions` or to enable the management API. Add those yourself, on purpose, if you want them.
+
+## A few honest caveats
+
+- **Bypass permissions is exactly that.** `--dangerously-skip-permissions` removes every approval prompt, so the agent can run any command and edit any file unsupervised. Combined with a non‑Anthropic model, that's an autonomous agent on your machine. Keep it for throwaway work, not in directories with secrets or important uncommitted changes.
+- **Cloud stays on Anthropic.** Remote agents, cloud code review, and the web/Slack surfaces run on Anthropic's infrastructure and can't reach a local proxy. They continue to use Claude, which is expected.
+- **OAuth tokens expire.** If `claudex` starts erroring, re-run `cliproxyapi -codex-login` to refresh.
+- **It's a personal, experimental setup.** You're using your own subscription through an unofficial proxy; treat model names and behavior as things to verify on your build, not contracts.
+
+## Bottom line
+
+The Claude Code harness and its model are separable, and a small local proxy is all it takes to swap the model while keeping everything else. Scope the proxy settings to a `claudex` alias so your normal `claude` stays on Anthropic, and verify the proxy, the model list, and the selected model before you rely on it for regular work.
