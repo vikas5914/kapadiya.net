@@ -49,5 +49,6 @@ curl -i -H 'Accept: text/markdown' https://kapadiya.net/
 curl -i https://kapadiya.net/.well-known/api-catalog
 curl -i https://kapadiya.net/.well-known/oauth-protected-resource
 curl -i https://kapadiya.net/.well-known/oauth-authorization-server
+curl -i https://kapadiya.net/.well-known/mcp/server-card.json
 curl -i https://kapadiya.net/auth.md
 ```

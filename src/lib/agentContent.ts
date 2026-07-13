@@ -107,12 +107,45 @@ export function getAuthorizationServerMetadata() {
     agent_auth: {
       skill: `${ORIGIN}/auth.md`,
       register_uri: `${ORIGIN}/auth.md#registration`,
+      claim_uri: `${ORIGIN}/auth.md#claiming-an-anonymous-registration`,
+      revocation_uri: `${ORIGIN}/auth.md#revocation`,
       identity_types_supported: ["anonymous"],
       anonymous: {
         credential_types_supported: ["none"],
-        claim_uri: `${ORIGIN}/auth.md#claiming-an-anonymous-registration`,
-        revocation_uri: `${ORIGIN}/auth.md#revocation`,
       },
+    },
+  };
+}
+
+export function getMcpServerCard() {
+  return {
+    serverInfo: {
+      name: "kapadiya.net WebMCP",
+      version: API_VERSION,
+    },
+    description:
+      "Read-only browser tools for discovering Vikas Kapadiya's public profile, posts, and visible site content.",
+    transport: {
+      type: "webmcp",
+      endpoint: ORIGIN,
+    },
+    capabilities: {
+      tools: [
+        {
+          name: "get_site_profile",
+          description: "Read the public Vikas Kapadiya profile represented on the page.",
+        },
+        {
+          name: "list_blog_posts",
+          description: "List blog posts linked from the current page.",
+        },
+        {
+          name: "search_visible_content",
+          description: "Search text visible on the current page.",
+        },
+      ],
+      resources: [],
+      prompts: [],
     },
   };
 }
@@ -250,6 +283,7 @@ export async function renderHomeMarkdown() {
     `- [Agent skills index](${metaData.baseUrl}/.well-known/agent-skills/index.json)`,
     `- [Authentication guidance](${metaData.baseUrl}/auth.md)`,
     `- [Agent registration metadata](${metaData.baseUrl}/.well-known/oauth-authorization-server)`,
+    `- [MCP Server Card](${metaData.baseUrl}/.well-known/mcp/server-card.json)`,
     "",
     "## Contact",
     "",
