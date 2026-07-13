@@ -1,0 +1,25 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Not Found" description="The requested page does not exist.">
+  <section class="py-18 border-t border-border-medium">
+    <div class="mx-auto max-w-[900px] px-6 text-center sm:px-12">
+      <div class="mb-3 text-xs font-medium tracking-widest uppercase text-ind-accent">
+        404
+      </div>
+      <h1 class="text-4xl font-bold tracking-tight uppercase text-text-primary">
+        Page not found
+      </h1>
+      <p class="mt-4 text-sm text-text-muted">
+        That route does not exist.
+      </p>
+      <a
+        href="/"
+        class="mt-8 inline-block bg-ind-accent px-6 py-3 text-xs font-semibold tracking-widest text-text-on-accent uppercase no-underline"
+      >
+        Back to home
+      </a>
+    </div>
+  </section>
+</Base>

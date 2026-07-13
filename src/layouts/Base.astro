@@ -67,6 +67,121 @@ const {
     </main>
     <Footer />
     <script is:inline>
+      (() => {
+        const modelContext = document.modelContext || navigator.modelContext;
+        if (!modelContext) return;
+
+        const result = (value) => ({
+          content: [{ type: "text", text: JSON.stringify(value, null, 2) }],
+          structuredContent: value,
+        });
+
+        const tools = [
+          {
+            name: "get_site_profile",
+            description:
+              "Read the public Vikas Kapadiya profile represented on this page.",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              additionalProperties: false,
+            },
+            annotations: { readOnlyHint: true, openWorldHint: false },
+            execute: async () => {
+              const person = [...document.querySelectorAll('script[type="application/ld+json"]')]
+                .flatMap((script) => {
+                  try {
+                    const data = JSON.parse(script.textContent || "null");
+                    return Array.isArray(data) ? data : [data];
+                  } catch {
+                    return [];
+                  }
+                })
+                .find((entry) => entry && entry["@type"] === "Person");
+              return result(
+                person || {
+                  name: "Vikas Kapadiya",
+                  url: "https://kapadiya.net",
+                  jobTitle: "AI Engineer",
+                }
+              );
+            },
+          },
+          {
+            name: "list_blog_posts",
+            description:
+              "List blog posts linked from the current page with titles and canonical URLs.",
+            inputSchema: {
+              type: "object",
+              properties: {},
+              additionalProperties: false,
+            },
+            annotations: { readOnlyHint: true, openWorldHint: false },
+            execute: async () => {
+              const posts = new Map();
+              for (const link of document.querySelectorAll('a[href^="/blog/"]')) {
+                const path = new URL(link.href, location.href).pathname;
+                if (path === "/blog/") continue;
+                const title = link.querySelector(".text-lg, .text-base")?.textContent?.trim()
+                  || link.textContent?.trim();
+                if (title) posts.set(path, { title, url: new URL(path, location.origin).href });
+              }
+              return result({ posts: [...posts.values()] });
+            },
+          },
+          {
+            name: "search_visible_content",
+            description:
+              "Search text visible on the current page and return short matching excerpts.",
+            inputSchema: {
+              type: "object",
+              properties: {
+                query: {
+                  type: "string",
+                  minLength: 1,
+                  description: "Case-insensitive text to find on the current page.",
+                },
+              },
+              required: ["query"],
+              additionalProperties: false,
+            },
+            annotations: { readOnlyHint: true, openWorldHint: false },
+            execute: async ({ query }) => {
+              const needle = String(query || "").trim().toLowerCase();
+              if (!needle) return result({ query, matches: [] });
+              const matches = [...document.querySelectorAll("main section")]
+                .map((section) => ({
+                  section: section.id || section.querySelector("h1, h2")?.textContent?.trim() || "page",
+                  text: section.textContent?.replace(/\s+/g, " ").trim() || "",
+                }))
+                .filter((entry) => entry.text.toLowerCase().includes(needle))
+                .slice(0, 5)
+                .map((entry) => {
+                  const index = entry.text.toLowerCase().indexOf(needle);
+                  return {
+                    section: entry.section,
+                    excerpt: entry.text.slice(Math.max(0, index - 100), index + needle.length + 180),
+                  };
+                });
+              return result({ query, matches });
+            },
+          },
+        ];
+
+        if (typeof modelContext.registerTool === "function") {
+          const controller = new AbortController();
+          for (const tool of tools) {
+            Promise.resolve(modelContext.registerTool(tool, { signal: controller.signal })).catch(
+              () => undefined
+            );
+          }
+          addEventListener("pagehide", () => controller.abort(), { once: true });
+        } else if (typeof modelContext.provideContext === "function") {
+          modelContext.provideContext({ tools });
+        }
+      })();
+    </script>
+    <script is:inline>
       // Fallback for browsers that don't support scroll-driven CSS animations (e.g. Firefox)
       if (!CSS.supports('animation-timeline', 'scroll()')) {
         const progress = document.querySelector('#scroll-progress');

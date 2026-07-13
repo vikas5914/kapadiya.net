@@ -1,0 +1,61 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+
+<Base
+  title="Public API"
+  description="Documentation for the kapadiya.net public content API and WebMCP tools."
+>
+  <section class="py-18 border-t border-border-medium">
+    <div class="mx-auto max-w-[900px] px-6 sm:px-12">
+      <div class="mb-12 border-b border-border-soft pb-6">
+        <div class="mb-3 text-xs font-medium tracking-widest uppercase text-ind-accent">
+          Agent access
+        </div>
+        <h1 class="text-4xl font-bold tracking-tight uppercase text-text-primary">
+          Public content API
+        </h1>
+        <p class="mt-4 max-w-[680px] text-sm leading-relaxed text-text-muted">
+          Read-only profile, project, and writing metadata. No account, API key,
+          or OAuth token is required.
+        </p>
+      </div>
+
+      <div class="blog-prose space-y-10 text-text-secondary">
+        <section>
+          <h2 class="mb-4 text-2xl font-semibold text-text-primary">Endpoints</h2>
+          <ul class="space-y-3 font-mono text-sm">
+            <li><a href="/api/profile.json">GET /api/profile.json</a></li>
+            <li><a href="/api/posts.json">GET /api/posts.json</a></li>
+            <li><a href="/api/status">GET /api/status</a></li>
+            <li><a href="/openapi.json">GET /openapi.json</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="mb-4 text-2xl font-semibold text-text-primary">WebMCP</h2>
+          <p>
+            Pages register read-only browser tools for the public profile, blog
+            links, and visible-content search through WebMCP. This static site
+            does not advertise a remote MCP server.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="mb-4 text-2xl font-semibold text-text-primary">
+            Authentication and usage
+          </h2>
+          <p>
+            All operations are public and read-only. Agent registration and
+            bearer credentials are not supported or required. See
+            <a href="/auth.md">auth.md</a> for machine-readable guidance.
+          </p>
+          <p class="mt-3">
+            Content may be used for search and as agent input, but not for model
+            training. The same preference is published in <a href="/robots.txt">robots.txt</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+</Base>
