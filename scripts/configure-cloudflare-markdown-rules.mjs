@@ -29,18 +29,6 @@ const configurations = [
       ref: "kapadiya_net_markdown_accept_rewrite",
     },
   },
-  {
-    phase: "http_request_cache_settings",
-    rulesetName: "kapadiya.net cache rules",
-    rule: {
-      action: "set_cache_settings",
-      action_parameters: { cache: false },
-      expression: markdownRequest,
-      description: "Bypass shared HTML cache for Markdown content negotiation",
-      enabled: true,
-      ref: "kapadiya_net_markdown_accept_cache_bypass",
-    },
-  },
 ];
 
 if (planOnly) {

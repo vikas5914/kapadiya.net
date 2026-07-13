@@ -4,7 +4,7 @@ Astro generates every HTTP discovery document and Markdown representation as a s
 
 ## Markdown content negotiation
 
-Create a token scoped to the `kapadiya.net` zone with Transform Rules Edit, Cache Rules Edit, and Zone Read permissions, then run it through the Cloudflare CLI:
+Create a token with Account / Transform Rules / Edit and Account / Account Rulesets / Read permissions, scoped to the account containing `kapadiya.net`, then run it through the Cloudflare CLI:
 
 ```bash
 CLOUDFLARE_API_TOKEN="..." bun run configure:cloudflare-markdown
@@ -14,10 +14,10 @@ The default `cf auth login` OAuth client does not currently request Rulesets per
 
 Use `bun run configure:cloudflare-markdown --plan` to inspect the intended rules without contacting Cloudflare. With an authorized token, `--dry-run` asks `cf` to validate the planned create or update operations without applying them.
 
-The script idempotently upserts two rules using stable references while preserving unrelated rules:
+The script idempotently upserts one rule using a stable reference while preserving unrelated rules:
 
 - A URL Rewrite Transform Rule maps a canonical path such as `/blog/example/` to its prebuilt `/blog/example/index.md` asset when `Accept` contains `text/markdown`.
-- A Cache Rule bypasses the shared HTML cache for matching Markdown requests. Responses also publish `Vary: Accept`.
+- Markdown assets publish `Cloudflare-CDN-Cache-Control: no-store` to prevent the zone cache from mixing them with HTML responses. Responses also publish `Vary: Accept` for downstream caches.
 
 Cloudflare's native Markdown for Agents converter is not required. Astro remains in `output: "static"` mode, and browsers continue to receive HTML by default.
 
