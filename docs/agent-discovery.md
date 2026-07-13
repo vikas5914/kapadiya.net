@@ -4,7 +4,7 @@ Astro generates every HTTP discovery document and Markdown representation as a s
 
 ## Markdown content negotiation
 
-Create a token with Account / Transform Rules / Edit and Account / Account Rulesets / Read permissions, scoped to the account containing `kapadiya.net`, then run it through the Cloudflare CLI:
+Create a token with Account / Transform Rules / Edit, Account / Account Rulesets / Read, and Zone / Zone / Read permissions. Scope it to the account and the `kapadiya.net` zone, then run it through the Cloudflare CLI:
 
 ```bash
 CLOUDFLARE_API_TOKEN="..." bun run configure:cloudflare-markdown
