@@ -19,7 +19,7 @@ Pages register read-only browser tools for the public profile, blog links, and v
 
 ## Authentication and usage
 
-All operations are public and read-only. Agent registration and bearer credentials are not supported or required. See [auth.md](https://kapadiya.net/auth.md) for guidance.
+All operations are public and read-only. Agents use the anonymous registration profile and receive no credential. See [auth.md](https://kapadiya.net/auth.md) and the [authorization-server metadata](https://kapadiya.net/.well-known/oauth-authorization-server) for discovery details.
 
 Content may be used for search and as agent input, but not for model training. The same preference is published in [robots.txt](https://kapadiya.net/robots.txt).
 `);

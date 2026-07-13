@@ -33,4 +33,7 @@ dig @1.1.1.1 _index._agents.kapadiya.net TYPE64 +dnssec
 curl -I https://kapadiya.net/
 curl -i -H 'Accept: text/markdown' https://kapadiya.net/
 curl -i https://kapadiya.net/.well-known/api-catalog
+curl -i https://kapadiya.net/.well-known/oauth-protected-resource
+curl -i https://kapadiya.net/.well-known/oauth-authorization-server
+curl -i https://kapadiya.net/auth.md
 ```

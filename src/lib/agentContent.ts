@@ -87,12 +87,33 @@ export function getApiCatalog() {
 
 export function getProtectedResourceMetadata() {
   return {
-    resource: `${ORIGIN}/api/`,
-    authorization_servers: [],
-    scopes_supported: [],
-    bearer_methods_supported: [],
+    resource: ORIGIN,
+    authorization_servers: [ORIGIN],
+    scopes_supported: ["public.read"],
+    bearer_methods_supported: ["header"],
     resource_name: "kapadiya.net Public Content API",
     resource_documentation: `${ORIGIN}/docs/api/`,
+  };
+}
+
+export function getAuthorizationServerMetadata() {
+  return {
+    issuer: ORIGIN,
+    resource: ORIGIN,
+    authorization_servers: [ORIGIN],
+    protected_resources: [ORIGIN],
+    scopes_supported: ["public.read"],
+    bearer_methods_supported: ["header"],
+    agent_auth: {
+      skill: `${ORIGIN}/auth.md`,
+      register_uri: `${ORIGIN}/auth.md#registration`,
+      identity_types_supported: ["anonymous"],
+      anonymous: {
+        credential_types_supported: ["none"],
+        claim_uri: `${ORIGIN}/auth.md#claiming-an-anonymous-registration`,
+        revocation_uri: `${ORIGIN}/auth.md#revocation`,
+      },
+    },
   };
 }
 
@@ -228,6 +249,7 @@ export async function renderHomeMarkdown() {
     `- [OpenAPI description](${metaData.baseUrl}/openapi.json)`,
     `- [Agent skills index](${metaData.baseUrl}/.well-known/agent-skills/index.json)`,
     `- [Authentication guidance](${metaData.baseUrl}/auth.md)`,
+    `- [Agent registration metadata](${metaData.baseUrl}/.well-known/oauth-authorization-server)`,
     "",
     "## Contact",
     "",
