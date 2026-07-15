@@ -20,6 +20,10 @@ interface TweetMedia {
   media_url_https: string;
   expanded_url?: string;
   ext_alt_text?: string;
+  original_info?: {
+    width?: number;
+    height?: number;
+  };
 }
 
 interface TweetData {
@@ -41,19 +45,67 @@ interface Props {
 const { id } = Astro.props;
 
 let tweet: TweetData | null = null;
-let fetchError: string | null = null;
+const isValidTweetId = /^\d{1,25}$/.test(id);
 
-if (id) {
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function isTweetUser(value: unknown): value is TweetUser {
+  return (
+    isRecord(value) &&
+    typeof value.name === "string" &&
+    typeof value.screen_name === "string" &&
+    typeof value.profile_image_url_https === "string"
+  );
+}
+
+function isTweetMedia(value: unknown): value is TweetMedia {
+  return (
+    isRecord(value) &&
+    typeof value.type === "string" &&
+    typeof value.media_url_https === "string"
+  );
+}
+
+function isTweetData(value: unknown, validateQuote = true): value is TweetData {
+  if (
+    !isRecord(value) ||
+    typeof value.id_str !== "string" ||
+    typeof value.text !== "string" ||
+    typeof value.created_at !== "string" ||
+    !isTweetUser(value.user) ||
+    (value.mediaDetails !== undefined &&
+      (!Array.isArray(value.mediaDetails) ||
+        !value.mediaDetails.every(isTweetMedia)))
+  ) {
+    return false;
+  }
+
+  return (
+    !validateQuote ||
+    value.quoted_tweet === undefined ||
+    isTweetData(value.quoted_tweet, false)
+  );
+}
+
+if (isValidTweetId) {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8_000);
+
   try {
-    const res = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}`);
-    const json = await res.json();
-    if (!res.ok || json.error || !json.data) {
-      throw new Error(json.error ?? `Failed to load tweet ${id}`);
+    const res = await fetch(`https://react-tweet.vercel.app/api/tweet/${id}`, {
+      signal: controller.signal,
+    });
+    const json: unknown = await res.json();
+    if (!res.ok || !isRecord(json) || !isTweetData(json.data)) {
+      throw new Error(`Failed to load tweet ${id}`);
     }
-    tweet = json.data as TweetData;
-  } catch (err) {
-    fetchError = err instanceof Error ? err.message : "Tweet unavailable";
+    tweet = json.data;
+  } catch {
     tweet = null;
+  } finally {
+    clearTimeout(timeout);
   }
 }
 
@@ -73,16 +125,36 @@ function formatCount(n: number | undefined) {
   return String(n);
 }
 
-function formatDate(iso: string) {
-  return new Intl.DateTimeFormat("en-US", {
+function formatDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+
+  return {
+    iso: date.toISOString(),
+    label: new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
-  }).format(new Date(iso));
+    }).format(date),
+  };
 }
 
 const photos = (t: TweetData) =>
-  (t.mediaDetails ?? []).filter((m) => m.type === "photo");
+  (t.mediaDetails ?? []).filter(
+    (media) => media.type === "photo" && Boolean(media.media_url_https),
+  );
+
+function mediaAlt(media: TweetMedia, author: string, context = "post") {
+  return media.ext_alt_text?.trim() || `Image attached to ${author}'s ${context}`;
+}
+
+function mediaDimension(value: number | undefined) {
+  return typeof value === "number" && Number.isFinite(value) && value > 0
+    ? Math.round(value)
+    : undefined;
+}
+
+const postedAt = tweet ? formatDate(tweet.created_at) : null;
 ---
 
 {
@@ -91,10 +163,10 @@ const photos = (t: TweetData) =>
       <div class="tweet-card tweet-card--missing">
         <p class="tweet-missing__title">Tweet unavailable</p>
         <p class="tweet-missing__body">
-          {fetchError ?? "Could not load this post."}
+          The embedded post could not be loaded. The original may still be available on X.
         </p>
         {
-          id && (
+          isValidTweetId && (
             <a
               class="tweet-missing__link"
               href={`https://x.com/i/status/${id}`}
@@ -127,7 +199,7 @@ const photos = (t: TweetData) =>
               decoding="async"
             />
             <span class="tweet-card__meta">
-              <span class="tweet-card__name">
+              <span class="tweet-card__name" dir="auto">
                 {tweet.user.name}
                 {
                   (tweet.user.is_blue_verified || tweet.user.verified) && (
@@ -145,7 +217,7 @@ const photos = (t: TweetData) =>
                   )
                 }
               </span>
-              <span class="tweet-card__handle">@{tweet.user.screen_name}</span>
+              <span class="tweet-card__handle" dir="ltr">@{tweet.user.screen_name}</span>
             </span>
           </a>
           <a
@@ -164,7 +236,9 @@ const photos = (t: TweetData) =>
           </a>
         </header>
 
-        <p class="tweet-card__body">{cleanText(tweet.text)}</p>
+        {cleanText(tweet.text) && (
+          <p class="tweet-card__body" dir="auto">{cleanText(tweet.text)}</p>
+        )}
 
         {
           photos(tweet).length > 0 && (
@@ -184,7 +258,9 @@ const photos = (t: TweetData) =>
                   >
                     <img
                       src={media.media_url_https}
-                      alt={media.ext_alt_text ?? "Tweet image"}
+                      alt={mediaAlt(media, tweet.user.name)}
+                      width={mediaDimension(media.original_info?.width)}
+                      height={mediaDimension(media.original_info?.height)}
                       loading="lazy"
                       decoding="async"
                     />
@@ -215,7 +291,7 @@ const photos = (t: TweetData) =>
                 <strong>{tweet.quoted_tweet.user.name}</strong>
                 <span>@{tweet.quoted_tweet.user.screen_name}</span>
               </span>
-              <span class="tweet-card__quote-body">
+              <span class="tweet-card__quote-body" dir="auto">
                 {cleanText(tweet.quoted_tweet.text)}
               </span>
               {
@@ -223,10 +299,17 @@ const photos = (t: TweetData) =>
                   <img
                     class="tweet-card__quote-img"
                     src={photos(tweet.quoted_tweet)[0].media_url_https}
-                    alt={
-                      photos(tweet.quoted_tweet)[0].ext_alt_text ??
-                      "Quoted tweet image"
-                    }
+                    alt={mediaAlt(
+                      photos(tweet.quoted_tweet)[0],
+                      tweet.quoted_tweet.user.name,
+                      "quoted post",
+                    )}
+                    width={mediaDimension(
+                      photos(tweet.quoted_tweet)[0].original_info?.width,
+                    )}
+                    height={mediaDimension(
+                      photos(tweet.quoted_tweet)[0].original_info?.height,
+                    )}
                     loading="lazy"
                     decoding="async"
                   />
@@ -243,9 +326,11 @@ const photos = (t: TweetData) =>
             target="_blank"
             rel="noopener noreferrer"
           >
-            <time datetime={new Date(tweet.created_at).toISOString()}>
-              {formatDate(tweet.created_at)}
-            </time>
+            {postedAt ? (
+              <time datetime={postedAt.iso}>{postedAt.label}</time>
+            ) : (
+              "View post on X"
+            )}
           </a>
           <span class="tweet-card__stats">
             {
@@ -277,8 +362,8 @@ const photos = (t: TweetData) =>
   }
 
   .tweet-card {
-    margin: 0 auto;
-    max-width: 550px;
+    margin: 0;
+    max-width: none;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid var(--border-medium);
@@ -286,6 +371,7 @@ const photos = (t: TweetData) =>
     color: var(--text-primary);
     padding: 1rem 1.125rem 0.875rem;
     font-family: var(--font-sans);
+    font-style: normal;
   }
 
   .tweet-card--missing {
@@ -307,6 +393,9 @@ const photos = (t: TweetData) =>
   }
 
   .tweet-missing__link {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
     color: var(--ind-accent);
     font-size: 0.8125rem;
     font-weight: 600;
@@ -380,15 +469,16 @@ const photos = (t: TweetData) =>
   .tweet-card__x {
     flex-shrink: 0;
     color: var(--text-muted);
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 44px;
+    height: 44px;
     display: inline-flex;
-    margin-top: 0.15rem;
+    align-items: center;
+    justify-content: center;
   }
 
   .tweet-card__x svg {
-    width: 100%;
-    height: 100%;
+    width: 20px;
+    height: 20px;
   }
 
   .tweet-card__x:hover {
@@ -496,6 +586,9 @@ const photos = (t: TweetData) =>
   }
 
   .tweet-card__date {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
     color: var(--text-muted);
     text-decoration: none;
   }

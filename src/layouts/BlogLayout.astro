@@ -1,7 +1,14 @@
 ---
 import "@styles/global.css";
+import { getCollection } from "astro:content";
 import Base from "./Base.astro";
 import { metaData } from "../config";
+
+interface ArticleHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 export interface Props {
   title: string;
@@ -17,6 +24,7 @@ export interface Props {
   cover?: string;
   excerpt?: string;
   tags?: string[];
+  headings?: ArticleHeading[];
 }
 
 const {
@@ -29,8 +37,10 @@ const {
   readTime,
   category,
   featured = false,
+  slug,
   cover,
   tags = [],
+  headings = [],
 } = Astro.props;
 
 const dateObj = new Date(date);
@@ -43,6 +53,17 @@ const modifiedTime = updated ? new Date(updated).toISOString() : undefined;
 const formattedUpdatedDate = updated
   ? new Intl.DateTimeFormat("en-US", { dateStyle: "long" }).format(new Date(updated))
   : undefined;
+const tableOfContents = headings.filter(({ depth }) => depth === 2 || depth === 3);
+
+const allPosts = (await getCollection("posts")).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+const currentIndex = allPosts.findIndex((post) => post.data.slug === slug);
+const newerPost = currentIndex > 0 ? allPosts[currentIndex - 1] : undefined;
+const olderPost =
+  currentIndex >= 0 && currentIndex < allPosts.length - 1
+    ? allPosts[currentIndex + 1]
+    : undefined;
 ---
 
 <Base
@@ -56,77 +77,179 @@ const formattedUpdatedDate = updated
   tags={tags}
   author={author}
 >
-  <article class="py-18">
-    <div class="mx-auto max-w-[800px] px-6 sm:px-12">
-            <!-- Back to Blog -->
-            <div class="mb-8">
-              <a
-                href="/blog/"
-                class="inline-flex items-center gap-2 no-underline text-xs font-medium tracking-widest uppercase text-ind-accent border border-ind-accent px-4 py-2 transition-colors duration-[240ms] hover:bg-ind-accent hover:text-text-on-accent"
-              >
-                ← Back to Blog
-              </a>
+  <article class="border-b border-border-medium">
+    <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
+      <div class="border-x border-border-strong">
+        <nav aria-label="Breadcrumb" class="border-b border-border-strong px-6 sm:px-10 lg:px-14">
+          <a
+            href="/blog/"
+            class="inline-flex min-h-14 items-center gap-3 font-mono text-xs font-medium tracking-[0.12em] text-text-muted uppercase no-underline transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-4"
+          >
+            <span class="text-ind-accent" aria-hidden="true">←</span>
+            Field notes
+          </a>
+        </nav>
+
+        <header class="ledger-grid grid border-b border-border-strong">
+          <div class="px-6 py-12 sm:px-10 sm:py-16 lg:px-14 lg:py-18">
+            <div class="flex flex-wrap items-center gap-3 font-mono text-xs font-medium tracking-[0.1em] text-ind-accent uppercase">
+              <span>{category}</span>
+              {featured && <span class="border border-ind-accent px-2 py-1">Featured</span>}
+            </div>
+            <h1 class="article-page-title mt-7 max-w-[900px] font-bold text-text-primary uppercase">
+              {title}
+            </h1>
+            <p class="mt-7 max-w-[68ch] text-lg leading-relaxed text-text-secondary">
+              {description}
+            </p>
+          </div>
+
+          <aside aria-label="Article metadata" class="article-metadata flex flex-col border-t border-border-strong bg-surface lg:border-t-0 lg:border-l">
+            <div class="flex items-center justify-between border-b border-border-medium px-6 py-5 font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase sm:px-8">
+              <span>Article record</span>
+              <span>MD</span>
+            </div>
+            <dl class="grid grid-cols-2">
+              <div class="border-r border-b border-border-medium p-6 sm:p-7">
+                <dt class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">Published</dt>
+                <dd class="mt-2 text-sm leading-snug text-text-primary">
+                  <time datetime={isoDate}>{formattedDate}</time>
+                </dd>
+              </div>
+              <div class="border-b border-border-medium p-6 sm:p-7">
+                <dt class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">Read time</dt>
+                <dd class="mt-2 text-sm text-text-primary">{readTime}</dd>
+              </div>
+              <div class="border-r border-border-medium p-6 sm:p-7">
+                <dt class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">Author</dt>
+                <dd class="mt-2 text-sm text-text-primary">{author}</dd>
+              </div>
+              <div class="p-6 sm:p-7">
+                <dt class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">
+                  {formattedUpdatedDate ? "Updated" : "Format"}
+                </dt>
+                <dd class="mt-2 text-sm leading-snug text-text-primary">
+                  {formattedUpdatedDate ? (
+                    <time datetime={modifiedTime}>{formattedUpdatedDate}</time>
+                  ) : (
+                    "Field note"
+                  )}
+                </dd>
+              </div>
+            </dl>
+            {tags.length > 0 && (
+              <div class="mt-auto border-t border-border-medium px-6 py-6 sm:px-8">
+                <div class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">Filed with</div>
+                <ul class="mt-4 flex flex-wrap gap-2" aria-label="Article tags">
+                  {tags.map((tag) => (
+                    <li class="max-w-full border border-border-medium px-2.5 py-1.5 font-mono text-[0.6875rem] tracking-[0.08em] text-text-secondary uppercase [overflow-wrap:anywhere]">
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <a
+              href={`/blog/${slug}/index.md/`}
+              class="flex min-h-14 items-center justify-between border-t border-border-medium px-6 font-mono text-xs font-medium tracking-[0.1em] text-ind-accent uppercase no-underline transition-colors duration-[240ms] hover:bg-surface-elevated hover:text-ind-accent-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ind-accent sm:px-8"
+            >
+              Read as Markdown <span aria-hidden="true">↗</span>
+            </a>
+          </aside>
+        </header>
+
+        <div class="ledger-grid grid">
+          <aside
+            class="hidden border-l border-border-strong bg-surface lg:col-start-2 lg:row-start-1 lg:block"
+            aria-label="Article navigation"
+          >
+            <div class="sticky top-20 max-h-[calc(100vh-5rem)] overflow-y-auto p-8">
+              {tableOfContents.length > 0 && (
+                <nav aria-labelledby="toc-heading">
+                  <h2 id="toc-heading" class="font-mono text-xs font-medium tracking-[0.12em] text-text-primary uppercase">
+                    On this page
+                  </h2>
+                  <ol class="article-toc mt-5 border-t border-border-medium pt-4">
+                    {tableOfContents.map((heading, index) => (
+                      <li class:list={["border-b border-border-soft", heading.depth === 3 && "pl-4"]}>
+                        <a
+                          href={`#${heading.slug}`}
+                          class="grid min-h-11 grid-cols-[max-content_minmax(0,1fr)] items-center gap-x-3 py-2 text-sm leading-snug text-text-secondary no-underline transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ind-accent"
+                        >
+                          <span class="font-mono text-[0.6875rem] text-text-muted">{String(index + 1).padStart(2, "0")}</span>
+                          <span>{heading.text}</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </nav>
+              )}
+            </div>
+          </aside>
+
+          <div class="min-w-0 px-6 py-12 sm:px-10 sm:py-14 lg:col-start-1 lg:row-start-1 lg:px-14 lg:py-16">
+            {tableOfContents.length > 0 && (
+              <details class="article-toc-mobile mb-12 border-y border-border-medium py-1 lg:hidden">
+                <summary class="flex min-h-12 cursor-pointer items-center justify-between font-mono text-xs font-medium tracking-[0.1em] text-text-primary uppercase focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2">
+                  On this page
+                  <span class="text-ind-accent transition-transform duration-[240ms]" aria-hidden="true">+</span>
+                </summary>
+                <ol class="border-t border-border-medium py-4">
+                  {tableOfContents.map((heading) => (
+                    <li class:list={["py-1.5", heading.depth === 3 && "pl-4"]}>
+                      <a class="flex min-h-11 items-center text-sm leading-snug text-text-secondary no-underline hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2" href={`#${heading.slug}`}>
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            )}
+
+            <div class="blog-prose max-w-[760px]" data-article-content>
+              <slot />
             </div>
 
-            <!-- Article Header -->
-            <header class="mb-12 pb-8 border-b border-border-soft">
-              <div class="flex items-center gap-3 mb-5">
-                <span class="text-xs font-semibold tracking-widest uppercase text-text-on-accent bg-ind-accent px-3 py-1.5">
-                  {category}
-                </span>
-                {featured && (
-                  <span class="text-xs font-bold tracking-widest uppercase text-ind-accent bg-bg-main border border-ind-accent px-2.5 py-1">
-                    Featured
-                  </span>
-                )}
-              </div>
-
-              <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-text-primary leading-tight mb-5">
-                {title}
-              </h1>
-
-              <div class="flex flex-wrap items-center gap-6 mb-5">
-                <span class="text-sm text-text-secondary">
-                  {author}
-                </span>
-                <time datetime={isoDate} class="text-sm text-text-secondary">
-                  {formattedDate}
-                </time>
-                {formattedUpdatedDate && (
-                  <time datetime={modifiedTime} class="text-sm text-text-secondary">
-                    Updated {formattedUpdatedDate}
-                  </time>
-                )}
-                <span class="text-sm text-text-secondary">
-                  {readTime}
-                </span>
-              </div>
-
-              <p class="text-lg leading-relaxed text-text-secondary max-w-[640px]">
-                {description}
+            <div class="mt-16 max-w-[760px] border-t border-border-strong pt-6">
+              <div class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">End of note</div>
+              <p class="mt-3 max-w-[52ch] text-sm leading-relaxed text-text-secondary">
+                More field notes when the next problem is specific enough to be useful.
               </p>
-            </header>
+            </div>
+          </div>
 
-            <!-- Article Content -->
-      <div class="prose prose-lg max-w-none blog-prose" data-article-content>
-        <slot />
+        </div>
+
+        {(newerPost || olderPost) && (
+          <nav aria-label="More field notes" class="grid border-t border-border-strong sm:grid-cols-2">
+            {newerPost ? (
+              <a
+                href={`/blog/${newerPost.data.slug}/`}
+                class="group min-h-40 border-b border-border-strong p-6 text-text-primary no-underline transition-colors duration-[240ms] hover:bg-surface focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ind-accent sm:border-r sm:border-b-0 sm:p-8"
+              >
+                <div class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">← Newer note</div>
+                <div data-post-title class="mt-6 max-w-[36ch] text-lg font-semibold leading-snug transition-colors duration-[240ms] group-hover:text-ind-accent">
+                  {newerPost.data.title}
+                </div>
+              </a>
+            ) : (
+              <div class="hidden border-r border-border-strong sm:block" aria-hidden="true"></div>
+            )}
+
+            {olderPost && (
+              <a
+                href={`/blog/${olderPost.data.slug}/`}
+                class="group min-h-40 p-6 text-right text-text-primary no-underline transition-colors duration-[240ms] hover:bg-surface focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ind-accent sm:p-8"
+              >
+                <div class="font-mono text-[0.6875rem] tracking-[0.1em] text-text-muted uppercase">Older note →</div>
+                <div data-post-title class="mt-6 ml-auto max-w-[36ch] text-lg font-semibold leading-snug transition-colors duration-[240ms] group-hover:text-ind-accent">
+                  {olderPost.data.title}
+                </div>
+              </a>
+            )}
+          </nav>
+        )}
       </div>
-
-            <!-- CTA -->
-            <div class="bg-surface p-7 mt-12 border border-border-soft">
-              <div class="text-base font-bold text-text-primary mb-2">
-                That's it for this one
-              </div>
-              <p class="text-sm leading-relaxed text-text-secondary mb-4">
-                More posts when I hit the next weird problem worth writing up.
-              </p>
-              <a
-                href="/blog/"
-                class="inline-block no-underline text-xs font-semibold tracking-widest uppercase bg-ind-accent text-text-on-accent px-6 py-3 transition-opacity duration-[240ms] hover:opacity-90"
-              >
-                All posts →
-              </a>
-            </div>
     </div>
   </article>
 </Base>
@@ -156,118 +279,223 @@ const formattedUpdatedDate = updated
     const wrapper = document.createElement("div");
     const toolbar = document.createElement("div");
     const label = document.createElement("span");
+    const status = document.createElement("span");
     const copyButton = document.createElement("button");
+    let resetTimer: number | undefined;
+    let isCopying = false;
 
     wrapper.className = "article-code-block";
     toolbar.className = "article-code-toolbar";
     label.textContent = language;
+    status.className = "sr-only";
+    status.setAttribute("role", "status");
+    status.setAttribute("aria-live", "polite");
+    status.setAttribute("aria-atomic", "true");
     copyButton.type = "button";
     copyButton.className = "article-code-copy";
     copyButton.textContent = "Copy";
-    copyButton.setAttribute(`aria-label`, `Copy ${language} code`);
+    copyButton.setAttribute("aria-label", `Copy ${language} code`);
 
     copyButton.addEventListener("click", async () => {
+      if (isCopying) return;
+      isCopying = true;
+      copyButton.setAttribute("aria-busy", "true");
+      window.clearTimeout(resetTimer);
+      let clipboardTimeout: number | undefined;
+
       try {
-        await navigator.clipboard.writeText(code?.textContent ?? pre.textContent ?? "");
+        const clipboardWrite = navigator.clipboard?.writeText(
+          code?.textContent ?? pre.textContent ?? "",
+        );
+        if (!clipboardWrite) throw new Error("Clipboard API unavailable");
+
+        await Promise.race([
+          clipboardWrite,
+          new Promise<never>((_, reject) => {
+            clipboardTimeout = window.setTimeout(
+              () => reject(new Error("Clipboard request timed out")),
+              1_500,
+            );
+          }),
+        ]);
         copyButton.textContent = "Copied";
-        window.setTimeout(() => (copyButton.textContent = "Copy"), 1600);
+        status.textContent = `${language} code copied to clipboard.`;
       } catch {
-        copyButton.textContent = "Select code to copy";
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(code ?? pre);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        copyButton.textContent = "Selected";
+        status.textContent =
+          "Clipboard access is unavailable. The code is selected; copy it with your keyboard or browser menu.";
+      } finally {
+        window.clearTimeout(clipboardTimeout);
+        isCopying = false;
+        copyButton.removeAttribute("aria-busy");
+        resetTimer = window.setTimeout(() => {
+          copyButton.textContent = "Copy";
+          status.textContent = "";
+        }, 2400);
       }
     });
 
     pre.before(wrapper);
-    toolbar.append(label, copyButton);
+    toolbar.append(label, status, copyButton);
     wrapper.append(toolbar, pre);
   });
 </script>
 
 <style>
-  /* Prose styles target slot-rendered MDX content via :global(); Tailwind utilities cannot reach these. */
+  .article-page-title {
+    font-size: clamp(2.35rem, 6vw, 5.25rem);
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+  }
+
+  .article-metadata dd,
+  .article-toc a,
+  .article-toc-mobile a,
+  [data-post-title] {
+    overflow-wrap: anywhere;
+  }
+
+  .article-toc-mobile summary {
+    list-style: none;
+  }
+
+  .article-toc-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .article-toc-mobile[open] summary span {
+    transform: rotate(45deg);
+  }
+
+  /* Prose styles target slot-rendered MDX content via :global(); utilities cannot reach these. */
   .blog-prose {
     color: var(--text-secondary);
     font-size: 1rem;
     line-height: 1.75;
   }
+
   @media (min-width: 640px) {
     .blog-prose {
       font-size: 1.0625rem;
     }
   }
+
   .blog-prose :global(h1),
   .blog-prose :global(h2),
-  .blog-prose :global(h3),
+  .blog-prose :global(h3:not(.pro-tip__title)),
   .blog-prose :global(h4) {
+    scroll-margin-top: 6rem;
     color: var(--text-primary);
     font-weight: 700;
     letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
   }
+
   .blog-prose :global(h2) {
-    font-size: 1.5rem;
-    margin-top: 3rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border-soft);
-  }
-  .blog-prose :global(h3) {
-    font-size: 1.125rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-  }
-  .blog-prose :global(p) {
+    margin-top: 3.75rem;
     margin-bottom: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border-strong);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.15;
   }
+
+  .blog-prose :global(h3:not(.pro-tip__title)) {
+    margin-top: 2.5rem;
+    margin-bottom: 0.875rem;
+    font-size: 1.25rem;
+    line-height: 1.25;
+  }
+
+  .blog-prose :global(p) {
+    margin-bottom: 1.35rem;
+  }
+
+  .blog-prose :global(strong) {
+    color: var(--text-primary);
+    font-weight: 650;
+  }
+
   .blog-prose :global(a) {
-    color: var(--ind-accent);
+    color: var(--ind-accent-hover);
     text-decoration: underline;
+    text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
+
   .blog-prose :global(a:hover) {
-    color: var(--ind-accent-hover);
+    color: var(--text-primary);
   }
-  /* Tweet embeds ship their own theme — undo prose leakage into the card */
+
+  .blog-prose :global(a:focus-visible) {
+    outline: 2px solid var(--ind-accent);
+    outline-offset: 3px;
+  }
+
+  .blog-prose :global(:not(pre) > code) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
   .blog-prose :global(.tweet-embed a),
   .blog-prose :global(.tweet-embed a:hover) {
     color: inherit;
     text-decoration: none;
   }
+
   .blog-prose :global(.tweet-embed p) {
     margin-bottom: 0;
   }
+
   .blog-prose :global(.tweet-embed img) {
     margin: 0;
   }
+
   .blog-prose :global(pre) {
-    background: var(--surface) !important;
-    border: 1px solid var(--border-medium);
-    padding: 1.25rem;
-    margin: 1.5rem 0;
+    margin: 1.75rem 0;
     overflow-x: auto;
+    border: 1px solid var(--border-medium);
+    background: var(--surface) !important;
+    padding: 1.25rem;
     font-size: 0.875rem;
   }
+
   .blog-prose :global(.article-code-block) {
     margin: 1.75rem 0;
     border: 1px solid var(--border-medium);
     background: var(--surface);
   }
+
   .blog-prose :global(.article-code-block pre) {
     margin: 0;
     border: 0;
   }
+
   .blog-prose :global(.article-code-toolbar) {
     display: flex;
+    min-height: 2.75rem;
     align-items: center;
     justify-content: space-between;
-    min-height: 2.5rem;
-    padding: 0 0.875rem;
     border-bottom: 1px solid var(--border-medium);
+    padding: 0 0.875rem;
     color: var(--text-muted);
     font-family: var(--font-mono);
     font-size: 0.6875rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
+
   .blog-prose :global(.article-code-copy) {
+    min-width: 44px;
+    min-height: 44px;
     border: 0;
     background: transparent;
     color: var(--ind-accent);
@@ -276,55 +504,90 @@ const formattedUpdatedDate = updated
     letter-spacing: inherit;
     text-transform: inherit;
   }
+
+  .blog-prose :global(.article-code-copy:hover) {
+    color: var(--ind-accent-hover);
+  }
+
   .blog-prose :global(.article-code-copy:focus-visible) {
     outline: 2px solid var(--ind-accent);
     outline-offset: 3px;
   }
-  .blog-prose :global(blockquote) {
-    border-left: 3px solid var(--ind-accent);
-    padding-left: 1.25rem;
+
+  .blog-prose :global(blockquote:not(.tweet-card)) {
+    margin: 1.75rem 0;
+    border: 1px solid var(--border-strong);
+    border-top-color: var(--ind-accent);
+    background: var(--surface);
+    padding: 1.25rem 1.5rem;
     color: var(--text-secondary);
     font-style: italic;
-    margin: 1.5rem 0;
   }
-  .blog-prose :global(ul),
+
+  .blog-prose :global(ul) {
+    margin-bottom: 1.35rem;
+    padding-left: 1.35rem;
+    list-style-type: square;
+  }
+
   .blog-prose :global(ol) {
-    padding-left: 1.25rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.35rem;
+    padding-left: 1.35rem;
+    list-style-type: decimal;
   }
+
   .blog-prose :global(li) {
+    margin-bottom: 0.55rem;
     color: var(--text-secondary);
     font-size: 1rem;
     line-height: 1.75;
-    margin-bottom: 0.5rem;
   }
+
+  .blog-prose :global(li::marker) {
+    color: var(--ind-accent);
+  }
+
   .blog-prose :global(img) {
     max-width: 100%;
-    margin: 1.5rem 0;
+    height: auto;
+    margin: 1.75rem 0;
   }
+
   .blog-prose :global(hr) {
-    border: none;
+    margin: 2.5rem 0;
+    border: 0;
     border-top: 1px solid var(--border-medium);
-    margin: 2rem 0;
   }
+
   .blog-prose :global(table) {
+    display: block;
     width: 100%;
+    max-width: 100%;
+    margin: 1.75rem 0;
+    overflow-x: auto;
     border: 1px solid var(--border-strong);
     border-collapse: collapse;
-    margin: 1.5rem 0;
   }
+
   .blog-prose :global(th),
   .blog-prose :global(td) {
     border: 1px solid var(--border-strong);
     padding: 0.625rem 0.875rem;
     font-size: 0.875rem;
   }
+
   .blog-prose :global(th) {
     background: var(--surface);
     color: var(--text-primary);
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .article-toc-mobile summary span {
+      transition: none;
+    }
   }
 </style>

@@ -3,11 +3,14 @@ interface Props {
   title?: string;
 }
 
-const { title = "💡 Pro Tip" } = Astro.props;
+const { title = "Pro tip" } = Astro.props;
 ---
 
-<aside class="bg-surface-elevated p-6 mb-6 border-l-2 border-ind-accent">
-  <h3 class="font-bold text-text-primary mb-3">{title}</h3>
+<aside class="pro-tip mb-6 border border-border-strong bg-surface-elevated p-6">
+  <div class="mb-4 flex items-center gap-3">
+    <span class="flex size-6 shrink-0 items-center justify-center bg-ind-accent font-mono text-xs font-bold leading-none text-text-on-accent" aria-hidden="true">+</span>
+    <h3 class="pro-tip__title m-0 text-base font-bold leading-snug text-text-primary">{title}</h3>
+  </div>
   <div class="text-text-secondary">
     <slot />
   </div>

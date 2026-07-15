@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-15T07:43:05Z",
+  "title": "Design System: kapadiya.net",
+  "extensions": {
+    "colorMeta": {
+      "safety-orange": {
+        "role": "primary",
+        "displayName": "Safety Orange",
+        "canonical": "#f25c05",
+        "tonalRamp": ["#2e1101", "#5c2402", "#8a3603", "#b84804", "#f25c05", "#f97e38", "#fca06b", "#fec9a8"]
+      },
+      "safety-orange-hover": {
+        "role": "primary",
+        "displayName": "Safety Orange Hover",
+        "canonical": "#ff7a2e",
+        "tonalRamp": ["#331605", "#66300f", "#994a19", "#cc6223", "#ff7a2e", "#ff9558", "#ffb183", "#ffd3b8"]
+      },
+      "shop-floor": {
+        "role": "neutral",
+        "displayName": "Shop Floor",
+        "canonical": "#141414",
+        "tonalRamp": ["#0a0a0a", "#141414", "#1e1e1e", "#282828", "#3a3a3a", "#5c5c5c", "#8a8a8a", "#c4c4c4"]
+      },
+      "surface-panel": {
+        "role": "neutral",
+        "displayName": "Surface Panel",
+        "canonical": "#1e1e1e",
+        "tonalRamp": ["#0f0f0f", "#1e1e1e", "#282828", "#333333", "#474747", "#666666", "#919191", "#c9c9c9"]
+      },
+      "text-primary": {
+        "role": "neutral",
+        "displayName": "Text Primary",
+        "canonical": "#e8e4df",
+        "tonalRamp": ["#2b2925", "#4d4a44", "#6e6a63", "#9c9590", "#a8a29e", "#c4bfb9", "#e8e4df", "#f7f5f2"]
+      },
+      "status-green": {
+        "role": "tertiary",
+        "displayName": "Status Green",
+        "canonical": "#52b788",
+        "tonalRamp": ["#0f2b1e", "#1e5540", "#2d8060", "#3d9b73", "#52b788", "#75c69e", "#a0d8bd", "#cdebdc"]
+      },
+      "tweet-blue": {
+        "role": "tertiary",
+        "displayName": "Tweet Blue",
+        "canonical": "#1d9bf0",
+        "tonalRamp": ["#071e2d", "#0c3c5d", "#115a89", "#1679bb", "#1d9bf0", "#54b3f4", "#8bcdf8", "#c4e7fc"]
+      },
+      "syntax-error-red": {
+        "role": "tertiary",
+        "displayName": "Syntax Error Red",
+        "canonical": "#f87171",
+        "tonalRamp": ["#321010", "#642525", "#963a3a", "#c85151", "#f87171", "#fa9696", "#fcbcbc", "#fee3e3"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero headline only; uppercase and capped at 6rem." },
+      "displayCompact": { "displayName": "Display Compact", "purpose": "Hero headline from 1024px through 1279px beside the compact evidence rail." },
+      "headline": { "displayName": "Headline", "purpose": "Section headings with decisive scale contrast." },
+      "subhead": { "displayName": "Subhead", "purpose": "Article subsections and compact feature headings." },
+      "title": { "displayName": "Title", "purpose": "Project rows and compact item titles." },
+      "articleTitle": { "displayName": "Article Title", "purpose": "Long-form subsection titles." },
+      "body": { "displayName": "Body", "purpose": "Marketing copy capped around 65ch." },
+      "prose": { "displayName": "Prose", "purpose": "Long-form article copy with a relaxed line height." },
+      "small": { "displayName": "Small", "purpose": "Metadata descriptions and supporting copy." },
+      "label": { "displayName": "Stamped Label", "purpose": "Mono uppercase navigation, actions, tags, and status." },
+      "micro": { "displayName": "Micro", "purpose": "Code-block controls only." }
+      ,"embedTitle": { "displayName": "Embed Title", "purpose": "Tweet card title text only." }
+      ,"embedName": { "displayName": "Embed Name", "purpose": "Tweet author and quote title text only." }
+      ,"embedMeta": { "displayName": "Embed Meta", "purpose": "Tweet card metadata only." }
+      ,"ogBrand": { "displayName": "OG Brand", "purpose": "Fixed-size 1200 by 630 social image output." }
+      ,"ogMeta": { "displayName": "OG Meta", "purpose": "Fixed-size 1200 by 630 social image output." }
+      ,"ogDisplay": { "displayName": "OG Display", "purpose": "Fixed-size 1200 by 630 social image title." }
+      ,"ogBody": { "displayName": "OG Body", "purpose": "Fixed-size 1200 by 630 social image summary." }
+    },
+    "shadows": [],
+    "motion": [
+      { "name": "transition-fast", "value": "160ms ease", "purpose": "Micro state changes." },
+      { "name": "transition-base", "value": "240ms ease", "purpose": "Default hover and color transitions." },
+      { "name": "transition-slow", "value": "400ms ease", "purpose": "Reserved for larger direct interactions." },
+      { "name": "dot-field", "value": "30fps capped canvas", "purpose": "The hero's sole ambient motion; static under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "ledger-rail-compact", "value": "320px" },
+      { "name": "ledger-rail-wide", "value": "360px" },
+      { "name": "container-max", "value": "1440px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Safety Orange block CTA with a black stamped label.",
+      "html": "<a href=\"#\" class=\"ds-btn-primary\">Browse the work <span>↗</span></a>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; justify-content:space-between; min-height:48px; min-width:220px; background:var(--ind-accent,#f25c05); color:var(--text-on-accent,#000); font-family:'Geist Mono Variable',monospace; font-size:.75rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; padding:0 24px; border:0; border-radius:0; transition:background 240ms ease; } .ds-btn-primary:hover { background:var(--ind-accent-hover,#ff7a2e); } .ds-btn-primary:focus-visible { outline:2px solid var(--ind-accent,#f25c05); outline-offset:2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Hairline secondary action; hover shifts border and text to Safety Orange.",
+      "html": "<a href=\"#\" class=\"ds-btn-ghost\">Selected projects <span>↓</span></a>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; justify-content:space-between; min-height:48px; min-width:190px; background:transparent; color:var(--text-primary,#e8e4df); font-family:'Geist Mono Variable',monospace; font-size:.75rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; padding:0 24px; border:1px solid var(--border-strong,rgba(255,255,255,.2)); border-radius:0; transition:color 240ms ease,border-color 240ms ease; } .ds-btn-ghost:hover { color:var(--ind-accent,#f25c05); border-color:var(--ind-accent,#f25c05); } .ds-btn-ghost:focus-visible { outline:2px solid var(--ind-accent,#f25c05); outline-offset:2px; }"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "chip-tag",
+      "description": "Hairline metadata tag using the Stamped Label voice.",
+      "html": "<span class=\"ds-chip\">TypeScript</span>",
+      "css": ".ds-chip { display:inline-block; font-family:'Geist Mono Variable',monospace; font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-secondary,#a8a29e); border:1px solid var(--border-medium,rgba(255,255,255,.12)); padding:4px 10px; border-radius:0; background:transparent; }"
+    },
+    {
+      "name": "Project Ledger Row",
+      "kind": "card",
+      "refersTo": "card-project",
+      "description": "A full-width evidence row with project, problem statement, proof, and outbound action.",
+      "html": "<a href=\"#\" class=\"ds-project-row\"><strong>astro-takumi</strong><span>OG image generation for Astro. This site runs on it.</span><small>★ 32 · Powers this site</small><b>↗</b></a>",
+      "css": ".ds-project-row { display:grid; grid-template-columns:.7fr 1.3fr 180px 32px; align-items:center; gap:24px; padding:28px; border-bottom:1px solid var(--border-strong,rgba(255,255,255,.2)); background:transparent; color:var(--text-primary,#e8e4df); text-decoration:none; transition:background 240ms ease; } .ds-project-row:hover { background:var(--surface,#1e1e1e); } .ds-project-row:hover strong { color:var(--ind-accent,#f25c05); } .ds-project-row span,.ds-project-row small { color:var(--text-muted,#9c9590); } .ds-project-row small { font-family:'Geist Mono Variable',monospace; text-transform:uppercase; } .ds-project-row b { color:var(--ind-accent,#f25c05); } .ds-project-row:focus-visible { outline:2px solid var(--ind-accent,#f25c05); outline-offset:-2px; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Four compact destinations plus a persistent GitHub action.",
+      "html": "<nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-link ds-nav-link-active\">Work</a><a href=\"#\" class=\"ds-nav-link\">About</a><a href=\"#\" class=\"ds-nav-link\">Notes</a><a href=\"#\" class=\"ds-nav-github\">GitHub ↗</a></nav>",
+      "css": ".ds-nav { display:flex; align-items:stretch; min-height:64px; border:1px solid var(--border-medium,rgba(255,255,255,.12)); } .ds-nav-link,.ds-nav-github { display:flex; align-items:center; padding:0 18px; font-family:'Geist Mono Variable',monospace; font-size:.75rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; color:var(--text-secondary,#a8a29e); } .ds-nav-link:hover,.ds-nav-link-active { color:var(--ind-accent,#f25c05); } .ds-nav-github { margin-left:auto; background:var(--ind-accent,#f25c05); color:#000; } .ds-nav-github:hover { background:var(--ind-accent-hover,#ff7a2e); } .ds-nav a:focus-visible { outline:2px solid var(--ind-accent,#f25c05); outline-offset:-2px; }"
+    },
+    {
+      "name": "Status",
+      "kind": "custom",
+      "description": "The only circular shape in the system, reserved for current work status.",
+      "html": "<span class=\"ds-status\"><span></span>Currently building</span>",
+      "css": ".ds-status { display:inline-flex; align-items:center; gap:12px; color:var(--color-success-raw,#52b788); font-family:'Geist Mono Variable',monospace; font-size:.75rem; font-weight:500; letter-spacing:.12em; text-transform:uppercase; } .ds-status span { width:8px; height:8px; border-radius:50%; background:currentColor; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Machine Shop",
+    "overview": "A dark shop floor where work is logged and proof is easy to inspect. Near-black surfaces, shared hairlines, square geometry, stamped labels, and one Safety Orange accent create an understated technical identity. The site rejects both corporate-resume stiffness and effect-heavy portfolio theater; the work stays legible and first.",
+    "keyCharacteristics": [
+      "Dark, flat surfaces separated by shared 1px hairlines",
+      "One Safety Orange accent with a single committed-color profile panel",
+      "Geist proportional type with Geist Mono functional labels",
+      "Varied evidence layouts instead of repeated card grids",
+      "A shared 320px to 360px evidence rail aligns navigation, hero, work, writing, and footer",
+      "The hero dot field is the sole ambient motion"
+    ],
+    "rules": [
+      { "name": "The Safety Orange Rule", "body": "Most screens keep orange below 10%; the working-profile panel is the sole large identity surface.", "section": "colors" },
+      { "name": "The Hairline Rule", "body": "Separation is drawn, not floated; adjacent cells share borders.", "section": "colors" },
+      { "name": "The Stamped Label Rule", "body": "Mono uppercase labels are functional and consistent, never decorative filler.", "section": "typography" },
+      { "name": "The Flat Floor Rule", "body": "Depth comes from tone and hairlines. Decorative shadows are not part of the system.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep corners square; only status dots are circular.",
+      "Do use shared hairlines and tonal steps for separation.",
+      "Do reserve Safety Orange for interaction, state, and the working-profile identity panel.",
+      "Do provide a reduced-motion alternative for the hero dot field.",
+      "Do back claims with current stars, forks, and direct repository links."
+    ],
+    "donts": [
+      "Don't drift into a corporate resume timeline or a LinkedIn-shaped profile.",
+      "Don't add scroll-jacking, parallax, or effects that bury content.",
+      "Don't add decorative shadows, rounded cards, or glassmorphism.",
+      "Don't add a second accent hue or gradient text.",
+      "Don't repeat identical cards or decorative kickers as section scaffolding.",
+      "Don't set gray text below #9c9590 on Shop Floor."
+    ]
+  }
+}

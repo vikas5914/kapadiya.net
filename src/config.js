@@ -1,9 +1,9 @@
 const metaData = {
   baseUrl: "https://kapadiya.net",
-  title: "Vikas Kapadiya | AI Engineer at Shopos AI",
+  title: "Vikas Kapadiya — AI Engineer Who Ships",
   name: "Vikas Kapadiya",
   description:
-    "AI engineer at Shopos AI. Agents, LLM tooling, TypeScript, and open source.",
+    "AI engineer at Shopos AI shipping agents, LLM tooling, TypeScript, and open source.",
 };
 
 const socialLinks = {
@@ -40,6 +40,7 @@ const projects = [
     description:
       "Pull a full Google Photos library down with Playwright. No official bulk export that didn't suck.",
     stars: "261",
+    proof: "32 forks",
     url: "https://github.com/vikas5914/google-photos-backup",
     tags: ["Playwright", "Node.js", "Automation"],
   },
@@ -48,6 +49,7 @@ const projects = [
     description:
       "CLI that puts Widevine back into the Helium browser so Netflix and friends work.",
     stars: "82",
+    proof: "11 forks",
     url: "https://github.com/vikas5914/helium-drm-fixer",
     tags: ["TypeScript", "CLI", "Browser"],
   },
@@ -55,6 +57,7 @@ const projects = [
     name: "astro-takumi",
     description: "OG image generation for Astro. This site runs on it.",
     stars: "32",
+    proof: "This site runs on it",
     url: "https://github.com/vikas5914/astro-takumi",
     tags: ["Astro", "OG Images", "TypeScript"],
   },
@@ -63,36 +66,10 @@ const projects = [
     description:
       "Manga reader for iOS. Built with NativePHP Mobile because I wanted PHP on a phone.",
     stars: "2",
+    proof: "Native iOS app",
     url: "https://github.com/vikas5914/sumie",
     tags: ["PHP", "NativePHP", "iOS"],
   },
-];
-
-const careerTimeline = [
-  {
-    era: "01",
-    title: "PHP & Laravel",
-    detail:
-      "Started here. Full-stack apps, MySQL, clients who needed things fixed yesterday.",
-  },
-  {
-    era: "02",
-    title: "Full-stack web",
-    detail: "Node, React, databases, AWS. Same work, bigger piles of code.",
-  },
-  {
-    era: "03",
-    title: "AI at Shopos",
-    detail:
-      "Agents, Claude, TypeScript and Python services. Still shipping, just a different stack.",
-  },
-];
-
-const writingTopics = [
-  "TypeScript gotchas",
-  "Agent glue code",
-  "Deploying LLM stuff",
-  "Side projects",
 ];
 
 export {
@@ -100,6 +77,4 @@ export {
   socialLinks,
   skillGroups,
   projects,
-  careerTimeline,
-  writingTopics,
 };

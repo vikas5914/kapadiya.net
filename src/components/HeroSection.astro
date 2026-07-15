@@ -1,133 +1,111 @@
 ---
 import { Image } from "astro:assets";
 import profile from "@images/profile.jpg";
+import { socialLinks } from "../config";
 import DotGrid from "./DotGrid.astro";
 
-const tags = ["Agents", "TypeScript", "Claude"];
-const headlines = ["Agents.", "LLM tools.", "Web apps."];
+const proof = [
+  "700+ GitHub stars",
+  "90+ public repos",
+  "10+ years shipping",
+];
 ---
 
-<section id="home" class="relative pt-24 sm:pt-32 pb-12 sm:pb-18">
+<section id="home" class="relative overflow-hidden border-b border-border-medium">
   <DotGrid />
-  <!-- Scrim: keeps hero text readable over the dot grid -->
   <div
-    class="absolute inset-0 bg-linear-to-r from-bg-main/70 via-bg-main/30 to-transparent pointer-events-none"
+    class="pointer-events-none absolute inset-0 bg-linear-to-r from-bg-main via-bg-main/92 to-bg-main/55"
     aria-hidden="true"
-  >
-  </div>
+  ></div>
+
   <div class="relative mx-auto max-w-[1440px] px-6 sm:px-12">
-    <!-- Main Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-[1fr_400px] gap-12 items-center">
-      <!-- Left Content -->
-      <div class="order-first md:order-none">
-        <!-- Top Label -->
-        <div class="flex items-center gap-3 text-xs font-mono font-medium tracking-widest uppercase text-ind-accent mb-6">
-          <div class="w-8 h-px bg-ind-accent"></div>
-          Vikas Kapadiya&nbsp;—&nbsp;AI Engineer
+    <div class="ledger-grid grid min-h-[calc(100svh-4rem)] border-x border-border-strong">
+      <div class="flex flex-col px-6 py-16 sm:px-10 sm:py-20 lg:min-h-[720px] lg:px-14 lg:py-18">
+        <div class="flex items-center justify-between border-b border-border-medium pb-4 font-mono text-xs font-medium tracking-[0.12em] uppercase">
+          <span class="text-ind-accent">AI engineer / builder</span>
+          <span class="hidden text-text-muted sm:block">Ahmedabad · India</span>
         </div>
 
-        <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold leading-none tracking-tight uppercase text-text-primary mb-8">
-          <span class="block">I build</span>
-          <span class="hero-rotate sr-only">
-            {headlines.join(" ")}
-          </span>
-          <span class="hero-rotate-viewport" aria-hidden="true">
-            <span class="hero-rotate-track">
-              {headlines.map((line) => (
-                <span class="hero-rotate-item text-ind-accent">{line}</span>
-              ))}
-              <!-- Duplicate first for seamless loop -->
-              <span class="hero-rotate-item text-ind-accent">{headlines[0]}</span>
-            </span>
-          </span>
-        </h1>
+        <div class="my-auto py-14 sm:py-18">
+          <h1 class="hero-title max-w-[900px] font-bold uppercase text-text-primary">
+            AI engineer<br />
+            <span class="text-ind-accent">who ships.</span>
+          </h1>
+          <p class="mt-8 max-w-[620px] text-base leading-relaxed text-text-secondary sm:text-lg">
+            I build agent systems and the TypeScript and Python services that
+            keep them useful after the demo. Currently shipping at
+            <span class="font-semibold text-text-primary">Shopos AI</span>.
+          </p>
 
-        <p class="text-base leading-relaxed text-text-secondary max-w-[560px] mb-8">
-          AI engineer at Shopos AI. I spend most days on agents, LLM
-          tooling, and the TypeScript/Python services underneath.
-        </p>
-
-        <!-- CTAs -->
-        <div class="flex flex-wrap items-center gap-3 mb-10">
-          <a
-            href="#projects"
-            class="inline-flex items-center gap-2 no-underline text-xs font-semibold tracking-widest uppercase bg-ind-accent text-text-on-accent px-6 py-3 transition-opacity duration-[240ms] hover:opacity-90 focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2"
-          >
-            View projects →
-          </a>
-          <a
-            href="mailto:vikas@kapadiya.net"
-            class="inline-flex items-center gap-2 no-underline text-xs font-semibold tracking-widest uppercase border border-border-strong text-text-primary px-6 py-3 transition-colors duration-[240ms] hover:border-ind-accent hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2"
-          >
-            Get in touch
-          </a>
-        </div>
-
-        <!-- Role Tags -->
-        <div class="flex flex-col sm:flex-row flex-wrap border border-border-strong bg-bg-main/60">
-          {tags.map((tag, i, arr) => (
-            <div
-              class:list={[
-                "flex items-center gap-2.5 px-5 py-3.5 text-xs font-mono font-medium tracking-wider uppercase text-text-primary",
-                i < arr.length - 1 && "sm:border-r border-b sm:border-b-0 border-border-strong",
-              ]}
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a
+              href={socialLinks.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex min-h-12 items-center justify-between bg-ind-accent px-6 text-xs font-mono font-semibold tracking-[0.12em] text-text-on-accent uppercase no-underline transition-colors duration-[240ms] hover:bg-ind-accent-hover focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2 sm:min-w-[220px]"
             >
-              <div class="w-2 h-2 bg-ind-accent shrink-0"></div>
-              {tag}
-            </div>
-          ))}
+              Browse the work <span aria-hidden="true">↗</span>
+            </a>
+            <a
+              href="#projects"
+              class="inline-flex min-h-12 items-center justify-between border border-border-strong px-6 text-xs font-mono font-semibold tracking-[0.12em] text-text-primary uppercase no-underline transition-colors duration-[240ms] hover:border-ind-accent hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2 sm:min-w-[190px]"
+            >
+              Selected projects <span aria-hidden="true">↓</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="border-t border-border-medium pt-5">
+          <div class="mb-3 font-mono text-xs font-medium tracking-[0.12em] text-text-muted uppercase">
+            Public record
+          </div>
+          <div class="flex flex-wrap gap-x-3 gap-y-2 text-sm font-semibold text-text-primary">
+            {proof.map((item, index) => (
+              <>
+                {index > 0 && <span class="text-ind-accent" aria-hidden="true">/</span>}
+                <span>{item}</span>
+              </>
+            ))}
+          </div>
         </div>
       </div>
 
-      <!-- Right Content — Profile Card -->
-      <div class="bg-surface shadow-[0_30px_60px_rgba(0,0,0,0.12)] overflow-hidden">
-        <!-- Profile Image -->
-        <div class="relative flex items-center justify-center overflow-hidden w-full h-[260px] sm:h-[360px] bg-ind-accent">
+      <aside class="flex flex-col border-t border-border-strong bg-surface lg:border-t-0 lg:border-l">
+        <figure class="relative aspect-[4/3] overflow-hidden border-b border-border-strong lg:aspect-auto lg:min-h-[430px] lg:flex-1">
           <Image
             src={profile}
-            alt="Vikas Kapadiya"
-            class="w-full h-full object-cover"
-            width={400}
-            height={360}
+            alt="Vikas Kapadiya smiling outdoors"
+            class="h-full w-full object-cover object-center saturate-[0.78] contrast-[1.06] transition-[filter,transform] duration-700 ease-out hover:scale-[1.015] hover:saturate-100 motion-reduce:transition-none motion-reduce:hover:scale-100"
+            width={520}
+            height={640}
             loading="eager"
             fetchpriority="high"
           />
-          <!-- Overlay -->
-          <div class="absolute bottom-0 left-0 right-0 flex justify-between items-center px-5 py-4 bg-black/60">
-            <span class="text-xs font-mono tracking-wider uppercase text-white/70">
-              Currently
-            </span>
-            <span class="text-xs font-mono tracking-wider uppercase text-white font-semibold">
-              Shopos AI
-            </span>
+          <div class="absolute inset-x-0 bottom-0 flex items-center justify-between bg-bg-main/90 px-5 py-4 font-mono text-xs tracking-[0.12em] uppercase">
+            <span class="text-text-secondary">Portrait / 2026</span>
+            <span class="text-ind-accent">VK</span>
           </div>
-        </div>
+        </figure>
 
-        <!-- Profile Info -->
-        <div class="p-6">
-          <div class="text-lg font-bold tracking-tight uppercase text-text-primary mb-2">
-            Vikas Kapadiya
+        <div class="p-6 sm:p-8">
+          <div class="mb-5 flex items-center gap-3 font-mono text-xs font-medium tracking-[0.12em] uppercase text-success">
+            <span class="size-2 rounded-full bg-success" aria-hidden="true"></span>
+            Currently building
           </div>
-          <div class="text-xs tracking-wider uppercase text-ind-accent mb-4">
-            AI Engineer — Shopos AI
-          </div>
-          <div class="text-sm leading-relaxed text-text-muted">
-            Agents, Claude, TypeScript. The unglamorous glue that makes
-            demos survive a real deploy.
+          <p class="max-w-[34ch] text-xl font-semibold leading-snug tracking-tight text-text-primary">
+            Agent workflows, LLM tooling, and the infrastructure underneath.
+          </p>
+          <div class="mt-7 flex items-center justify-between border-t border-border-soft pt-4 font-mono text-xs tracking-[0.12em] uppercase">
+            <span class="text-text-muted">Shopos AI</span>
+            <a
+              href="mailto:vikas@kapadiya.net"
+              class="-my-3 inline-flex min-h-11 items-center text-ind-accent no-underline transition-colors duration-[240ms] hover:text-ind-accent-hover focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2"
+            >
+              Email ↗
+            </a>
           </div>
         </div>
-
-        <!-- Status Row -->
-        <div class="flex justify-between items-center border-t border-border-soft px-6 py-3.5">
-          <span class="flex items-center text-xs tracking-wider uppercase text-success font-medium">
-            <span class="w-2 h-2 rounded-full bg-success inline-block mr-2"></span>
-            At work
-          </span>
-          <span class="text-xs text-text-muted">
-            REV 2026.07
-          </span>
-        </div>
-      </div>
+      </aside>
     </div>
   </div>
 </section>

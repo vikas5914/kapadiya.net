@@ -140,15 +140,17 @@
   /* Spacing */
   --container-max: 1440px;
   --container-padding: 48px;
-
-  /* Shadows */
-  --shadow-industrial: 0 30px 60px rgba(0, 0, 0, 0.12);
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --ledger-rail: 320px;
 
   /* Motion */
   --transition-fast: 160ms ease;
   --transition-base: 240ms ease;
   --transition-slow: 400ms ease;
+
+  /* Layering */
+  --z-sticky: 40;
+  --z-modal: 60;
+  --z-toast: 70;
 
   /* Legacy tokens (for blog/prose) */
   --background: 0 0% 8%;
@@ -178,6 +180,35 @@
   --theme-beige: 42 25% 88%;
   --theme-beige-light: 42 25% 93%;
 
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --ledger-rail: 360px;
+  }
+}
+
+/* Shared structural grids keep vertical hairlines aligned across sections. */
+.ledger-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.profile-grid {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 1024px) {
+  .ledger-grid {
+    grid-template-columns: minmax(0, 1fr) var(--ledger-rail);
+  }
+
+  .ledger-nav-rail {
+    width: calc(var(--ledger-rail) + 1px);
+  }
+
+  .profile-grid {
+    grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
+  }
 }
 
 @utility container {
@@ -213,6 +244,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size-adjust: from-font;
+    overflow-x: clip;
   }
 
   h1,
@@ -222,27 +254,21 @@
   h5,
   h6 {
     font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :where(h1, h2, h3, h4, p, blockquote, a, button, span, strong, small) {
+    overflow-wrap: anywhere;
   }
 
   ::selection {
     background: var(--ind-accent);
-    color: #fff;
+    color: var(--text-on-accent);
   }
-}
-
-.grid-pattern {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.orange-gradient {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--theme-orange)) 0%,
-    hsl(var(--theme-orange-dark)) 100%
-  );
 }
 
 /* ============================================================
@@ -358,74 +384,37 @@ html {
 }
 
 /* ============================================================
-   SCROLL REVEALS
+   DISPLAY TYPE
    ============================================================ */
-@media (prefers-reduced-motion: no-preference) {
-  html.js [data-reveal] {
-    transform: translateY(12px);
-    transition: transform 500ms ease;
-  }
-  html.js [data-reveal].is-revealed {
-    transform: translateY(0);
+.hero-title {
+  font-size: clamp(2.25rem, 10vw, 6rem);
+  line-height: 0.92;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero-title {
+    font-size: 4.5rem;
+    line-height: 0.94;
   }
 }
 
-/* ============================================================
-   HERO ROTATING HEADLINE
-   ============================================================ */
-.hero-rotate-viewport {
-  display: block;
-  height: 1.05em;
-  overflow: hidden;
+.section-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
-.hero-rotate-track {
-  display: flex;
-  flex-direction: column;
+.project-name {
+  font-size: clamp(2rem, 4.5vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  overflow-wrap: anywhere;
 }
 
-.hero-rotate-item {
-  display: block;
-  height: 1.05em;
-  line-height: 1.05;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-rotate-track {
-    /* 3 phrases + seamless return to first; ~2.8s per line */
-    animation: hero-rotate-up 11.2s cubic-bezier(0.7, 0, 0.3, 1) infinite;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-rotate-track {
-    transform: none;
-  }
-
-  .hero-rotate-item:not(:first-child) {
-    display: none;
-  }
-}
-
-@keyframes hero-rotate-up {
-  /* hold each line, then snap-scroll to next */
-  0%,
-  20% {
-    transform: translateY(0%);
-  }
-  25%,
-  45% {
-    transform: translateY(-25%);
-  }
-  50%,
-  70% {
-    transform: translateY(-50%);
-  }
-  75%,
-  95% {
-    transform: translateY(-75%);
-  }
-  100% {
-    transform: translateY(-75%);
-  }
+.skip-link:focus {
+  z-index: var(--z-toast);
 }

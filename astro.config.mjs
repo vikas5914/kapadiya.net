@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import mdx from "@astrojs/mdx";
+import { satteri } from "@astrojs/markdown-satteri";
 import sitemap from "@astrojs/sitemap";
 
 import astroTakumi from "astro-takumi";
@@ -15,13 +16,6 @@ export default defineConfig({
   site: "https://kapadiya.net",
   vite: {
     plugins: [tailwindcss()],
-    ssr: {
-      noExternal: [],
-      external: ["@resvg/resvg-js"],
-    },
-    optimizeDeps: {
-      exclude: ["@resvg/resvg-js"],
-    },
   },
   integrations: [
     react({
@@ -41,6 +35,7 @@ export default defineConfig({
     }),
   ],
   markdown: {
+    processor: satteri(),
     shikiConfig: {
       theme: industrialShikiTheme,
     },

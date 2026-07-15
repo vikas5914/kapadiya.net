@@ -2,6 +2,12 @@ import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
+const validDate = z.string().refine(
+  (value) => !Number.isNaN(new Date(value).getTime()),
+  "Expected a valid date",
+);
+const dateValue = z.date().or(validDate);
+
 const posts = defineCollection({
   loader: glob({ base: "./src/content/posts", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
@@ -13,8 +19,8 @@ const posts = defineCollection({
       message: "Description is required to be at least 1 character",
     }),
     author: z.string().optional().default("Vikas Kapadiya"),
-    date: z.string().or(z.date()),
-    updated: z.string().or(z.date()).optional(),
+    date: dateValue,
+    updated: dateValue.optional(),
     readTime: z.string(),
     category: z.string(),
     tags: z.array(z.string()).optional().default([]),

@@ -2,84 +2,71 @@
 import { socialLinks } from "../config";
 const YEAR = new Date().getFullYear();
 
-const cols = [
-  {
-    title: "Navigate",
-    links: [
-      { name: "Home", href: "/#home" },
-      { name: "Projects", href: "/#projects" },
-      { name: "Skills", href: "/#skills" },
-      { name: "About", href: "/#about" },
-      { name: "Writing", href: "/#writing" },
-      { name: "Blog", href: "/blog/" },
-    ],
-  },
-  {
-    title: "Connect",
-    links: [
-      { name: "GitHub", href: socialLinks.github },
-      { name: "LinkedIn", href: socialLinks.linkedin },
-      { name: "Twitter / X", href: socialLinks.twitter },
-      { name: "Bluesky", href: socialLinks.bluesky },
-    ],
-  },
-  {
-    title: "Contact",
-    links: [
-      { name: "vikas@kapadiya.net", href: socialLinks.email },
-      { name: "Instagram", href: socialLinks.instagram },
-    ],
-  },
+const links = [
+  { name: "GitHub", href: socialLinks.github },
+  { name: "X", href: socialLinks.twitter },
+  { name: "Bluesky", href: socialLinks.bluesky },
+  { name: "LinkedIn", href: socialLinks.linkedin },
 ];
-
-const linkClass =
-  "block no-underline text-sm text-text-secondary py-1 transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2";
-
 ---
 
-<footer class="py-12 border-t border-border-medium">
+<footer>
   <div class="mx-auto max-w-[1440px] px-6 sm:px-12">
-    <!-- Top Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 pb-12 border-b border-border-soft">
-      <!-- Brand Column -->
-      <div>
-        <div class="flex items-center gap-2.5 text-lg font-bold tracking-tight uppercase text-text-primary mb-4">
-          <div class="flex items-center justify-center w-6 h-6 bg-ind-accent text-text-on-accent text-xs font-bold">
-            VK
-          </div>
-          Vikas Kapadiya
+    <div class="border-x border-border-strong">
+      <div class="ledger-grid grid border-b border-border-strong">
+        <div class="px-6 py-14 sm:px-10 sm:py-18 lg:px-14">
+          <p class="font-mono text-xs font-medium tracking-[0.12em] text-ind-accent uppercase">Keep in touch</p>
+          <h2 class="mt-5 max-w-[14ch] text-3xl font-bold leading-tight tracking-[-0.03em] text-text-primary sm:text-5xl">
+            Follow the work, not the pitch.
+          </h2>
         </div>
-        <div class="text-sm leading-relaxed text-text-muted max-w-[320px]">
-          AI engineer at Shopos AI. Agents, open source, and a blog when
-          I have something useful to say.
-        </div>
+        <a
+          href={socialLinks.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="group flex min-h-48 flex-col justify-between border-t border-border-strong bg-ind-accent p-6 text-text-on-accent no-underline transition-colors duration-[240ms] hover:bg-ind-accent-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-white sm:p-8 lg:border-t-0 lg:border-l"
+        >
+          <span class="font-mono text-xs font-semibold tracking-[0.12em] uppercase">Primary channel</span>
+          <span class="flex items-end justify-between text-2xl font-semibold tracking-tight">
+            Browse GitHub
+            <span class="text-3xl transition-transform duration-[240ms] group-hover:translate-x-1" aria-hidden="true">↗</span>
+          </span>
+        </a>
       </div>
 
-      <!-- Link Columns -->
-      {cols.map((col) => (
-        <div>
-          <div class="text-xs font-medium tracking-widest uppercase text-text-muted mb-4">
-            {col.title}
-          </div>
-          {col.links.map((link) => (
+      <div class="ledger-grid grid border-b border-border-strong">
+        <div class="border-b border-border-strong px-6 py-8 sm:px-10 lg:border-r lg:border-b-0 lg:px-14">
+          <a
+            href="mailto:vikas@kapadiya.net"
+            class="inline-flex min-h-11 max-w-full items-center break-all text-lg font-semibold text-text-primary no-underline transition-colors duration-[240ms] hover:text-ind-accent focus-visible:outline-2 focus-visible:outline-ind-accent focus-visible:outline-offset-2"
+          >
+            vikas@kapadiya.net
+          </a>
+          <p class="mt-2 text-sm text-text-muted">Ahmedabad, India · Usually replies by email.</p>
+        </div>
+        <nav class="grid grid-cols-1 sm:grid-cols-2" aria-label="Social links">
+          {links.map((link, index) => (
             <a
               href={link.href}
-              target={link.href.startsWith("/") || link.href.startsWith("#") || link.href.startsWith("mailto") ? undefined : "_blank"}
+              target="_blank"
               rel="noopener noreferrer"
-              class={linkClass}
+              class:list={[
+                "flex min-h-20 items-center justify-between px-5 font-mono text-xs font-medium tracking-[0.08em] text-text-secondary uppercase no-underline transition-colors duration-[240ms] hover:bg-surface hover:text-ind-accent focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ind-accent",
+                index < links.length - 1 && "border-b border-border-strong",
+                index >= 2 && "sm:border-b-0",
+                index % 2 === 0 && "sm:border-r sm:border-border-strong",
+              ]}
             >
-              {link.name}
+              {link.name} <span aria-hidden="true">↗</span>
             </a>
           ))}
-        </div>
-      ))}
-    </div>
+        </nav>
+      </div>
 
-    <!-- Bottom Row -->
-    <div class="pt-6 text-right">
-      <span class="text-xs text-text-muted">
-        © {YEAR} Vikas Kapadiya — All rights reserved
-      </span>
+      <div class="flex flex-col gap-3 px-6 py-5 font-mono text-xs tracking-[0.08em] text-text-muted uppercase sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-14">
+        <span>© {YEAR} Vikas Kapadiya</span>
+        <span>This site ships on Astro + astro-takumi</span>
+      </div>
     </div>
   </div>
 </footer>

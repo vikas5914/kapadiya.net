@@ -57,7 +57,7 @@ const {
   <body class="antialiased min-h-screen flex flex-col">
     <a
       href="#main-content"
-      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 bg-ind-accent text-text-on-accent text-sm font-semibold"
+      class="skip-link sr-only bg-ind-accent font-mono text-xs font-semibold tracking-[0.1em] text-text-on-accent uppercase focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:px-4 focus:py-3"
     >
       Skip to content
     </a>
@@ -122,7 +122,7 @@ const {
               for (const link of document.querySelectorAll('a[href^="/blog/"]')) {
                 const path = new URL(link.href, location.href).pathname;
                 if (path === "/blog/") continue;
-                const title = link.querySelector(".text-lg, .text-base")?.textContent?.trim()
+                const title = link.querySelector("[data-post-title]")?.textContent?.trim()
                   || link.textContent?.trim();
                 if (title) posts.set(path, { title, url: new URL(path, location.origin).href });
               }
@@ -197,23 +197,6 @@ const {
           updateProgress();
         }
       }
-    </script>
-    <script>
-      document.documentElement.classList.add("js");
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-revealed");
-              revealObserver.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.1 }
-      );
-      document
-        .querySelectorAll("[data-reveal]")
-        .forEach((el) => revealObserver.observe(el));
     </script>
   </body>
 </html>

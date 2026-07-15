@@ -37,7 +37,7 @@ if (post === undefined) {
   return Astro.redirect("/404");
 }
 
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 ---
 
 <BlogLayout
@@ -54,6 +54,7 @@ const { Content } = await render(post);
   cover={post.data.cover}
   excerpt={post.data.excerpt}
   tags={post.data.tags}
+  headings={headings}
   ><section>
     <script
       is:inline

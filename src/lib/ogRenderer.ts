@@ -22,14 +22,6 @@ export async function renderOpenGraphImage({
     {
       tw: "h-full w-full flex flex-col justify-between bg-[#141414] text-[#e8e4df] px-[72px] py-[60px] relative",
     },
-    h("div", {
-      tw: "absolute inset-0",
-      style: {
-        backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px)",
-        backgroundSize: "28px 28px",
-      },
-    }),
     h(
       "div",
       { tw: "flex items-center justify-between relative" },
@@ -52,8 +44,7 @@ export async function renderOpenGraphImage({
       { tw: "flex flex-col relative max-w-[1040px]" },
       h(
         "div",
-        { tw: "flex items-center text-[#f25c05] text-[20px] font-bold tracking-[0.16em] mb-6" },
-        h("div", { tw: "w-[44px] h-[2px] bg-[#f25c05] mr-4" }),
+        { tw: "text-[#f25c05] text-[20px] font-bold tracking-[0.16em] mb-6" },
         eyebrow,
       ),
       h(
